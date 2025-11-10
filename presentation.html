@@ -14,7 +14,6 @@
     <section class="slide slide--title" id="slide-1" data-index="0" aria-label="Title slide">
       <div class="slide__content">
         <h1 class="title">The Price of Prestige</h1>
-        <p class="subtitle">An interactive look at resale value and luxury pricing</p>
       </div>
       <div class="scroll-hint">Scroll ↓</div>
     </section>
@@ -24,7 +23,8 @@
       <div class="slide__content">
         <div class="dyk-container" aria-hidden="false">
           <div class="dyk-text dyk-first">DID YOU KNOW...</div>
-          <div class="dyk-text dyk-second">the luxury industry grossed over 387 billion dollars in profits in 2024</div>
+          <div class="dyk-text dyk-second">Buyers spent over <span class="dyk-highlight">1.7&nbsp;trillion</span> dollars on luxury fashion and accessories in 2024</div>
+          <div class="dyk-arrow" aria-hidden="true">▾</div>
         </div>
       </div>
     </section>
@@ -32,9 +32,9 @@
     <section class="slide" id="slide-3" data-index="2" aria-label="Slide 3">
       <div class="slide__content slide-vis-center">
         <div class="rotator" aria-hidden="false">
-          <div class="rot-item rot-item-1">Coach just over $___ billion</div>
-          <div class="rot-item rot-item-2">Gucci brought in nearly $__ billion</div>
-          <div class="rot-item rot-item-3">Hermès earned around $___ billion</div>
+          <div class="rot-item rot-item-1">Coach just over $5 billion</div>
+          <div class="rot-item rot-item-2">Gucci brought in nearly $14 billion</div>
+          <div class="rot-item rot-item-3">Hermès earned around $16 billion</div>
         </div>
 
         <!-- Visualization container for vis1.js (will render the "Luxury Brand Revenues Over Time" chart) -->
@@ -56,12 +56,28 @@
       </div>
     </section>
 
+
+
+
     <section class="slide" id="slide-5" data-index="4" aria-label="Slide 5">
       <div class="slide__content">
-        <h2>Let's take a look at the products ...</h2>
-        <p class="muted">(moved to next slide)</p>
+
+        <div id="brand-facets" class="card" style="padding:24px;margin-top:24px;">
+          <h3 style="margin:0 0 16px 0;color:var(--emerald)">
+            Behind every brand lies a different engine.
+            (Pick a year to see what drove each brands revenue at each year.)
+          </h3>
+          <div id="brand-lines-row"></div>
+          <div id="brand-bars-row"></div>
+
+        </div>
+
       </div>
     </section>
+
+
+
+
 
     <section class="slide" id="slide-6" data-index="5" aria-label="Slide 6">
       <div class="slide__content">
@@ -99,26 +115,146 @@
       </div>
     </section>
 
+
+
+
     <section class="slide" id="slide-8" data-index="7" aria-label="Slide 8">
-      <div class="slide__content"><h2>Slide 8</h2><p class="muted">Placeholder — replace with your content.</p></div>
+      <div class="slide__content">
+
+        <div id="brand-facets-region" class="card" style="padding:24px;margin-top:24px;">
+          <h3 style="margin:0 0 16px 0;color:var(--emerald)">
+            Does Interest, However, Translate to Profits?
+          </h3>
+          <h4 id="slide8-subtitle">Explore which region of the world rakes in the most dough for each of our brands.</h4>
+        </div>
+
+        <div id="year-range-wrap" style="margin:20px 0; text-align:center;">
+          <input type="range" id="yearStart" min="2020" max="2024" step="1" value="2020">
+          <span id="yearStartLabel">2020</span>
+          &nbsp;&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;
+          <span id="yearEndLabel">2024</span>
+          <input type="range" id="yearEnd" min="2020" max="2024" step="1" value="2024">
+        </div>
+
+        <div id="pie-row" style="display:flex; justify-content:center; gap:60px; margin-top:20px;"></div>
+
+
+      </div>
     </section>
+
+
+
+
 
     <section class="slide" id="slide-9" data-index="8" aria-label="Slide 9">
-      <div class="slide__content"><h2>Slide 9</h2><p class="muted">Placeholder — replace with your content.</p></div>
+      <div class="slide__content" style="text-align:center; max-width:900px; margin:auto;">
+
+        <h2 style="font-size:48px; margin-bottom:40px;color:var(--emerald)">
+          So, Does Online Visibility Reflect Purchasing Power?
+        </h2>
+
+        <p style="font-size:24px; margin-bottom:32px;">
+          Hermès and Coach show strong alignment between search visibility and revenue distribution,
+          suggesting that online attention reflects real demand.
+        </p>
+
+        <p style="font-size:24px; margin-bottom:32px;">
+          Gucci shows a partial mismatch: high search interest in South America isn’t
+          clearly reflected in its revenue breakdown.
+        </p>
+
+        <p style="font-size:24px;">
+          Visibility often signals demand, but in some markets it may capture aspiration
+          more than purchasing power.
+        </p>
+
+      </div>
     </section>
+
+
+
+
+
+
+
+
+
 
     <section class="slide" id="slide-10" data-index="9" aria-label="Slide 10">
-      <div class="slide__content"><h2>Slide 10</h2><p class="muted">Placeholder — replace with your content.</p></div>
+      <div class="slide__content">
+          <div id="brand-viz" aria-hidden="false" style="width:100%;height:100%;position:relative;">
+            <!-- Floating insight box similar to the map-insight used on slide 7 -->
+            <div id="brand-insight" class="map-insight" role="note" aria-live="polite">
+                <div class="map-insight-inner">
+                  <h3 style="margin:0 0 8px 0;color:var(--emerald);font-weight:800">Different Roads to Prestige</h3>
+                  <p>Hermès, Gucci, and Coach each embody a distinct formula for prestige — not a hierarchy, but a spectrum.</p>
+
+                  <p><strong>Hermès</strong> thrives on <em>exclusivity through restraint</em>. Its low digital visibility and limited accessibility are deliberate — scarcity fuels mystique and reinforces the idea that craftsmanship, not conversation, drives desire.</p>
+
+                  <p><strong>Gucci</strong> builds <em>prestige through presence</em>. Its digital fluency, pop culture relevance, and fast-paced collaborations make it a masterclass in translating attention into aspiration.</p>
+
+                  <p><strong>Coach</strong> balances <em>prestige through approachability</em>. By aligning luxury aesthetics with accessibility, it sustains strong regional demand and a loyal base of aspirational consumers.</p>
+
+                  <p>Together, these profiles show that luxury is no longer monolithic — it’s multidimensional. Prestige today can mean <em>craftsmanship</em>, <em>visibility</em>, or <em>inclusivity</em>. Each path can succeed if it feels authentic and coherent across every touchpoint — from design to distribution to digital storytelling.</p>
+
+                  <p><strong>For newer brands entering the luxury space, the lesson is clear:</strong></p>
+                  <ul style="margin:6px 0 8px 18px;color:var(--muted)">
+                    <li>Competing on price or visibility alone is no longer enough.</li>
+                    <li>What matters most is <em>clarity of identity</em> — understanding what kind of desire you want to evoke and building every element of the brand around that.</li>
+                    <li>In an era where status is fluid and online perception drives real-world value, emerging luxury brands must decide whether to <em>cultivate mystique</em> (like Hermès), <em>shape culture</em> (like Gucci), or <em>democratize aspiration</em> (like Coach).</li>
+                  </ul>
+
+                  <p>The price of prestige, ultimately, lies in the precision of a brand’s positioning — knowing not just who your customers are, but what version of luxury they want to believe in.</p>
+                </div>
+          </div>
+      </div>
     </section>
 
+
+
     <section class="slide" id="slide-11" data-index="10" aria-label="Slide 11">
-      <div class="slide__content"><h2>Slide 11</h2><p class="muted">Placeholder — replace with your content.</p></div>
+      <div class="slide__content" style="text-align:left; max-width:980px; margin:auto;">
+        <h2 style="font-size:36px; margin-bottom:18px;color:var(--emerald);">Different Roads to Prestige</h2>
+
+        <p>Hermès, Gucci, and Coach each embody a distinct formula for prestige — not a hierarchy, but a spectrum.</p>
+
+        <p><strong>Hermès</strong> thrives on <em>exclusivity through restraint</em>. Its low digital visibility and limited accessibility are deliberate — scarcity fuels mystique and reinforces the idea that craftsmanship, not conversation, drives desire.</p>
+
+        <p><strong>Gucci</strong> builds <em>prestige through presence</em>. Its digital fluency, pop culture relevance, and fast-paced collaborations make it a masterclass in translating attention into aspiration.</p>
+
+        <p><strong>Coach</strong> balances <em>prestige through approachability</em>. By aligning luxury aesthetics with accessibility, it sustains strong regional demand and a loyal base of aspirational consumers.</p>
+
+        <p>Together, these profiles show that luxury is no longer monolithic — it’s multidimensional. Prestige today can mean <em>craftsmanship</em>, <em>visibility</em>, or <em>inclusivity</em>. Each path can succeed if it feels authentic and coherent across every touchpoint — from design to distribution to digital storytelling.</p>
+
+        <h3 style="margin-top:18px;">For newer brands entering the luxury space, the lesson is clear:</h3>
+        <ul style="margin-top:8px;">
+          <li>Competing on price or visibility alone is no longer enough.</li>
+          <li>What matters most is <em>clarity of identity</em> — understanding what kind of desire you want to evoke and building every element of the brand around that.</li>
+          <li>In an era where status is fluid and online perception drives real-world value, emerging luxury brands must decide whether to <em>cultivate mystique</em> (like Hermès), <em>shape culture</em> (like Gucci), or <em>democratize aspiration</em> (like Coach).</li>
+        </ul>
+
+        <p>The price of prestige, ultimately, lies in the precision of a brand’s positioning — knowing not just who your customers are, but what version of luxury they want to believe in.</p>
+      </div>
     </section>
 
     <section class="slide" id="slide-12" data-index="11" aria-label="Slide 12">
-      <div class="slide__content">
-        <div class="big-text">Team Members</div>
-        <div class="muted" style="margin-top:18px;opacity:0.8">(Placeholder — replace with team member names)</div>
+      <div class="slide__content" style="text-align:center;">
+        <h2 style="font-size:44px;color:var(--emerald);margin:0;">Team Members</h2>
+        <div class="team-row" style="display:flex;gap:36px;justify-content:center;align-items:flex-start;margin-top:28px;flex-wrap:wrap;">
+          <div class="team-card">
+            <div class="team-name">Derin Adeleke</div>
+            <div class="team-email">derinadeleke@college.harvard.edu</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Cindy Sun</div>
+            <div class="team-email">csun@g.harvard.edu</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Patience Madumera</div>
+            <div class="team-email">pmadumera@college.harvard.edu</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -155,8 +291,12 @@
   <!-- SheetJS for parsing Excel product list in-browser -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="js/slide6-products.js" defer></script>
+  <script src="js/vis-brand-profile.js" defer></script>
   <script src="js/vis1.js" defer></script>
   <script src="js/slide7-map.js" defer></script>
   <script src="js/slides.js" defer></script>
+  <script src="js/slide5-revenue_by_category.js" defer></script>
+  <script src="js/slide8-revenue_by_region.js" defer></script>
+
 </body>
 </html>
