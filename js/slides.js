@@ -107,12 +107,14 @@
   if(!slide2) return;
   const first = slide2.querySelector('.dyk-first');
   const second = slide2.querySelector('.dyk-second');
+  const arrow = slide2.querySelector('.dyk-arrow');
   if(!first || !second) return;
 
   // reset to initial state
   function reset(){
     first.classList.remove('hidden'); first.classList.add('visible');
     second.classList.remove('visible'); second.classList.add('hidden');
+    if(arrow){ arrow.classList.remove('visible'); arrow.setAttribute('aria-hidden','true'); }
   }
 
   reset();
@@ -124,9 +126,14 @@
         // start sequence: ensure initial, then after 2s swap
         reset();
         clearTimeout(t);
+        // after 2s fade out the first, then show the second and arrow
         t = setTimeout(()=>{
           first.classList.remove('visible'); first.classList.add('hidden');
-          second.classList.remove('hidden'); second.classList.add('visible');
+          // small gap so the fade looks natural
+          setTimeout(()=>{
+            second.classList.remove('hidden'); second.classList.add('visible');
+            if(arrow){ arrow.classList.add('visible'); arrow.removeAttribute('aria-hidden'); }
+          }, 360);
         }, 2000);
       } else {
         clearTimeout(t);
