@@ -58,6 +58,20 @@ html,body{
 .map-key-panel .legend-row i{width:34px;height:14px;border-radius:3px;display:inline-block}
 .map-key-panel .legend-row span{color:var(--muted);font-size:0.95rem}
 
+/* Controls area inside the legend panel */
+.map-key-panel .panel-controls{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.map-key-panel label[for="brand-select"]{font-weight:700;color:var(--muted)}
+.map-key-panel select#brand-select{border-radius:8px;padding:6px 8px;border:1px solid rgba(2,6,23,0.06);background:var(--cream);color:var(--emerald);font-weight:700}
+
+/* Floating insight box in the top-right of the map */
+.map-insight{position:absolute;top:18px;right:18px;z-index:121;max-width:36vw;min-width:220px;background:var(--cream);color:#052018;padding:14px;border-radius:10px;box-shadow:0 12px 28px rgba(2,6,23,0.12);border:1px solid rgba(4,107,74,0.06)}
+.map-insight .map-insight-inner p{margin:0 0 8px 0;font-size:0.95rem;line-height:1.35;color:var(--muted)}
+.map-insight .map-insight-inner p strong{display:block;color:var(--emerald);font-weight:800;margin-bottom:6px}
+
+@media (max-width:900px){
+  .map-insight{max-width:78vw;right:12px;left:12px}
+}
+
 /* Title slide specific styles */
 .slide--title{
   background: linear-gradient(180deg,var(--emerald), #105f46 60%);
@@ -160,11 +174,16 @@ html,body{
    Provide a clear, high-contrast palette and text colors that match the
    site's theme so axes, legend and title are visible on the slide. */
 #vis1{
-  --viz-1: #c41e3a; /* Gucci red */
-  --viz-2: #9b870c; /* Coach warm/muted gold */
-  --viz-3: #ff7f50; /* Hermès coral / orange */
-  --viz-text: #052018; /* dark text matching other slide text */
-  --viz-title: var(--emerald); /* title uses the presentation emerald */
+  /* Align viz colors with the presentation aesthetic:
+     - primary line uses the presentation emerald for harmony
+     - secondary keeps a warm muted gold for contrast
+     - tertiary uses a slightly deeper orange for visibility
+     - text/title use the site's dark emerald/muted colors */
+  --viz-1: var(--emerald);
+  --viz-2: #9b870c;
+  --viz-3: #d85a3a;
+  --viz-text: #052018;
+  --viz-title: var(--emerald);
 }
 
 /* Slide 5: product gallery */

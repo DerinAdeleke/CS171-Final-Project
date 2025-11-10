@@ -73,18 +73,21 @@
       <div class="slide__content">
         <div id="choropleth-full" class="map-full">
           <div class="map-controls map-controls--slide">
-            <label for="brand-select" style="color:var(--muted);font-weight:600;margin-right:8px">Brand</label>
-            <select id="brand-select">
-              <option value="Hermes">Hermès</option>
-              <option value="Gucci">Gucci</option>
-              <option value="Coach">Coach</option>
-            </select>
+            <!-- Controls now live inside the floating legend panel; the toggle button opens it -->
           </div>
           <div id="map-container" style="position:relative;flex:1;height:100%;width:100%">
             <div id="map-svg" style="width:100%;height:100%"></div>
 
             <!-- Floating key toggle button (bottom-right) -->
             <button id="map-key-toggle" class="map-key-button" aria-label="Toggle map legend">🔑</button>
+
+            <!-- Floating insight text box (top-right) -->
+            <div id="map-insight" class="map-insight" role="note" aria-live="polite">
+              <div class="map-insight-inner">
+                <p><strong>Where people search says as much as what they buy.</strong></p>
+                <p>In Europe and East Asia, Hermès dominates search interest — its heritage appeal remains strongest in mature luxury markets. Gucci shines globally, driven by its digital-savvy branding and pop culture collaborations. Coach, though smaller, shows concentrated spikes in North America and parts of Asia, reflecting its position as an “accessible luxury.”</p>
+              </div>
+            </div>
 
             <!-- Collapsible legend panel that appears to the right of the map -->
             <div id="map-key-panel" class="map-key-panel" aria-hidden="true"></div>

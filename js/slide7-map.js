@@ -3,7 +3,7 @@
   const csvPath = 'data/geoMap (2).csv';
   const geojsonUrl = 'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
   const host = d3.select('#map-svg');
-  const brandSelect = d3.select('#brand-select');
+  let brandSelect = d3.select('#brand-select');
   const keyToggle = d3.select('#map-key-toggle');
   const keyPanel = d3.select('#map-key-panel');
   let legendReady = false;
@@ -32,13 +32,8 @@
       const cleaned = lines.join('\n');
       parsedCSV = d3.csvParse(cleaned);
       worldGeo = geo;
-      // wire select change to redraw when active
-      brandSelect.on('change', ()=>{
-        // if map currently visible, redraw
-        if(document.getElementById('slide-7') && document.querySelector('.dot.active') ){
-          drawCurrent();
-        }
-      });
+      // we defer wiring the brand select until the legend panel is built
+      // (the select will be inserted into #map-key-panel inside drawCurrent())
     })
     .catch(err => {
       console.warn('Failed to load map data', err);
@@ -144,6 +139,22 @@
   // build legend into the right-side collapsible panel
   const panel = d3.select('#map-key-panel');
   panel.html('');
+  // Insert control area (brand select) at top of panel
+  const ctrl = panel.append('div').attr('class','panel-controls').style('margin-bottom','8px');
+  ctrl.append('label').attr('for','brand-select').style('font-weight','700').style('color','var(--muted)').text('Brand');
+  const sel = ctrl.append('select').attr('id','brand-select').style('margin-left','8px');
+  sel.append('option').attr('value','Hermes').text('Hermès');
+  sel.append('option').attr('value','Gucci').text('Gucci');
+  sel.append('option').attr('value','Coach').text('Coach');
+  // rebind brandSelect variable to the newly-created element and wire change
+  brandSelect = d3.select('#brand-select');
+  brandSelect.on('change', () => {
+    // if map currently visible, redraw
+    if(document.getElementById('slide-7') && document.querySelector('.dot.active') ){
+      drawCurrent();
+    }
+  });
+
   panel.append('div').attr('class','legend-title').text('Legend');
   const items = panel.append('div').attr('class','legend-items');
     const steps = thresholds.length + 1;

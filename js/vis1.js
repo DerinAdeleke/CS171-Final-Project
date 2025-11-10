@@ -73,7 +73,7 @@ d3.csv("data/luxury_revenue.csv").then(data => {
         .attr('data-brand', brand)
         .attr('fill', 'none')
         .attr('stroke', colors(brand))
-        .attr('stroke-width', 3)
+        .attr('stroke-width', 4)
         .attr('stroke-linecap', 'round')
         .attr('d', line(brand));
 
@@ -162,6 +162,11 @@ d3.csv("data/luxury_revenue.csv").then(data => {
       .attr('fill', (cs && cs.getPropertyValue('--viz-text')) ? cs.getPropertyValue('--viz-text').trim() : '#cfd6ff')
       .attr('font-weight', 600);
 
+    // style axis lines and ticks to match viz text for better contrast
+    const axisStroke = (cs && cs.getPropertyValue('--viz-text')) ? cs.getPropertyValue('--viz-text').trim() : '#052018';
+    svg.selectAll('.domain').attr('stroke', axisStroke).attr('opacity', 0.9);
+    svg.selectAll('.tick line').attr('stroke', axisStroke).attr('opacity', 0.7);
+
     svg.append('g')
       .attr('transform', `translate(${M.l},0)`)
       .call(d3.axisLeft(y))
@@ -183,7 +188,7 @@ d3.csv("data/luxury_revenue.csv").then(data => {
           svg.selectAll(`.line-brand[data-brand='${brand}']`).attr('opacity', 1).attr('stroke-width', 4);
         })
         .on('mouseout', function() {
-          svg.selectAll('.line-brand').attr('opacity', 1).attr('stroke-width', 2.5);
+          svg.selectAll('.line-brand').attr('opacity', 1).attr('stroke-width', 3);
         });
 
       row.append('rect')
@@ -195,8 +200,8 @@ d3.csv("data/luxury_revenue.csv").then(data => {
       row.append('text')
         .attr('x', 18)
         .attr('y', 10)
-        .attr('font-size', '13px')
-        .attr('font-weight', 600)
+        .attr('font-size', '14px')
+        .attr('font-weight', 700)
         .attr('fill', (cs && cs.getPropertyValue('--viz-text')) ? cs.getPropertyValue('--viz-text').trim() : '#cfd6ff')
         .text(brand);
     });
