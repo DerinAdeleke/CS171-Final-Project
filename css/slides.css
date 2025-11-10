@@ -16,6 +16,7 @@ html,body{
 .slides{
   height:100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 }
@@ -41,9 +42,9 @@ html,body{
 .map-full{display:flex;flex-direction:column;height:100%;width:100%;}
 .slide--map{padding:0}
 .map-controls--slide{display:flex;align-items:center;padding:10px 14px;background:transparent;position:absolute;top:12px;left:12px;z-index:30;border-radius:10px}
-#choropleth-full{position:relative;width:100vw;height:100vh}
-#map-container{position:relative;flex:1;height:100vh;width:100vw}
-#map-svg svg{width:100vw;height:100vh;display:block}
+#choropleth-full{position:relative;width:100%;height:100%}
+#map-container{position:relative;flex:1;height:100%;width:100%}
+#map-svg svg{width:100%;height:100%;display:block}
 
 /* Floating legend key button */
 .map-key-button{position:absolute;bottom:18px;right:18px;z-index:120;width:48px;height:48px;border-radius:999px;background:var(--emerald);color:var(--cream);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(4,107,74,0.22);border:none;cursor:pointer;font-size:20px}
@@ -187,7 +188,7 @@ html,body{
 }
 
 /* Slide 5: product gallery */
-.slide-products{position:relative;width:100vw;height:100vh;max-height:none;margin:0;padding:0;border-radius:0;overflow:hidden;background:transparent;display:block}
+.slide-products{position:relative;width:100%;height:100%;max-height:none;margin:0;padding:0;border-radius:0;overflow:hidden;background:transparent;display:block}
 .product-item{position:absolute;display:block;border-radius:10px;cursor:pointer;transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;box-shadow:0 6px 18px rgba(2,6,23,0.06);width:auto;max-width:20vw;max-height:30vh}
 .product-item:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
 
