@@ -68,16 +68,30 @@ html,body{
 
 /* Floating insight box in the top-right of the map */
 .map-insight{position:absolute;top:18px;right:18px;z-index:121;max-width:36vw;min-width:220px;background:var(--cream);color:#052018;padding:14px;border-radius:10px;box-shadow:0 12px 28px rgba(2,6,23,0.12);border:1px solid rgba(4,107,74,0.06)}
+.map-insight{max-width:40vw}
 .map-insight .map-insight-inner p{margin:0 0 8px 0;font-size:0.95rem;line-height:1.35;color:var(--muted)}
 .map-insight .map-insight-inner p strong{display:block;color:var(--emerald);font-weight:800;margin-bottom:6px}
+/* Brand insight popup default hidden inside #brand-viz */
+#brand-insight{opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity 260ms ease, transform 260ms ease;z-index:140}
+#brand-insight.open{opacity:1;pointer-events:auto;transform:none}
+
+/* Light-bulb toggle button to show/hide the insight popup */
+.brand-insight-toggle{position:absolute;top:18px;left:18px;z-index:150;width:44px;height:44px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--cream);color:var(--emerald);border:1px solid rgba(4,107,74,0.06);cursor:pointer;box-shadow:0 8px 18px rgba(2,6,23,0.06);font-size:18px}
+.brand-insight-toggle:focus{outline:3px solid rgba(4,107,74,0.12)}
 
 @media (max-width:900px){
   .map-insight{max-width:78vw;right:12px;left:12px}
 }
 
 /* Brand profile radar chart (Slide 10) */
-#brand-viz{
-  width:80%;max-width:900px;height:420px;margin:18px auto 6px;position:relative}
+.slide#slide-10 .slide__content{width:100%;height:100%;padding:0;margin:0;display:flex;flex-direction:column}
+#slide-10 #brand-viz{
+  width:100%;max-width:none;height:100%;margin:0;position:relative;display:block}
+.brand-writeup{display:none}
+/* Ensure slide 10 content can expand full-bleed (override global .slide__content max-width) */
+.slide#slide-10 .slide__content{max-width:none !important}
+/* Make sure the insight box is visible above the svg and sized appropriately */
+#brand-insight{z-index:140 !important;display:block}
 .brand-writeup{max-width:900px;margin:8px auto 0;color:var(--muted);font-size:1rem;line-height:1.45;text-align:left}
 .typewriter-cursor{display:inline-block;width:1px;background:var(--emerald);height:1em;vertical-align:bottom;margin-left:6px;animation:blink 1s steps(2,start) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -204,6 +218,54 @@ html,body{
 .product-item{position:absolute;display:block;border-radius:10px;cursor:pointer;transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;box-shadow:0 6px 18px rgba(2,6,23,0.06);width:auto;max-width:20vw;max-height:30vh}
 .product-item:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
 
+/* Carousel (Slide 6) styles */
+.product-carousel{position:relative;display:flex;align-items:center;justify-content:center;height:70vh;gap:16px}
+.product-carousel .carousel-track{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;width:70%;max-width:1100px;height:100%;overflow:visible}
+.product-carousel .carousel-track{touch-action: pan-y;}
+.product-carousel .carousel-item.pane{flex:0 0 40%;max-width:40%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 420ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease;position:relative}
+.product-carousel .carousel-item.pane .img-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.product-carousel .carousel-item.pane .carousel-img{max-width:100%;max-height:86%;object-fit:contain;border-radius:12px;box-shadow:0 18px 36px rgba(2,6,23,0.08);transition:transform 360ms ease}
+.product-carousel .carousel-item.pane.prev{transform:translateX(-12%) scale(0.82);opacity:0.75}
+.product-carousel .carousel-item.pane.next{transform:translateX(12%) scale(0.82);opacity:0.75}
+.product-carousel .carousel-item.pane.current{transform:translateX(0) scale(1);opacity:1;z-index:12}
+
+.carousel-btn{appearance:none;border:0;background:rgba(4,107,74,0.06);color:var(--emerald);width:54px;height:54px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:background 180ms ease, transform 160ms ease}
+.carousel-btn:active{transform:scale(0.96)}
+.carousel-btn:focus{outline:3px solid rgba(4,107,74,0.12)}
+.carousel-btn.prev{margin-right:6px}
+.carousel-btn.next{margin-left:6px}
+
+.product-overlay{position:absolute;left:50%;top:auto;bottom:6%;transform:translateX(-50%);background:linear-gradient(180deg, rgba(2,6,23,0.02), rgba(245,239,230,0.98));padding:10px 14px;border-radius:12px;box-shadow:0 12px 28px rgba(2,6,23,0.12);opacity:0;pointer-events:none;transition:opacity 220ms ease, transform 220ms ease;z-index:40}
+.product-overlay.visible{opacity:1;pointer-events:auto}
+.overlay-content{max-width:56vw;text-align:center}
+.overlay-content .brand{font-weight:700;color:var(--emerald);font-size:1rem}
+.overlay-content .name{margin-top:4px;font-weight:700;font-size:1.05rem}
+.overlay-content .price{margin-top:6px;color:var(--muted);font-weight:600}
+
+/* Make panes stack nicely on small screens */
+@media (max-width:900px){
+  .product-carousel{height:54vh}
+  .product-carousel .carousel-track{width:86%}
+  .product-carousel .carousel-item.pane{flex-basis:45%;max-width:45%}
+}
+@media (max-width:640px){
+  .product-carousel{flex-direction:column;gap:10px;height:auto}
+  .product-carousel .carousel-track{width:100%;flex-direction:row;gap:10px}
+  .product-carousel .carousel-item.pane{flex-basis:80%;max-width:80%;height:42vh}
+  .carousel-btn{width:44px;height:44px}
+  .overlay-content{max-width:82vw}
+}
+
+/* Slide 11 is visible (used for the full writeup) */
+#slide-11{display:block}
+/* Temporarily hide slide 13 while working */
+#slide-13{display:none !important;}
+
+/* Team cards for slide 12 */
+.team-card{background:var(--cream);padding:18px 22px;border-radius:10px;min-width:220px;box-shadow:0 14px 30px rgba(2,6,23,0.08);text-align:center}
+.team-name{font-weight:800;color:var(--emerald);font-size:1.05rem}
+.team-email{margin-top:6px;color:var(--muted);font-weight:600;font-size:0.95rem}
+
 /* Tooltip for product hover */
 .product-tooltip{position:fixed;z-index:220;padding:8px 10px;background:var(--cream);color:var(--emerald);border-radius:8px;box-shadow:0 8px 24px rgba(2,6,23,0.14);pointer-events:none;font-size:0.95rem;font-weight:600;white-space:nowrap}
 .product-tooltip .meta{display:block;color:var(--muted);font-weight:400;font-size:0.9rem;margin-top:4px}
@@ -226,6 +288,12 @@ html,body{
   .logo-row{gap:14px}
   .logo-item{width:110px}
 }
+
+/* DID YOU KNOW enhancements: highlight and arrow */
+.dyk-highlight{background:linear-gradient(90deg, rgba(4,107,74,0.12), rgba(4,107,74,0.06));padding:0 6px;border-radius:6px;font-weight:900;color:var(--emerald)}
+.dyk-arrow{font-size:38px;color:var(--emerald);opacity:0;transform:translateY(8px);transition:opacity 320ms ease, transform 420ms cubic-bezier(.2,.9,.3,1);margin-top:18px}
+.dyk-arrow.visible{opacity:1;transform:translateY(0);animation:bounce 1200ms infinite 600ms}
+@keyframes bounce{0%{transform:translateY(0)}25%{transform:translateY(-8px)}50%{transform:translateY(0)}75%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 
 
 

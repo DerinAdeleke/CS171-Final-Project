@@ -26,7 +26,8 @@
 
     const cx = W / 2;
     const cy = H / 2;
-    const radius = Math.min(W, H) * 0.36;
+  // increase radius factor so the radar chart takes up more of the slide
+  const radius = Math.min(W, H) * 0.46;
     const angleSlice = (Math.PI * 2) / dimensions.length;
 
     // scale for values
@@ -135,6 +136,36 @@
   // re-render on resize
   let rt;
   window.addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=> render(), 160); });
+
+  // Create a light-bulb toggle button inside the viz to show/hide the insight popup
+  (function createInsightToggle(){
+    const vizNode = container.node();
+    if(!vizNode) return;
+    let toggleBtn = vizNode.querySelector('.brand-insight-toggle');
+    if(!toggleBtn){
+      toggleBtn = document.createElement('button');
+      toggleBtn.className = 'brand-insight-toggle';
+      toggleBtn.type = 'button';
+      toggleBtn.title = 'Show insights';
+      toggleBtn.setAttribute('aria-expanded','false');
+      toggleBtn.setAttribute('aria-controls','brand-insight');
+      toggleBtn.innerHTML = '💡';
+      vizNode.appendChild(toggleBtn);
+    }
+
+    const insight = vizNode.querySelector('#brand-insight');
+    if(insight){
+      insight.classList.remove('open');
+      insight.setAttribute('aria-hidden','true');
+    }
+
+    toggleBtn.addEventListener('click', ()=>{
+      if(!insight) return;
+      const isOpen = insight.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', String(!!isOpen));
+      insight.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    });
+  })();
 
   // when slide 10 comes into view, start typing the paragraph
   const slide = document.getElementById('slide-10');
