@@ -1,0 +1,21 @@
+,brand_norm,category_norm,count,mean,median,p25,p75
+0,Coach,Accessories,1627,104.74,93.5,58.3,135.3
+1,Coach,Apparel,210,245.97,183.61,93.88,297.43
+2,Coach,Shoes,427,116.26,89.46,59.86,157.3
+3,Disney x Gucci,Accessories,24,665.35,516.3,395.2,794.28
+4,Disney x Gucci,Apparel,40,761.05,725.26,384.36,1097.48
+5,Disney x Gucci,Shoes,87,578.17,577.5,447.3,713.04
+6,Donald Duck Disney x Gucci,Accessories,4,350.0,362.48,307.64,404.85
+7,Donald Duck Disney x Gucci,Apparel,5,390.59,247.5,230.04,509.92
+8,Donald Duck Disney x Gucci,Shoes,11,592.44,650.0,441.61,759.0
+9,Doraemon x Gucci,Accessories,2,717.94,717.94,601.71,834.17
+10,Doraemon x Gucci,Shoes,1,627.0,627.0,627.0,627.0
+11,Gucci,Accessories,17914,313.82,269.5,177.64,383.4
+12,Gucci,Apparel,6668,688.45,471.48,279.27,830.7
+13,Gucci,Shoes,17533,498.12,434.52,268.49,639.0
+14,Hermès,Accessories,12431,621.87,376.0,208.16,643.39
+15,Hermès,Apparel,1680,1217.1,639.0,367.16,1249.36
+16,Hermès,Shoes,4605,1016.97,897.89,598.59,1325.38
+17,The North Face x Gucci,Accessories,30,533.88,504.17,416.95,627.5
+18,The North Face x Gucci,Apparel,342,1053.83,813.79,491.71,1288.88
+19,The North Face x Gucci,Shoes,53,862.21,858.0,575.1,1086.3

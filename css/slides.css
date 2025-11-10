@@ -1,0 +1,185 @@
+/* Slide presentation styles */
+:root{
+  --emerald: #046b4a; /* deep emerald */
+  --cream: #f5efe6;   /* cream text */
+  --muted: #667085;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #111827;
+}
+
+/* Container uses native scroll snapping for vertical full-page slides */
+.slides{
+  height:100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slide{
+  height:100vh;
+  scroll-snap-align: start;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  box-sizing:border-box;
+  background: white;
+}
+
+.slide__content{
+  max-width:1000px;
+  text-align:center;
+}
+
+/* Full-bleed map slide */
+.slide--map .slide__content{width:100%;height:100%;padding:0;margin:0;display:flex;flex-direction:column}
+.map-full{display:flex;flex-direction:column;height:100%;width:100%;}
+.slide--map{padding:0}
+.map-controls--slide{display:flex;align-items:center;padding:10px 14px;background:transparent;position:absolute;top:12px;left:12px;z-index:30;border-radius:10px}
+#choropleth-full{position:relative;width:100vw;height:100vh}
+#map-container{position:relative;flex:1;height:100vh;width:100vw}
+#map-svg svg{width:100vw;height:100vh;display:block}
+
+/* Floating legend key button */
+.map-key-button{position:absolute;bottom:18px;right:18px;z-index:120;width:48px;height:48px;border-radius:999px;background:var(--emerald);color:var(--cream);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(4,107,74,0.22);border:none;cursor:pointer;font-size:20px}
+.map-key-button:focus{outline:3px solid rgba(4,107,74,0.16)}
+
+/* Collapsible legend panel anchored above the key button (dropdown) */
+.map-key-panel{position:absolute;bottom:72px;right:18px;z-index:122;width:320px;max-width:78vw;background:var(--cream);color:#052018;padding:12px;border-radius:12px;box-shadow:0 18px 50px rgba(2,6,23,0.28);transform:translateY(6px) scale(0.98);opacity:0;pointer-events:none;transition:opacity 260ms ease, transform 260ms ease}
+.map-key-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.map-key-panel.open{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
+.map-key-panel .legend-title{font-weight:700;color:var(--emerald);margin-bottom:8px}
+.map-key-panel .legend-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.map-key-panel .legend-row i{width:34px;height:14px;border-radius:3px;display:inline-block}
+.map-key-panel .legend-row span{color:var(--muted);font-size:0.95rem}
+
+/* Title slide specific styles */
+.slide--title{
+  background: linear-gradient(180deg,var(--emerald), #105f46 60%);
+  color: var(--cream);
+  position:relative;
+}
+
+.title{
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  line-height:0.9;
+  margin:0 0 0.4rem 0;
+  letter-spacing: -0.02em;
+  font-weight:900;
+}
+
+/* Large centered text for closing / team slides */
+.big-text{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,4rem);line-height:1;margin:0;color:var(--emerald);text-align:center;font-weight:800}
+
+.subtitle{
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  opacity:0.95;
+  margin:0;
+}
+
+/* Scroll hint */
+.scroll-hint{
+  position:absolute;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:0.95rem;
+  color: rgba(245,239,230,0.9);
+  background:transparent;
+}
+
+/* Dots nav on right */
+.dots{
+  position:fixed;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:50;
+}
+.dots ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.dot{
+  width:12px;height:12px;border-radius:50%;border:2px solid rgba(0,0,0,0.12);background:rgba(0,0,0,0.12);cursor:pointer;padding:0;outline:none
+}
+.dot.active{background:var(--emerald);border-color:var(--emerald);box-shadow:0 0 0 6px rgba(4,107,74,0.12)}
+.dot:focus{box-shadow:0 0 0 4px rgba(4,107,74,0.18)}
+
+/* Other slide styles: simple, easy to replace */
+.slide h2{font-family: 'Playfair Display', serif; font-size:2.4rem; margin:0 0 0.5rem 0}
+.slide p{margin:0;color:var(--muted);font-size:1.05rem}
+
+/* Responsive tweaks */
+@media (max-width:700px){
+  .dots{right:10px}
+  .title{font-size: clamp(2rem, 10vw, 3.8rem)}
+}
+
+/* Slide 2: two-column split and flip-card styles */
+.two-col-split{display:flex;gap:28px;align-items:stretch;justify-content:center;max-width:1200px;margin:0 auto}
+.left-panel{flex:0 0 44%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.right-panel{flex:1 1 56%}
+.card-stack{position:relative;width:100%;max-width:420px;height:260px;perspective:1200px}
+.flip-card{position:absolute;left:0;right:0;margin:0 auto;width:100%;height:100%;border-radius:14px;background:var(--cream);color:#032018;display:flex;align-items:center;justify-content:center;padding:20px;box-shadow:0 14px 30px rgba(2,6,23,0.4);cursor:pointer;transform-origin:center center;transition:transform 700ms cubic-bezier(.2,.9,.3,1),opacity 300ms}
+.flip-card:nth-child(1){transform:translateY(0) scale(1)}
+.flip-card:nth-child(2){transform:translateY(10px) scale(0.985)}
+.flip-card:nth-child(3){transform:translateY(18px) scale(0.97)}
+.flip-card:nth-child(4){transform:translateY(26px) scale(0.955)}
+.flip-card .front{font-family:'Playfair Display',serif;font-size:1.1rem;text-align:center;padding:8px}
+.flip-card.flipped{transform: rotateX(-90deg) translateY(-40px) scale(0.9);opacity:0;pointer-events:none}
+.card-instructions{margin-top:14px;color:var(--muted);font-size:0.95rem}
+
+@media (max-width:900px){
+  .two-col-split{flex-direction:column}
+  .left-panel,.right-panel{flex:unset;width:100%}
+  .card-stack{height:220px}
+}
+
+/* DID YOU KNOW slide (slide-2) centered large text + fade */
+.dyk-container{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:12px}
+.dyk-text{font-family:'Playfair Display',serif;font-weight:700;color:var(--emerald);font-size:clamp(1.8rem,6vw,3.6rem);text-align:center;opacity:0;transform:translateY(6px);transition:opacity 700ms ease, transform 700ms ease}
+.dyk-first{opacity:1;transform:none}
+.dyk-second{font-size:clamp(1.1rem,3.2vw,1.6rem);color:#0f1724}
+.dyk-text.visible{opacity:1;transform:none}
+.dyk-text.hidden{opacity:0;transform:translateY(-8px)}
+
+/* Slide 3 rotator styles */
+.slide-vis-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.rotator{min-height:64px;display:flex;align-items:center;justify-content:center}
+.rot-item{font-family:'Playfair Display',serif;font-weight:700;color:var(--emerald);font-size:clamp(1.2rem,4.4vw,2.2rem);text-align:center;opacity:0;transform:translateY(6px);transition:opacity 600ms ease, transform 600ms ease}
+.rot-item.visible{opacity:1;transform:none}
+.rot-item.hidden{opacity:0;transform:translateY(-8px)}
+.viz-centered{background:transparent}
+
+/* Slide 5: product gallery */
+.slide-products{position:relative;width:100vw;height:100vh;max-height:none;margin:0;padding:0;border-radius:0;overflow:hidden;background:transparent;display:block}
+.product-item{position:absolute;display:block;border-radius:10px;cursor:pointer;transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;box-shadow:0 6px 18px rgba(2,6,23,0.06);width:auto;max-width:20vw;max-height:30vh}
+.product-item:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
+
+/* Tooltip for product hover */
+.product-tooltip{position:fixed;z-index:220;padding:8px 10px;background:var(--cream);color:var(--emerald);border-radius:8px;box-shadow:0 8px 24px rgba(2,6,23,0.14);pointer-events:none;font-size:0.95rem;font-weight:600;white-space:nowrap}
+.product-tooltip .meta{display:block;color:var(--muted);font-weight:400;font-size:0.9rem;margin-top:4px}
+
+/* Slide 4: top paragraph fade-in */
+.slide4-text{max-width:980px;margin:0 auto;font-family:'Inter',system-ui,Arial,sans-serif;color:var(--emerald);font-size:clamp(1rem,2.4vw,1.25rem);line-height:1.6;text-align:center;padding:8px;opacity:0;transform:translateY(8px);transition:opacity 700ms ease, transform 700ms ease}
+.slide4-text.visible{opacity:1;transform:none}
+.slide4-text.hidden{opacity:0;transform:translateY(8px)}
+
+/* Logos row and tagline for slide 4 */
+.logo-row{display:flex;gap:28px;align-items:center;justify-content:center;margin-top:22px}
+.logo-item{width:140px;max-width:22vw;height:auto;opacity:0;transform:translateY(12px) scale(0.85);transition:opacity 420ms cubic-bezier(.2,.9,.3,1), transform 420ms cubic-bezier(.2,.9,.3,1)}
+.logo-item.visible{opacity:1;transform:translateY(0) scale(1)}
+.logo-item.hidden{opacity:0;transform:translateY(12px) scale(0.85)}
+.slide4-tagline{margin-top:18px;text-align:center;color:var(--emerald);font-weight:800;font-size:clamp(1rem,2.2vw,1.3rem);opacity:0;transform:translateY(6px);transition:opacity 600ms ease, transform 600ms ease}
+.slide4-tagline.visible{opacity:1;transform:none}
+.slide4-tagline.hidden{opacity:0;transform:translateY(6px)}
+
+@media (max-width:700px){
+  .logo-row{gap:14px}
+  .logo-item{width:110px}
+}

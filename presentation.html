@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Price of Pristige — Presentation</title>
+  <!-- Fancy font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/slides.css">
+</head>
+<body>
+  <main id="slides" class="slides" role="document">
+    <!-- Slide 1: Title -->
+    <section class="slide slide--title" id="slide-1" data-index="0" aria-label="Title slide">
+      <div class="slide__content">
+        <h1 class="title">The Price of Prestige</h1>
+        <p class="subtitle">An interactive look at resale value and luxury pricing</p>
+      </div>
+      <div class="scroll-hint">Scroll ↓</div>
+    </section>
+
+    <!-- Slides 2-12: cleared placeholders the user can replace with content -->
+    <section class="slide" id="slide-2" data-index="1" aria-label="Slide 2">
+      <div class="slide__content">
+        <div class="dyk-container" aria-hidden="false">
+          <div class="dyk-text dyk-first">DID YOU KNOW...</div>
+          <div class="dyk-text dyk-second">the luxury industry grossed over 387 billion dollars in profits in 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-index="2" aria-label="Slide 3">
+      <div class="slide__content slide-vis-center">
+        <div class="rotator" aria-hidden="false">
+          <div class="rot-item rot-item-1">Coach just over $___ billion</div>
+          <div class="rot-item rot-item-2">Gucci brought in nearly $__ billion</div>
+          <div class="rot-item rot-item-3">Hermès earned around $___ billion</div>
+        </div>
+
+        <!-- Visualization container for vis1.js (will render the "Luxury Brand Revenues Over Time" chart) -->
+        <div id="vis1" class="viz-centered" style="width:80%;max-width:900px;height:420px;margin:20px auto 0"></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-index="3" aria-label="Slide 4">
+      <div class="slide__content">
+        <div class="slide4-text hidden">These brands all dominate the luxury market , yet their success looks completely different. Despite vast differences in scale and revenue, none is “better” than the other. Each brand fulfills a distinct role in the luxury ecosystem.</div>
+
+        <div class="logo-row" aria-hidden="false">
+          <img src="logos/coach-new-york-logo.svg" alt="Coach logo" class="logo-item hidden" />
+          <img src="logos/gucci-4.svg" alt="Gucci logo" class="logo-item hidden" />
+          <img src="logos/hermes-logo.svg" alt="Hermès logo" class="logo-item hidden" />
+        </div>
+
+        <div class="slide4-tagline hidden">Luxury success isn’t just about how much you sell — it’s about what kind of prestige you sell.</div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-index="4" aria-label="Slide 5">
+      <div class="slide__content">
+        <h2>A look at the products</h2>
+        <div id="products-area" class="slide-products" aria-live="polite">
+          <!-- images will be injected here as absolutely-positioned items -->
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-index="5" aria-label="Slide 6">
+      <div class="slide__content"><h2>Slide 6</h2><p class="muted">Placeholder — replace with your content.</p></div>
+    </section>
+
+    <section class="slide slide--map" id="slide-7" data-index="6" aria-label="Slide 7 - World Map">
+      <div class="slide__content">
+        <div id="choropleth-full" class="map-full">
+          <div class="map-controls map-controls--slide">
+            <label for="brand-select" style="color:var(--muted);font-weight:600;margin-right:8px">Brand</label>
+            <select id="brand-select">
+              <option value="Hermes">Hermès</option>
+              <option value="Gucci">Gucci</option>
+              <option value="Coach">Coach</option>
+            </select>
+          </div>
+          <div id="map-container" style="position:relative;flex:1;height:100%;width:100%">
+            <div id="map-svg" style="width:100%;height:100%"></div>
+
+            <!-- Floating key toggle button (bottom-right) -->
+            <button id="map-key-toggle" class="map-key-button" aria-label="Toggle map legend">🔑</button>
+
+            <!-- Collapsible legend panel that appears to the right of the map -->
+            <div id="map-key-panel" class="map-key-panel" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8" data-index="7" aria-label="Slide 8">
+      <div class="slide__content"><h2>Slide 8</h2><p class="muted">Placeholder — replace with your content.</p></div>
+    </section>
+
+    <section class="slide" id="slide-9" data-index="8" aria-label="Slide 9">
+      <div class="slide__content"><h2>Slide 9</h2><p class="muted">Placeholder — replace with your content.</p></div>
+    </section>
+
+    <section class="slide" id="slide-10" data-index="9" aria-label="Slide 10">
+      <div class="slide__content"><h2>Slide 10</h2><p class="muted">Placeholder — replace with your content.</p></div>
+    </section>
+
+    <section class="slide" id="slide-11" data-index="10" aria-label="Slide 11">
+      <div class="slide__content"><h2>Slide 11</h2><p class="muted">Placeholder — replace with your content.</p></div>
+    </section>
+
+    <section class="slide" id="slide-12" data-index="11" aria-label="Slide 12">
+      <div class="slide__content">
+        <div class="big-text">Team Members</div>
+        <div class="muted" style="margin-top:18px;opacity:0.8">(Placeholder — replace with team member names)</div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-13" data-index="12" aria-label="Slide 13">
+      <div class="slide__content">
+        <div class="big-text">Acknowledgements</div>
+        <div class="muted" style="margin-top:18px;opacity:0.8">(Placeholder — replace with acknowledgements)</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Right-side navigation dots -->
+  <nav class="dots" aria-label="Slide navigation">
+    <ul>
+      <li><button class="dot active" data-target="0" aria-label="Go to slide 1"></button></li>
+      <li><button class="dot" data-target="1" aria-label="Go to slide 2"></button></li>
+      <li><button class="dot" data-target="2" aria-label="Go to slide 3"></button></li>
+      <li><button class="dot" data-target="3" aria-label="Go to slide 4"></button></li>
+      <li><button class="dot" data-target="4" aria-label="Go to slide 5"></button></li>
+      <li><button class="dot" data-target="5" aria-label="Go to slide 6"></button></li>
+      <li><button class="dot" data-target="6" aria-label="Go to slide 7"></button></li>
+      <li><button class="dot" data-target="7" aria-label="Go to slide 8"></button></li>
+      <li><button class="dot" data-target="8" aria-label="Go to slide 9"></button></li>
+      <li><button class="dot" data-target="9" aria-label="Go to slide 10"></button></li>
+      <li><button class="dot" data-target="10" aria-label="Go to slide 11"></button></li>
+  <li><button class="dot" data-target="11" aria-label="Go to slide 12"></button></li>
+  <li><button class="dot" data-target="12" aria-label="Go to slide 13"></button></li>
+    </ul>
+  </nav>
+
+  <!-- D3 + visualization script for the revenue chart used on slide 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <!-- SheetJS for parsing Excel product list in-browser -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/slide5-products.js" defer></script>
+  <script src="js/vis1.js" defer></script>
+  <script src="js/slide7-map.js" defer></script>
+  <script src="js/slides.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* Main styles for the Luxury Revenue visualizations */
+:root{
+	--bg: #f6f9fc;
+	--card: #ffffff;
+	--muted: #6b7280;
+}
+
+html,body{
+	height:100%;
+	margin:0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+	background: var(--bg);
+	color:#111827;
+}
+
+h1{
+	text-align:center;
+	margin:24px 0;
+	font-weight:700;
+}
+
+/* Center each chart section and give a clean card look */
+section[id^="vis"]{
+	max-width: 900px;
+	margin: 18px auto;
+	padding: 14px 18px 22px;
+	background: var(--card);
+	border-radius: 10px;
+	box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+}
+
+/* Ensure SVGs are centered and responsive */
+section[id^="vis"] svg{
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+	height: auto;
+}
+
+/* Tooltip styling (used by bar and bubble charts) */
+.bar-tooltip, .bubble-tooltip{
+	font-family: inherit;
+	font-size: 13px;
+	color: #111;
+	background: #fff;
+	border: 1px solid #e6e9ef;
+	padding: 8px 10px;
+	border-radius: 8px;
+	box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+	pointer-events: none;
+}
+
+/* Legend tweaks */
+.legend text{ font-weight:600; }
+
+/* Make axis labels and ticks a bit softer */
+.tick text{ fill: var(--muted); }
+.y-grid line{ stroke: #eef3fb; }
