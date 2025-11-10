@@ -75,6 +75,16 @@ html,body{
   .map-insight{max-width:78vw;right:12px;left:12px}
 }
 
+/* Brand profile radar chart (Slide 10) */
+#brand-viz{
+  width:80%;max-width:900px;height:420px;margin:18px auto 6px;position:relative}
+.brand-writeup{max-width:900px;margin:8px auto 0;color:var(--muted);font-size:1rem;line-height:1.45;text-align:left}
+.typewriter-cursor{display:inline-block;width:1px;background:var(--emerald);height:1em;vertical-align:bottom;margin-left:6px;animation:blink 1s steps(2,start) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* Allow viz to pick up theme colors via CSS variables */
+#brand-viz{--bp-1:var(--viz-1, var(--emerald)); --bp-2:var(--viz-2); --bp-3:var(--viz-3); --bp-text:var(--viz-text)}
+
 /* Title slide specific styles */
 .slide--title{
   background: linear-gradient(180deg,var(--emerald), #105f46 60%);
