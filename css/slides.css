@@ -156,6 +156,17 @@ html,body{
 .rot-item.hidden{opacity:0;transform:translateY(-8px)}
 .viz-centered{background:transparent}
 
+/* Visualization container variables for slide 3 (vis1)
+   Provide a clear, high-contrast palette and text colors that match the
+   site's theme so axes, legend and title are visible on the slide. */
+#vis1{
+  --viz-1: #c41e3a; /* Gucci red */
+  --viz-2: #9b870c; /* Coach warm/muted gold */
+  --viz-3: #ff7f50; /* Hermès coral / orange */
+  --viz-text: #052018; /* dark text matching other slide text */
+  --viz-title: var(--emerald); /* title uses the presentation emerald */
+}
+
 /* Slide 5: product gallery */
 .slide-products{position:relative;width:100vw;height:100vh;max-height:none;margin:0;padding:0;border-radius:0;overflow:hidden;background:transparent;display:block}
 .product-item{position:absolute;display:block;border-radius:10px;cursor:pointer;transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;box-shadow:0 6px 18px rgba(2,6,23,0.06);width:auto;max-width:20vw;max-height:30vh}

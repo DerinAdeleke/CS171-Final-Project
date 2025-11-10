@@ -342,4 +342,26 @@ d3.csv("data/luxury_revenue.csv").then(data => {
   } catch (err) {
     console.warn('radar paragraph: IntersectionObserver not available', err);
   }
+}).catch(err => {
+  // If the CSV fails to load (file missing or network error), show a clear
+  // placeholder in the #vis1 container so the slide isn't blank and the user
+  // understands why the chart didn't render.
+  console.error('vis1: failed to load data/luxury_revenue.csv', err);
+  try {
+    const container = d3.select('#vis1');
+    if (container.empty()) return;
+    container.selectAll('*').remove();
+    container.append('div')
+      .attr('class', 'viz-error')
+      .style('padding', '18px')
+      .style('border-radius', '10px')
+      .style('background', 'rgba(4,107,74,0.04)')
+      .style('color', 'var(--emerald, #046b4a)')
+      .style('font-weight', 700)
+      .style('text-align', 'center')
+      .text('Data unavailable — chart cannot be displayed (missing data/luxury_revenue.csv)');
+  } catch (e) {
+    // swallow any further errors so the rest of the page can function
+    console.warn('vis1: error rendering fallback message', e);
+  }
 });
