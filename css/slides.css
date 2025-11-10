@@ -282,3 +282,33 @@ html,body{
 .brand-cell svg {
   overflow: visible;       /* lets titles extend fully */
 }
+
+
+
+
+
+
+
+/* === SLIDE 8: pie charts by region === */
+/* Shrink vertical space for Slide 8 */
+#slide-8 .slide__content {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+/* Reduce card’s top margin */
+#slide-8 #brand-facets {
+  margin-top: 10px !important;
+}
+
+/* Pull pie charts closer to title */
+#slide-8 #year-range-wrap {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Reduce empty vertical gap between pie charts + bottom of slide */
+#slide-8 #pie-row {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
