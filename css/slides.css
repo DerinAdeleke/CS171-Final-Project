@@ -37,6 +37,8 @@ html,body{
   text-align:center;
 }
 
+
+
 /* Full-bleed map slide */
 .slide--map .slide__content{width:100%;height:100%;padding:0;margin:0;display:flex;flex-direction:column}
 .map-full{display:flex;flex-direction:column;height:100%;width:100%;}
@@ -213,4 +215,70 @@ html,body{
 @media (max-width:700px){
   .logo-row{gap:14px}
   .logo-item{width:110px}
+}
+
+
+
+/* === SLIDE 5: 3-column permanent grid === */
+
+#brand-lines-row,
+#brand-bars-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* ✅ 3 equal columns */
+  gap: 40px;
+  margin-bottom: 60px;
+  overflow: hidden;
+}
+
+.brand-cell {
+  width: 100%;
+  overflow: hidden;
+}
+
+.brand-cell svg {
+  width: 100%;
+  height: auto;
+}
+
+
+/* for slide 5 ONLY: reduce padding and align content toward top */
+#slide-5 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  display: block;            /* no centering */
+  height: 100vh;
+}
+
+#slide-5 .slide__content {
+  margin-top: 0;
+  padding-top: 0;
+  max-width: 1400px;         /* let charts breathe wider */
+  width: 100%;
+}
+
+#brand-lines-row, 
+#brand-bars-row {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;                /* expand width to near full screen */
+}
+
+
+
+/* Reduce space between the two rows */
+#brand-bars-row {
+  margin-top: -60px;       /* pull bar row upward */
+}
+
+.brand-cell {
+  margin-top: 0px;         /* remove extra gap inside each cell */
+  padding-top: 0px;
+}
+
+/* Ensure titles are not clipped */
+.brand-cell svg {
+  overflow: visible;       /* lets titles extend fully */
 }

@@ -1,164 +1,191 @@
-"brand","year","region","category","revenue","unit","millions_of_euros"
-"Coach",2024,NA,"Women’s Handbags",2495.7,"millions of dollars",2398.3677
-"Coach",2024,NA,"Women’s Accessories",1079.6,"millions of dollars",1037.4956
-"Coach",2024,NA,"Men’s",983.9,"millions of dollars",945.5279
-"Coach",2024,NA,"Other Products",536.1,"millions of dollars",515.1921
-"Coach",2024,NA,"Total Coach",5095.3,"millions of dollars",4896.5833
-"Coach",2023,NA,"Women’s Handbags",2450.7,"millions of dollars",2220.57927
-"Coach",2023,NA,"Women’s Accessories",1024.8,"millions of dollars",928.57128
-"Coach",2023,NA,"Women’s Accessories",947.1,"millions of dollars",858.16731
-"Coach",2023,NA,"Other Products",537.8,"millions of dollars",487.30058
-"Coach",2023,NA,"Total Coach",4960.4,"millions of dollars",4494.61844
-"Coach",2022,NA,"Women’s Handbags",2574.8,"millions of dollars",2405.63564
-"Coach",2022,NA,"Women’s Accessories",942.5,"millions of dollars",880.57775
-"Coach",2022,NA,"Men’s",904.8,"millions of dollars",845.35464
-"Coach",2022,NA,"Other Products",499.2,"millions of dollars",466.40256
-"Coach",2022,NA,"Total Coach",4921.3,"millions of dollars",4597.97059
-"Coach",2021,NA,"Women’s Handbags",2302.3,"millions of dollars",2033.62159
-"Coach",2021,NA,"Women’s Accessories",776.7,"millions of dollars",686.05911
-"Coach",2021,NA,"Men’s",769.3,"millions of dollars",679.52269
-"Coach",2021,NA,"Other Products",404.8,"millions of dollars",357.55984
-"Coach",2021,NA,"Total Coach",4253.1,"millions of dollars",3756.76323
-"Coach",2020,NA,"Women’s Handbags",1852,"millions of dollars",1505.8612
-"Coach",2020,NA,"Women’s Accessories",645.4,"millions of dollars",524.77474
-"Coach",2020,NA,"Men’s",688,"millions of dollars",559.4128
-"Coach",2020,NA,"Other Products",340.3,"millions of dollars",276.69793
-"Coach",2020,NA,"Total Coach",3525.7,"millions of dollars",2866.74667
-"Coach",2025,"North America",NA,3429.6,"millions of dollars",2963.86032
-"Coach",2025,"Greater China",NA,970.2,"millions of dollars",838.44684
-"Coach",2025,"Other Asia",NA,769.6,"millions of dollars",665.08832
-"Coach",2025,"Other",NA,429.1,"millions of dollars",370.82822
-"Coach",2025,"Total",NA,5598.5,"millions of dollars",4838.2237
-"Coach",2024,"North America",NA,3078.7,"millions of dollars",2958.6307
-"Coach",2024,"Greater China",NA,902.1,"millions of dollars",866.9181
-"Coach",2024,"Other Asia",NA,771.4,"millions of dollars",741.3154
-"Coach",2024,"Other",NA,343.1,"millions of dollars",329.7191
-"Coach",2024,"Total",NA,5095.3,"millions of dollars",4896.5833
-"Coach",2023,"North America",NA,3037.5,"millions of dollars",2752.27875
-"Coach",2023,"Greater China",NA,896.7,"millions of dollars",812.49987
-"Coach",2023,"Other Asia",NA,752.9,"millions of dollars",682.20269
-"Coach",2023,"Other",NA,273.3,"millions of dollars",247.63713
-"Coach",2023,"Total",NA,4960.4,"millions of dollars",4494.61844
-"Coach",2022,"North America",NA,3102.8,"millions of dollars",2898.94604
-"Coach",2022,"Greater China",NA,892.2,"millions of dollars",833.58246
-"Coach",2022,"Other Asia",NA,691.3,"millions of dollars",645.88159
-"Coach",2022,"Other",NA,235,"millions of dollars",219.5605
-"Coach",2022,"Total",NA,4921.3,"millions of dollars",4597.97059
-"Coach",2021,"North America",NA,2466.3,"millions of dollars",2178.48279
-"Coach",2021,"Greater China",NA,930.6,"millions of dollars",821.99898
-"Coach",2021,"Other Asia",NA,666.3,"millions of dollars",588.54279
-"Coach",2021,"Other",NA,189.9,"millions of dollars",167.73867
-"Coach",2021,"Total",NA,4253.1,"millions of dollars",3756.76323
-"Coach",2020,"North America",NA,2015.5,"millions of dollars",1638.80305
-"Coach",2020,"Greater China",NA,600.8,"millions of dollars",488.51048
-"Coach",2020,"Other Asia",NA,691,"millions of dollars",561.8521
-"Coach",2020,"Other",NA,218.4,"millions of dollars",177.58104
-"Coach",2020,"Total",NA,3525.7,"millions of dollars",2866.74667
-"Gucci",2024,NA,"Other",688.5,"millions of euros",688.5
-"Gucci",2024,NA,"Watches and jewelry",306,"millions of euros",306
-"Gucci",2024,NA,"Ready-to-wear",1300.5,"millions of euros",1300.5
-"Gucci",2024,NA,"Leather goods",3825,"millions of euros",3825
-"Gucci",2024,NA,"Shoes",1530,"millions of euros",1530
-"Gucci",2023,NA,"Other",691.11,"millions of euros",691.11
-"Gucci",2023,NA,"Watches and jewelry",493.65,"millions of euros",493.65
-"Gucci",2023,NA,"Ready-to-wear",1480.95,"millions of euros",1480.95
-"Gucci",2023,NA,"Leather goods",5232.69,"millions of euros",5232.69
-"Gucci",2023,NA,"Shoes",1974.6,"millions of euros",1974.6
-"Gucci",2022,NA,"Other",734.09,"millions of euros",734.09
-"Gucci",2022,NA,"Watches and jewelry",524.35,"millions of euros",524.35
-"Gucci",2022,NA,"Ready-to-wear",1573.05,"millions of euros",1573.05
-"Gucci",2022,NA,"Leather goods",5453.24,"millions of euros",5453.24
-"Gucci",2022,NA,"Shoes",2202.27,"millions of euros",2202.27
-"Gucci",2021,NA,"Other",681.16,"millions of euros",681.16
-"Gucci",2021,NA,"Watches and jewelry",583.85,"millions of euros",583.85
-"Gucci",2021,NA,"Ready-to-wear",1459.64,"millions of euros",1459.64
-"Gucci",2021,NA,"Leather goods",5157.38,"millions of euros",5157.38
-"Gucci",2021,NA,"Shoes",1848.87,"millions of euros",1848.87
-"Gucci",2024,"Rest of the world",NA,612,"millions of euros",612
-"Gucci",2024,"Japan",NA,612,"millions of euros",612
-"Gucci",2024,"North America",NA,1912.5,"millions of euros",1912.5
-"Gucci",2024,"Asia-Pacific (excluding Japan)",NA,2524.5,"millions of euros",2524.5
-"Gucci",2024,"Western Europe",NA,1989,"millions of euros",1989
-"Gucci",2023,"Rest of the world",NA,691.11,"millions of euros",691.11
-"Gucci",2023,"Japan",NA,691.11,"millions of euros",691.11
-"Gucci",2023,"North America",NA,2270.79,"millions of euros",2270.79
-"Gucci",2023,"Asia-Pacific (excluding Japan)",NA,3850.47,"millions of euros",3850.47
-"Gucci",2023,"Western Europe",NA,2369.52,"millions of euros",2369.52
-"Gucci",2022,"Rest of the world",NA,734.09,"millions of euros",734.09
-"Gucci",2022,"Japan",NA,629.22,"millions of euros",629.22
-"Gucci",2022,"North America",NA,3041.23,"millions of euros",3041.23
-"Gucci",2022,"Asia-Pacific (excluding Japan)",NA,3775.32,"millions of euros",3775.32
-"Gucci",2022,"Western Europe",NA,2307.14,"millions of euros",2307.14
-"Gucci",2021,"Rest of the world",NA,583.85,"millions of euros",583.85
-"Gucci",2021,"Japan",NA,583.85,"millions of euros",583.85
-"Gucci",2021,"North America",NA,2627.34,"millions of euros",2627.34
-"Gucci",2021,"Asia-Pacific (excluding Japan)",NA,4281.6,"millions of euros",4281.6
-"Gucci",2021,"Western Europe",NA,1654.25,"millions of euros",1654.25
-"Hermes",2024,NA,"Leather Goods and Saddlery",6457,"millions of euros",6457
-"Hermes",2024,NA,"Ready-to-wear and Accessories",4405,"millions of euros",4405
-"Hermes",2024,NA,"Silk and Textiles",950,"millions of euros",950
-"Hermes",2024,NA,"Other Hermès sectors",1909,"millions of euros",1909
-"Hermes",2024,NA,"Perfume and Beauty",535,"millions of euros",535
-"Hermes",2024,NA,"Watches",577,"millions of euros",577
-"Hermes",2024,NA,"Other products",337,"millions of euros",337
-"Hermes",2024,NA,"Total",15170,"millions of euros",15170
-"Hermes",2023,NA,"Leather Goods and Saddlery",5547,"millions of euros",5547
-"Hermes",2023,NA,"Ready-to-wear and Accessories",3879,"millions of euros",3879
-"Hermes",2023,NA,"Silk and Textiles",932,"millions of euros",932
-"Hermes",2023,NA,"Other Hermès sectors",1653,"millions of euros",1653
-"Hermes",2023,NA,"Perfume and Beauty",492,"millions of euros",492
-"Hermes",2023,NA,"Watches",611,"millions of euros",611
-"Hermes",2023,NA,"Other products",313,"millions of euros",313
-"Hermes",2023,NA,"Total",13427,"millions of euros",13427
-"Hermes",2022,NA,"Leather Goods and Saddlery",4963,"millions of euros",4963
-"Hermes",2022,NA,"Ready-to-wear and Accessories",3152,"millions of euros",3152
-"Hermes",2022,NA,"Silk and Textiles",842,"millions of euros",842
-"Hermes",2022,NA,"Other Hermès sectors",1371,"millions of euros",1371
-"Hermes",2022,NA,"Perfume and Beauty",448,"millions of euros",448
-"Hermes",2022,NA,"Watches",519,"millions of euros",519
-"Hermes",2022,NA,"Other products",306,"millions of euros",306
-"Hermes",2022,NA,"Total",11602,"millions of euros",11602
-"Hermes",2021,NA,"Leather Goods and Saddlery",4091,"millions of euros",4091
-"Hermes",2021,NA,"Ready-to-wear and Accessories",2219,"millions of euros",2219
-"Hermes",2021,NA,"Silk and Textiles",669,"millions of euros",669
-"Hermes",2021,NA,"Other Hermès sectors",1001,"millions of euros",1001
-"Hermes",2021,NA,"Perfume and Beauty",385,"millions of euros",385
-"Hermes",2021,NA,"Watches",337,"millions of euros",337
-"Hermes",2021,NA,"Other products",279,"millions of euros",279
-"Hermes",2021,NA,"Total",8982,"millions of euros",8982
-"Hermes",2024,"France",NA,1447,"millions of euros",1447
-"Hermes",2024,"Europe (excl. France)",NA,2147,"millions of euros",2147
-"Hermes",2024,"Total Europe",NA,3594,"millions of euros",3594
-"Hermes",2024,"Japan",NA,1437,"millions of euros",1437
-"Hermes",2024,"Asia-Pacific (excl. Japan)",NA,6648,"millions of euros",6648
-"Hermes",2024,"Total Asia",NA,8085,"millions of euros",8085
-"Hermes",2024,"Americas",NA,2865,"millions of euros",2865
-"Hermes",2024,"Other",NA,627,"millions of euros",627
-"Hermes",2024,"Total",NA,15170,"millions of euros",15170
-"Hermes",2023,"France",NA,1274,"millions of euros",1274
-"Hermes",2023,"Europe (excl. France)",NA,1818,"millions of euros",1818
-"Hermes",2023,"Total Europe",NA,3093,"millions of euros",3093
-"Hermes",2023,"Japan",NA,1260,"millions of euros",1260
-"Hermes",2023,"Asia-Pacific (excl. Japan)",NA,6273,"millions of euros",6273
-"Hermes",2023,"Total Asia",NA,7533,"millions of euros",7533
-"Hermes",2023,"Americas",NA,2502,"millions of euros",2502
-"Hermes",2023,"Other",NA,299,"millions of euros",299
-"Hermes",2023,"Total",NA,13427,"millions of euros",13427
-"Hermes",2022,"France",NA,1064,"millions of euros",1064
-"Hermes",2022,"Europe (excl. France)",NA,1536,"millions of euros",1536
-"Hermes",2022,"Total Europe",NA,2600,"millions of euros",2600
-"Hermes",2022,"Japan",NA,1101,"millions of euros",1101
-"Hermes",2022,"Asia-Pacific (excl. Japan)",NA,5556,"millions of euros",5556
-"Hermes",2022,"Total Asia",NA,6657,"millions of euros",6657
-"Hermes",2022,"Americas",NA,2138,"millions of euros",2138
-"Hermes",2022,"Other",NA,207,"millions of euros",207
-"Hermes",2022,"Total",NA,11602,"millions of euros",11602
-"Hermes",2021,"France",NA,838,"millions of euros",838
-"Hermes",2021,"Europe (excl. France)",NA,1303,"millions of euros",1303
-"Hermes",2021,"Total Europe",NA,2141,"millions of euros",2141
-"Hermes",2021,"Japan",NA,977,"millions of euros",977
-"Hermes",2021,"Asia-Pacific (excl. Japan)",NA,4251,"millions of euros",4251
-"Hermes",2021,"Total Asia",NA,5227,"millions of euros",5227
-"Hermes",2021,"Americas",NA,1458,"millions of euros",1458
-"Hermes",2021,"Other",NA,156,"millions of euros",156
-"Hermes",2021,"Total",NA,8982,"millions of euros",8982
+"brand","year","region","category","revenue","unit","millions_of_euros","millions_of_dollars"
+"Coach",2024,NA,"Women’s Handbags",2495.7,"millions of dollars",2398.3677,2495.7
+"Coach",2024,NA,"Women’s Accessories",1079.6,"millions of dollars",1037.4956,1079.6
+"Coach",2024,NA,"Men’s",983.9,"millions of dollars",945.5279,983.9
+"Coach",2024,NA,"Other Products",536.1,"millions of dollars",515.1921,536.1
+"Coach",2024,NA,"Total Coach",5095.3,"millions of dollars",4896.5833,5095.3
+"Coach",2023,NA,"Women’s Handbags",2450.7,"millions of dollars",2220.57927,2450.7
+"Coach",2023,NA,"Women’s Accessories",1024.8,"millions of dollars",928.57128,1024.8
+"Coach",2023,NA,"Men’s",947.1,"millions of dollars",858.16731,947.1
+"Coach",2023,NA,"Other Products",537.8,"millions of dollars",487.30058,537.8
+"Coach",2023,NA,"Total Coach",4960.4,"millions of dollars",4494.61844,4960.4
+"Coach",2022,NA,"Women’s Handbags",2574.8,"millions of dollars",2405.63564,2574.8
+"Coach",2022,NA,"Women’s Accessories",942.5,"millions of dollars",880.57775,942.5
+"Coach",2022,NA,"Men’s",904.8,"millions of dollars",845.35464,904.8
+"Coach",2022,NA,"Other Products",499.2,"millions of dollars",466.40256,499.2
+"Coach",2022,NA,"Total Coach",4921.3,"millions of dollars",4597.97059,4921.3
+"Coach",2021,NA,"Women’s Handbags",2302.3,"millions of dollars",2033.62159,2302.3
+"Coach",2021,NA,"Women’s Accessories",776.7,"millions of dollars",686.05911,776.7
+"Coach",2021,NA,"Men’s",769.3,"millions of dollars",679.52269,769.3
+"Coach",2021,NA,"Other Products",404.8,"millions of dollars",357.55984,404.8
+"Coach",2021,NA,"Total Coach",4253.1,"millions of dollars",3756.76323,4253.1
+"Coach",2020,NA,"Women’s Handbags",1852,"millions of dollars",1505.8612,1852
+"Coach",2020,NA,"Women’s Accessories",645.4,"millions of dollars",524.77474,645.4
+"Coach",2020,NA,"Men’s",688,"millions of dollars",559.4128,688
+"Coach",2020,NA,"Other Products",340.3,"millions of dollars",276.69793,340.3
+"Coach",2020,NA,"Total Coach",3525.7,"millions of dollars",2866.74667,3525.7
+"Coach",2025,"North America",NA,3429.6,"millions of dollars",2963.86032,3429.6
+"Coach",2025,"Greater China",NA,970.2,"millions of dollars",838.44684,970.2
+"Coach",2025,"Other Asia",NA,769.6,"millions of dollars",665.08832,769.6
+"Coach",2025,"Other",NA,429.1,"millions of dollars",370.82822,429.1
+"Coach",2025,"Total",NA,5598.5,"millions of dollars",4838.2237,5598.5
+"Coach",2024,"North America",NA,3078.7,"millions of dollars",2958.6307,3078.7
+"Coach",2024,"Greater China",NA,902.1,"millions of dollars",866.9181,902.1
+"Coach",2024,"Other Asia",NA,771.4,"millions of dollars",741.3154,771.4
+"Coach",2024,"Other",NA,343.1,"millions of dollars",329.7191,343.1
+"Coach",2024,"Total",NA,5095.3,"millions of dollars",4896.5833,5095.3
+"Coach",2023,"North America",NA,3037.5,"millions of dollars",2752.27875,3037.5
+"Coach",2023,"Greater China",NA,896.7,"millions of dollars",812.49987,896.7
+"Coach",2023,"Other Asia",NA,752.9,"millions of dollars",682.20269,752.9
+"Coach",2023,"Other",NA,273.3,"millions of dollars",247.63713,273.3
+"Coach",2023,"Total",NA,4960.4,"millions of dollars",4494.61844,4960.4
+"Coach",2022,"North America",NA,3102.8,"millions of dollars",2898.94604,3102.8
+"Coach",2022,"Greater China",NA,892.2,"millions of dollars",833.58246,892.2
+"Coach",2022,"Other Asia",NA,691.3,"millions of dollars",645.88159,691.3
+"Coach",2022,"Other",NA,235,"millions of dollars",219.5605,235
+"Coach",2022,"Total",NA,4921.3,"millions of dollars",4597.97059,4921.3
+"Coach",2021,"North America",NA,2466.3,"millions of dollars",2178.48279,2466.3
+"Coach",2021,"Greater China",NA,930.6,"millions of dollars",821.99898,930.6
+"Coach",2021,"Other Asia",NA,666.3,"millions of dollars",588.54279,666.3
+"Coach",2021,"Other",NA,189.9,"millions of dollars",167.73867,189.9
+"Coach",2021,"Total",NA,4253.1,"millions of dollars",3756.76323,4253.1
+"Coach",2020,"North America",NA,2015.5,"millions of dollars",1638.80305,2015.5
+"Coach",2020,"Greater China",NA,600.8,"millions of dollars",488.51048,600.8
+"Coach",2020,"Other Asia",NA,691,"millions of dollars",561.8521,691
+"Coach",2020,"Other",NA,218.4,"millions of dollars",177.58104,218.4
+"Coach",2020,"Total",NA,3525.7,"millions of dollars",2866.74667,3525.7
+"Gucci",2024,NA,"Other",688.5,"millions of euros",688.5,716.441207075963
+"Gucci",2024,NA,"Watches and jewelry",306,"millions of euros",306,318.418314255983
+"Gucci",2024,NA,"Ready-to-wear",1300.5,"millions of euros",1300.5,1353.27783558793
+"Gucci",2024,NA,"Leather goods",3825,"millions of euros",3825,3980.22892819979
+"Gucci",2024,NA,"Shoes",1530,"millions of euros",1530,1592.09157127992
+"Gucci",2023,NA,"Other",691.1,"millions of euros",691.1,762.71934665048
+"Gucci",2023,NA,"Watches and jewelry",493.7,"millions of euros",493.7,544.862597947246
+"Gucci",2023,NA,"Ready-to-wear",1481,"millions of euros",1481,1634.47743074716
+"Gucci",2023,NA,"Leather goods",5232.7,"millions of euros",5232.7,5774.96965014899
+"Gucci",2023,NA,"Shoes",1974.6,"millions of euros",1974.6,2179.22966559982
+"Gucci",2022,NA,"Other",734.1,"millions of euros",734.1,785.721930857326
+"Gucci",2022,NA,"Watches and jewelry",524.4,"millions of euros",524.4,561.27582147062
+"Gucci",2022,NA,"Ready-to-wear",1573.1,"millions of euros",1573.1,1683.72043240929
+"Gucci",2022,NA,"Leather goods",5453.2,"millions of euros",5453.2,5836.66916408006
+"Gucci",2022,NA,"Shoes",2202.3,"millions of euros",2202.3,2357.16579257198
+"Gucci",2021,NA,"Other",681.2,"millions of euros",681.2,771.198913166535
+"Gucci",2021,NA,"Watches and jewelry",583.9,"millions of euros",583.9,661.043812974075
+"Gucci",2021,NA,"Ready-to-wear",1459.6,"millions of euros",1459.6,1652.43971470622
+"Gucci",2021,NA,"Leather goods",5157.4,"millions of euros",5157.4,5838.78636929695
+"Gucci",2021,NA,"Shoes",1848.9,"millions of euros",1848.9,2093.17332729537
+"Gucci",2024,"Rest of the world",NA,612,"millions of euros",612,636.836628511967
+"Gucci",2024,"Japan",NA,612,"millions of euros",612,636.836628511967
+"Gucci",2024,"North America",NA,1912.5,"millions of euros",1912.5,1990.1144640999
+"Gucci",2024,"Asia-Pacific (excluding Japan)",NA,2524.5,"millions of euros",2524.5,2626.95109261186
+"Gucci",2024,"Western Europe",NA,1989,"millions of euros",1989,2069.71904266389
+"Gucci",2023,"Rest of the world",NA,691.1,"millions of euros",691.1,762.71934665048
+"Gucci",2023,"Japan",NA,691.1,"millions of euros",691.1,762.71934665048
+"Gucci",2023,"North America",NA,2270.8,"millions of euros",2270.8,2506.12515174926
+"Gucci",2023,"Asia-Pacific (excluding Japan)",NA,3850.5,"millions of euros",3850.5,4249.53095684803
+"Gucci",2023,"Western Europe",NA,2369.5,"millions of euros",2369.5,2615.05352610087
+"Gucci",2022,"Rest of the world",NA,734.1,"millions of euros",734.1,785.721930857326
+"Gucci",2022,"Japan",NA,629.2,"millions of euros",629.2,673.445360162689
+"Gucci",2022,"North America",NA,3041.2,"millions of euros",3041.2,3255.05726212137
+"Gucci",2022,"Asia-Pacific (excluding Japan)",NA,3775.3,"millions of euros",3775.3,4040.7791929787
+"Gucci",2022,"Western Europe",NA,2307.1,"millions of euros",2307.1,2469.33533126405
+"Gucci",2021,"Rest of the world",NA,583.9,"millions of euros",583.9,661.043812974075
+"Gucci",2021,"Japan",NA,583.9,"millions of euros",583.9,661.043812974075
+"Gucci",2021,"North America",NA,2627.3,"millions of euros",2627.3,2974.41412883505
+"Gucci",2021,"Asia-Pacific (excluding Japan)",NA,4281.6,"millions of euros",4281.6,4847.2772557455
+"Gucci",2021,"Western Europe",NA,1654.3,"millions of euros",1654.3,1872.86312691045
+"Hermes",2024,NA,"Leather Goods and Saddlery",6457,"millions of euros",6457,6719.04266389178
+"Hermes",2024,NA,"Ready-to-wear and Accessories",4405,"millions of euros",4405,4583.7669094693
+"Hermes",2024,NA,"Silk and Textiles",950,"millions of euros",950,988.553590010406
+"Hermes",2024,NA,"Other Hermès sectors",1909,"millions of euros",1909,1986.47242455775
+"Hermes",2024,NA,"Perfume and Beauty",535,"millions of euros",535,556.711758584808
+"Hermes",2024,NA,"Watches",577,"millions of euros",577,600.416233090531
+"Hermes",2024,NA,"Other products",337,"millions of euros",337,350.676378772112
+"Hermes",2024,NA,"Total",15170,"millions of euros",15170,15785.6399583767
+"Hermes",2023,NA,"Leather Goods and Saddlery",5547,"millions of euros",5547,6121.84085641761
+"Hermes",2023,NA,"Ready-to-wear and Accessories",3879,"millions of euros",3879,4280.98443880366
+"Hermes",2023,NA,"Silk and Textiles",932,"millions of euros",932,1028.58404149652
+"Hermes",2023,NA,"Other Hermès sectors",1653,"millions of euros",1653,1824.30195342677
+"Hermes",2023,NA,"Perfume and Beauty",492,"millions of euros",492,542.986425339367
+"Hermes",2023,NA,"Watches",611,"millions of euros",611,674.318507890961
+"Hermes",2023,NA,"Other products",313,"millions of euros",313,345.436486039069
+"Hermes",2023,NA,"Total",13427,"millions of euros",13427,14818.452709414
+"Hermes",2022,NA,"Leather Goods and Saddlery",4963,"millions of euros",4963,5311.99828748796
+"Hermes",2022,NA,"Ready-to-wear and Accessories",3152,"millions of euros",3152,3373.64872096757
+"Hermes",2022,NA,"Silk and Textiles",842,"millions of euros",842,901.209461629027
+"Hermes",2022,NA,"Other Hermès sectors",1371,"millions of euros",1371,1467.40875521781
+"Hermes",2022,NA,"Perfume and Beauty",448,"millions of euros",448,479.503371508081
+"Hermes",2022,NA,"Watches",519,"millions of euros",519,555.496093331906
+"Hermes",2022,NA,"Other products",306,"millions of euros",306,327.51792786043
+"Hermes",2022,NA,"Total",11602,"millions of euros",11602,12417.8529380285
+"Hermes",2021,NA,"Leather Goods and Saddlery",4091,"millions of euros",4091,4631.49552813314
+"Hermes",2021,NA,"Ready-to-wear and Accessories",2219,"millions of euros",2219,2512.17027057625
+"Hermes",2021,NA,"Silk and Textiles",669,"millions of euros",669,757.387071210234
+"Hermes",2021,NA,"Other Hermès sectors",1001,"millions of euros",1001,1133.2503113325
+"Hermes",2021,NA,"Perfume and Beauty",385,"millions of euros",385,435.865504358655
+"Hermes",2021,NA,"Watches",337,"millions of euros",337,381.523831087966
+"Hermes",2021,NA,"Other products",279,"millions of euros",279,315.860975885883
+"Hermes",2021,NA,"Total",8982,"millions of euros",8982,10168.6856107778
+"Hermes",2024,"France",NA,1447,"millions of euros",1447,1505.7232049948
+"Hermes",2024,"Europe (excl. France)",NA,2147,"millions of euros",2147,2234.13111342352
+"Hermes",2024,"Total Europe",NA,3594,"millions of euros",3594,3739.85431841831
+"Hermes",2024,"Japan",NA,1437,"millions of euros",1437,1495.31737773153
+"Hermes",2024,"Asia-Pacific (excl. Japan)",NA,6648,"millions of euros",6648,6917.79396462019
+"Hermes",2024,"Total Asia",NA,8085,"millions of euros",8085,8413.11134235172
+"Hermes",2024,"Americas",NA,2865,"millions of euros",2865,2981.26951092612
+"Hermes",2024,"Other",NA,627,"millions of euros",627,652.445369406868
+"Hermes",2024,"Total",NA,15170,"millions of euros",15170,15785.6399583767
+"Hermes",2023,"France",NA,1274,"millions of euros",1274,1406.02582496413
+"Hermes",2023,"Europe (excl. France)",NA,1818,"millions of euros",1818,2006.40105948571
+"Hermes",2023,"Total Europe",NA,3093,"millions of euros",3093,3413.53051539565
+"Hermes",2023,"Japan",NA,1260,"millions of euros",1260,1390.57499172277
+"Hermes",2023,"Asia-Pacific (excl. Japan)",NA,6273,"millions of euros",6273,6923.07692307692
+"Hermes",2023,"Total Asia",NA,7533,"millions of euros",7533,8313.65191479969
+"Hermes",2023,"Americas",NA,2502,"millions of euros",2502,2761.28462642092
+"Hermes",2023,"Other",NA,299,"millions of euros",299,329.985652797704
+"Hermes",2023,"Total",NA,13427,"millions of euros",13427,14818.452709414
+"Hermes",2022,"France",NA,1064,"millions of euros",1064,1138.82050733169
+"Hermes",2022,"Europe (excl. France)",NA,1536,"millions of euros",1536,1644.01155945628
+"Hermes",2022,"Total Europe",NA,2600,"millions of euros",2600,2782.83206678797
+"Hermes",2022,"Japan",NA,1101,"millions of euros",1101,1178.42234828214
+"Hermes",2022,"Asia-Pacific (excl. Japan)",NA,5556,"millions of euros",5556,5946.69806272075
+"Hermes",2022,"Total Asia",NA,6657,"millions of euros",6657,7125.12041100289
+"Hermes",2022,"Americas",NA,2138,"millions of euros",2138,2288.34421492026
+"Hermes",2022,"Other",NA,207,"millions of euros",207,221.55624531735
+"Hermes",2022,"Total",NA,11602,"millions of euros",11602,12417.8529380285
+"Hermes",2021,"France",NA,838,"millions of euros",838,948.715045850787
+"Hermes",2021,"Europe (excl. France)",NA,1303,"millions of euros",1303,1475.15000566059
+"Hermes",2021,"Total Europe",NA,2141,"millions of euros",2141,2423.86505151138
+"Hermes",2021,"Japan",NA,977,"millions of euros",977,1106.07947469716
+"Hermes",2021,"Asia-Pacific (excl. Japan)",NA,4251,"millions of euros",4251,4812.63443903544
+"Hermes",2021,"Total Asia",NA,5227,"millions of euros",5227,5917.58179553945
+"Hermes",2021,"Americas",NA,1458,"millions of euros",1458,1650.62832559719
+"Hermes",2021,"Other",NA,156,"millions of euros",156,176.610438129741
+"Hermes",2021,"Total",NA,8982,"millions of euros",8982,10168.6856107778
+"Gucci",2020,NA,"Other",595.3,"millions of euros",595.3,732.136268601648
+"Gucci",2020,NA,"Watches and jewelry",372.1,"millions of euros",372.1,457.631287664494
+"Gucci",2020,NA,"Ready-to-wear",1041.7,"millions of euros",1041.7,1281.14623047596
+"Gucci",2020,NA,"Leather goods",4092.6,"millions of euros",4092.6,5033.32923379658
+"Gucci",2020,NA,"Shoes",1339.4,"millions of euros",1339.4,1647.27585782807
+"Gucci",2020,"Rest of the world",NA,372.1,"millions of euros",372.1,457.631287664494
+"Gucci",2020,"Japan",NA,520.9,"millions of euros",520.9,640.634608289263
+"Gucci",2020,"North America",NA,1637,"millions of euros",1637,2013.2824990776
+"Gucci",2020,"Asia-Pacific (excluding Japan)",NA,3274,"millions of euros",3274,4026.56499815521
+"Gucci",2020,"Western Europe",NA,1637,"millions of euros",1637,2013.2824990776
+"Hermes",2020,NA,"Leather Goods and Saddlery",3209,"millions of euros",3209,3946.62403148444
+"Hermes",2020,NA,"Ready-to-wear and Accessories",1409,"millions of euros",1409,1732.87418521707
+"Hermes",2020,NA,"Silk and Textiles",452,"millions of euros",452,555.897183618251
+"Hermes",2020,NA,"Other Hermès sectors",642.6,"millions of euros",642.6,790.308695117452
+"Hermes",2020,NA,"Perfume and Beauty",263,"millions of euros",263,323.453449760177
+"Hermes",2020,NA,"Watches",196,"millions of euros",196,241.052761038003
+"Hermes",2020,NA,"Other products",218,"millions of euros",218,268.109703603493
+"Hermes",2020,NA,"Total",6389,"millions of euros",6389,7857.58209322347
+"Hermes",2020,"France",NA,620,"millions of euros",620,762.513835936539
+"Hermes",2020,"Europe (excl. France)",NA,953,"millions of euros",953,1172.057557496
+"Hermes",2020,"Total Europe",NA,1573,"millions of euros",1573,1934.57139343254
+"Hermes",2020,"Japan",NA,834,"millions of euros",834,1025.70409543722
+"Hermes",2020,"Asia-Pacific (excl. Japan)",NA,2915,"millions of euros",2915,3585.04488992744
+"Hermes",2020,"Total Asia",NA,3749,"millions of euros",3749,4610.74898536465
+"Hermes",2020,"Americas",NA,959,"millions of euros",959,1179.43672365023
+"Hermes",2020,"Other",NA,108,"millions of euros",108,132.824990776042
+"Hermes",2020,"Total",NA,6389,"millions of euros",6389,7857.58209322347
