@@ -12,7 +12,7 @@
       category: d.category,
       year: +d.year,
       value: +d.millions_of_dollars
-    })).filter(d => d.category && d.category !== "NA");
+    })).filter(d => d.category && d.category !== "NA" && d.category !== "Total" && d.category !== "Total Coach");
 
     // Create 3 brand containers
     BRANDS.forEach(brand => {
@@ -89,7 +89,7 @@
     .range([0, innerW]);
 
     const y = d3.scaleLinear()
-    .domain([0, 16000])        // ✅ fixed for all brands
+    .domain([0, 7000])        // ✅ fixed for all brands
     .range([innerH, 0]);
 
     // ----------------------------
@@ -206,7 +206,7 @@
         .attr("transform", `translate(${M.left},${M.top})`);
 
     const x = d3.scaleLinear()
-        .domain([0, 15000])   // ✅ FIXED RANGE for all bar charts
+        .domain([0, 7000])   // ✅ FIXED RANGE for all bar charts
         .range([0, innerW]);
 
     const y = d3.scaleBand()
