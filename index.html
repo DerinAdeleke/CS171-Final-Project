@@ -2594,7 +2594,7 @@
             // Axes
             svg.append("g")
                 .attr("class", "axis")
-                .attr("transform", `translate(0,${height})`)
+                .attr("transform", `translate(0,${height + 35})`) // << moved lower
                 .call(d3.axisBottom(x0))
                 .selectAll("text")
                 .style("font-size", "15px")
@@ -2606,13 +2606,13 @@
                 .call(d3.axisLeft(y).tickFormat(d => `$${d}`));
 
             // Axis labels
-            svg.append("text")
-                .attr("x", width / 2)
-                .attr("y", height + 70)
-                .attr("text-anchor", "middle")
-                .style("font-size", "14px")
-                .style("fill", "#b8b8b8")
-                .text("Brand");
+            // svg.append("text")
+            //     .attr("x", width / 2)
+            //     .attr("y", height + 70)
+            //     .attr("text-anchor", "middle")
+            //     .style("font-size", "14px")
+            //     .style("fill", "#b8b8b8")
+            //     .text("Brand");
 
             svg.append("text")
                 .attr("transform", "rotate(-90)")
@@ -2684,7 +2684,7 @@
                 .attr("x", width / 2)
                 .attr("y", height + 100)
                 .attr("text-anchor", "middle")
-                .style("font-size", "13px")
+                .style("font-size", "18px")
                 .style("font-style", "italic")
                 .style("fill", "#888")
                 .text("Hermès items retain exceptional value, often exceeding 70% of original retail price");
