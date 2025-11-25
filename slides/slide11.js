@@ -32,7 +32,7 @@
 	let filteredProducts = [];
 
 	window.loadProducts = async function() {
-		const data = await d3.csv("best_selling_products.csv");
+		const data = await d3.csv("data/best_selling_products.csv");
 		productData = data;
 		filteredProducts = productData;
 		createProductCarousel();

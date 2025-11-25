@@ -24,9 +24,9 @@
 		const brandColors = window.brandColors;
 		
 		const [coachData, gucciData, hermesData] = await Promise.all([
-			d3.csv("vestiaire-coach.csv"),
-			d3.csv("vestiaire-gucci.csv"),
-			d3.csv("vestiaire-hermes.csv")
+			d3.csv("data/vestiaire-coach.csv"),
+			d3.csv("data/vestiaire-gucci.csv"),
+			d3.csv("data/vestiaire-hermes.csv")
 		]);
 
 		coachData.forEach(d => d.brand = "Coach");
