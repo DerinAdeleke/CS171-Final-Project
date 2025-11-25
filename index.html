@@ -63,7 +63,7 @@
     <div class="tooltip"></div>
 
     <script>
-        // Custom Cursor
+        // Custom Cursor - Match original_cindy.html exactly
         const cursor = document.getElementById('cursor');
         const cursorFollower = document.getElementById('cursor-follower');
 
@@ -106,9 +106,8 @@
 
                 if (scrollPosition >= slideTop - windowHeight / 2 && scrollPosition < slideBottom - windowHeight / 2) {
                     navDots.forEach(dot => dot.classList.remove('active'));
-                    navDots[index].classList.add('active');
+                    if (navDots[index]) navDots[index].classList.add('active');
 
-                    // Trigger slide content animation
                     const content = slide.querySelector('.slide-content');
                     if (content && !content.classList.contains('visible')) {
                         content.classList.add('visible');

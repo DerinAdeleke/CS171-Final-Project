@@ -8,30 +8,17 @@
 				<p class="section-subtitle">A journey through centuries of luxury craftsmanship</p>
 				
 				<div class="timeline-controls">
-					<button class="luxury-button active" data-timeline-brand="all">All Brands</button>
-					<button class="luxury-button" data-timeline-brand="Hermès">Hermès (1837)</button>
-					<button class="luxury-button" data-timeline-brand="Gucci">Gucci (1921)</button>
-					<button class="luxury-button" data-timeline-brand="Coach">Coach (1941)</button>
+					<button class="luxury-button" data-timeline-brand="all" style="border-color: #ffffff; color: #ffffff; background: transparent;">All Brands</button>
+					<button class="luxury-button" data-timeline-brand="Hermès" style="border-color: #8B2635; color: #8B2635;">Hermès</button>
+					<button class="luxury-button" data-timeline-brand="Gucci" style="border-color: #d4af37; color: #d4af37;">Gucci</button>
+					<button class="luxury-button" data-timeline-brand="Coach" style="border-color: #8b4513; color: #8b4513;">Coach</button>
 				</div>
+				
+				<p class="timeline-instruction">← Scroll left/right to browse the timeline. Use the buttons above to filter by brand. →</p>
 
 				<div class="timeline-container">
 					<div class="timeline-scroll-container">
 						<div id="brand-timeline"></div>
-					</div>
-					
-					<div class="timeline-legend">
-						<div class="legend-item">
-							<div class="legend-dot" style="background: #8B2635; border-color: #8B2635;"></div>
-							<div class="legend-label">Hermès (1837)</div>
-						</div>
-						<div class="legend-item">
-							<div class="legend-dot" style="background: #d4af37; border-color: #d4af37;"></div>
-							<div class="legend-label">Gucci (1921)</div>
-						</div>
-						<div class="legend-item">
-							<div class="legend-dot" style="background: #8b4513; border-color: #8b4513;"></div>
-							<div class="legend-label">Coach (1941)</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -85,8 +72,8 @@
 		const container = d3.select("#brand-timeline");
 		container.html("");
 
-		const minYear = 1830;
-		const maxYear = 2025;
+		const minYear = 1825;
+		const maxYear = 2030;
 		const yearRange = maxYear - minYear;
 		const pixelsPerYear = 15;
 		const totalWidth = yearRange * pixelsPerYear;
@@ -94,7 +81,7 @@
 		const timeline = container.append("div")
 			.style("position", "relative")
 			.style("width", totalWidth + "px")
-			.style("min-height", "200px");
+			.style("min-height", "250px");
 
 		const axis = timeline.append("div")
 			.attr("class", "timeline-axis");
@@ -130,7 +117,7 @@
 
 			popup.append("div")
 				.attr("class", "timeline-title")
-				.text(d.title);
+				.text(`${d.title} (${d.year})`);
 
 			popup.append("div")
 				.attr("class", "timeline-description")
@@ -153,6 +140,28 @@
 			d3.selectAll(".timeline-controls .luxury-button").classed("active", false);
 			d3.select(this).classed("active", true);
 
+			// Update button styling on click
+			d3.selectAll(".timeline-controls .luxury-button").each(function() {
+				const btn = d3.select(this);
+				const brand = btn.attr("data-timeline-brand");
+				const isActive = btn.classed("active");
+				
+				if (brand === "all") {
+					if (isActive) {
+						btn.style("background", "#ffffff").style("color", "#0a0a0a").style("border-color", "#ffffff");
+					} else {
+						btn.style("background", "transparent").style("color", "#ffffff").style("border-color", "#ffffff");
+					}
+				} else {
+					const brandColor = brand === "Hermès" ? "#8B2635" : brand === "Gucci" ? "#d4af37" : "#8b4513";
+					if (isActive) {
+						btn.style("background", brandColor).style("color", "#0a0a0a").style("border-color", brandColor);
+					} else {
+						btn.style("background", "transparent").style("color", brandColor).style("border-color", brandColor);
+					}
+				}
+			});
+
 			dots.style("opacity", d => {
 				const dataBrand = d.brand.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 				if (selected === "all") return 1;
@@ -172,5 +181,8 @@
 				}
 			});
 		});
+
+		// Programmatically set initial state to "All Brands" WITHOUT the active styling
+		d3.select('.timeline-controls .luxury-button[data-timeline-brand="all"]').classed("active", true);
 	};
 })();

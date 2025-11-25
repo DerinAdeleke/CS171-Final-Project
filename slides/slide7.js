@@ -22,7 +22,7 @@
 					</div>
 				</div>
 
-				<div class="viz-container" style="margin-top: 60px;">
+				<div class="viz-container" style="margin-top: 2vh;">
 					<div id="overview-chart"></div>
 				</div>
 			</div>
