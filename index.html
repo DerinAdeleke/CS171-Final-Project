@@ -6,6 +6,7 @@
     <title>Luxury Fashion Data Story</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
 </head>
 <body>
     <!-- EMPTY container: slides will be injected by slides/*.js -->
@@ -20,7 +21,9 @@
     <script src="slides/slide5.js"></script>
     <script src="slides/slide6.js"></script>
     <script src="slides/slide7.js"></script>
+    <script src="slides/slide7_5.js"></script>
     <script src="slides/slide8.js"></script>
+    <script src="slides/slide8_5.js"></script>
     <script src="slides/slide9.js"></script>
     <script src="slides/slide10.js"></script>
     <script src="slides/slide11.js"></script>
@@ -291,8 +294,16 @@
                         if (window.createOverviewChart) window.createOverviewChart();
                         entry.target.dataset.initialized = true;
                     }
+                    if (entry.target.classList.contains('slide-6-5') && !entry.target.dataset.initialized) {
+                        if (window.createStreamgraph) window.createStreamgraph();
+                        entry.target.dataset.initialized = true;
+                    }
                     if (entry.target.classList.contains('slide-7') && !entry.target.dataset.initialized) {
                         if (window.createGlobalTrafficViz) window.createGlobalTrafficViz();
+                        entry.target.dataset.initialized = true;
+                    }
+                    if (entry.target.classList.contains('slide-7-5') && !entry.target.dataset.initialized) {
+                        if (window.createWorldMap) window.createWorldMap();
                         entry.target.dataset.initialized = true;
                     }
                     if (entry.target.classList.contains('slide-9') && !entry.target.dataset.initialized) {
