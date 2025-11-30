@@ -238,96 +238,100 @@
             if (firstContent) firstContent.classList.add('visible');
         }, 100);
 
-        // Shared data
+        // Brand colors (styling constants - OK to keep in JS)
         window.brandColors = {
             "Hermès": "#8B2635",
             "Gucci": "#d4af37",
             "Coach": "#8b4513"
         };
 
-        window.revenueData = [
-            {Year: 2012, "Hermès": 4128, Gucci: 3790, Coach: 910},
-            {Year: 2013, "Hermès": 4435, Gucci: 4230, Coach: 970},
-            {Year: 2014, "Hermès": 4832, Gucci: 4550, Coach: 940},
-            {Year: 2015, "Hermès": 5108, Gucci: 4950, Coach: 940},
-            {Year: 2016, "Hermès": 6135, Gucci: 5439, Coach: 940},
-            {Year: 2017, "Hermès": 6701, Gucci: 6883, Coach: 1010},
-            {Year: 2018, "Hermès": 7035, Gucci: 8594, Coach: 1040},
-            {Year: 2019, "Hermès": 7709, Gucci: 10192, Coach: 1060},
-            {Year: 2020, "Hermès": 7295, Gucci: 17630, Coach: 1080},
-            {Year: 2021, "Hermès": 10626, Gucci: 15599, Coach: 1100},
-            {Year: 2022, "Hermès": 12219, Gucci: 18110, Coach: 1120},
-            {Year: 2023, "Hermès": 14535, Gucci: 17839, Coach: 1140},
-            {Year: 2024, "Hermès": 16414, Gucci: 14864, Coach: 1170}
-        ];
+        // Load data from CSV files instead of hard-coding
+        Promise.all([
+            d3.csv('data/revenue_data.csv', d => ({
+                Year: +d.Year,
+                "Hermès": +d["Hermès"],
+                Gucci: +d.Gucci,
+                Coach: +d.Coach
+            })),
+            d3.csv('data/resale_data.csv', d => ({
+                brand: d.brand,
+                category: d.category,
+                count: +d.count,
+                mean: +d.mean
+            }))
+        ]).then(([revenueData, resaleData]) => {
+            // Store data globally
+            window.revenueData = revenueData;
+            window.resaleData = resaleData;
 
-        window.resaleData = [
-            {brand: "Coach", category: "Accessories", count: 1627, mean: 104.74},
-            {brand: "Coach", category: "Apparel", count: 210, mean: 245.97},
-            {brand: "Coach", category: "Shoes", count: 427, mean: 116.26},
-            {brand: "Gucci", category: "Accessories", count: 17914, mean: 313.82},
-            {brand: "Gucci", category: "Apparel", count: 6668, mean: 688.45},
-            {brand: "Gucci", category: "Shoes", count: 17533, mean: 498.12},
-            {brand: "Hermès", category: "Accessories", count: 12431, mean: 621.87},
-            {brand: "Hermès", category: "Apparel", count: 2247, mean: 1181.56},
-            {brand: "Hermès", category: "Shoes", count: 5084, mean: 567.15}
-        ];
+            console.log('✅ Data loaded successfully from CSV files');
+            console.log('Revenue data:', revenueData);
+            console.log('Resale data:', resaleData);
+
+            // Initialize observers after data loads
+            initializeObservers();
+        }).catch(error => {
+            console.error('❌ Error loading data from CSV files:', error);
+            alert('Failed to load data. Please make sure CSV files exist in the data/ folder.');
+        });
 
         // Initialize visualizations when slides become visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const slideContent = entry.target.querySelector('.slide-content');
-                    if (slideContent && !slideContent.classList.contains('visible')) {
-                        slideContent.classList.add('visible');
-                    }
+        function initializeObservers() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const slideContent = entry.target.querySelector('.slide-content');
+                        if (slideContent && !slideContent.classList.contains('visible')) {
+                            slideContent.classList.add('visible');
+                        }
 
-                    if (entry.target.classList.contains('intro-slide') && !entry.target.dataset.initialized) {
-                        if (window.createLuxuryBrandsChart) window.createLuxuryBrandsChart();
-                        entry.target.dataset.initialized = true;
+                        if (entry.target.classList.contains('intro-slide') && !entry.target.dataset.initialized) {
+                            if (window.createLuxuryBrandsChart) window.createLuxuryBrandsChart();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-3') && !entry.target.dataset.initialized) {
+                            if (window.createBrandTimeline) window.createBrandTimeline();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-6') && !entry.target.dataset.initialized) {
+                            if (window.createOverviewChart) window.createOverviewChart();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-6-5') && !entry.target.dataset.initialized) {
+                            if (window.createStreamgraph) window.createStreamgraph();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-7') && !entry.target.dataset.initialized) {
+                            if (window.createGlobalTrafficViz) window.createGlobalTrafficViz();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-7-5') && !entry.target.dataset.initialized) {
+                            if (window.createWorldMap) window.createWorldMap();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-9') && !entry.target.dataset.initialized) {
+                            if (window.loadProducts) window.loadProducts();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-10') && !entry.target.dataset.initialized) {
+                            if (window.createDistributionChart) window.createDistributionChart();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-12') && !entry.target.dataset.initialized) {
+                            if (window.createResaleChart) window.createResaleChart();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-vestiaire') && !entry.target.dataset.initialized) {
+                            if (window.createVestiaireViz) window.createVestiaireViz();
+                            entry.target.dataset.initialized = true;
+                        }
                     }
-                    if (entry.target.classList.contains('slide-3') && !entry.target.dataset.initialized) {
-                        if (window.createBrandTimeline) window.createBrandTimeline();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-6') && !entry.target.dataset.initialized) {
-                        if (window.createOverviewChart) window.createOverviewChart();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-6-5') && !entry.target.dataset.initialized) {
-                        if (window.createStreamgraph) window.createStreamgraph();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-7') && !entry.target.dataset.initialized) {
-                        if (window.createGlobalTrafficViz) window.createGlobalTrafficViz();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-7-5') && !entry.target.dataset.initialized) {
-                        if (window.createWorldMap) window.createWorldMap();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-9') && !entry.target.dataset.initialized) {
-                        if (window.loadProducts) window.loadProducts();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-10') && !entry.target.dataset.initialized) {
-                        if (window.createDistributionChart) window.createDistributionChart();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-12') && !entry.target.dataset.initialized) {
-                        if (window.createResaleChart) window.createResaleChart();
-                        entry.target.dataset.initialized = true;
-                    }
-                    if (entry.target.classList.contains('slide-vestiaire') && !entry.target.dataset.initialized) {
-                        if (window.createVestiaireViz) window.createVestiaireViz();
-                        entry.target.dataset.initialized = true;
-                    }
-                }
-            });
-        }, { threshold: 0.3 });
+                });
+            }, { threshold: 0.3 });
 
-        const observedSlides = document.querySelectorAll('.slide');
-        observedSlides.forEach(slide => observer.observe(slide));
+            const observedSlides = document.querySelectorAll('.slide');
+            observedSlides.forEach(slide => observer.observe(slide));
+        }
     </script>
 </body>
 </html>
