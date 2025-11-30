@@ -4,7 +4,7 @@
 	container.insertAdjacentHTML('beforeend', `
 		<section class="slide slide-4">
 			<div class="slide-content">
-				<h2 class="section-title">The Big Three</h2>
+				<h2 class="section-title">Our Chosen Three</h2>
 				<p class="section-subtitle">Hermès, Gucci, and Coach define distinct segments of luxury</p>
 				
 				<div class="brand-grid">

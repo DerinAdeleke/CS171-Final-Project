@@ -2,7 +2,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
+            cursor: pointer !important;
         }
 
         body {
@@ -10,37 +10,7 @@
             overflow-x: hidden;
             background: #0a0a0a;
             color: #f5f5f5;
-        }
-
-        /* Custom Luxury Cursor */
-        #cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #d4af37;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transition: all 0.15s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        #cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.3s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        #cursor.active {
-            width: 30px;
-            height: 30px;
-            background: rgba(212, 175, 55, 0.2);
+            cursor: pointer;
         }
 
         /* Scroll Container */
@@ -683,57 +653,6 @@
             margin: clamp(1.5vh, 2.5vh, 3vh) auto;
         }
 
-        /* Side Navigation Dots */
-        .slide-nav {
-            position: fixed;
-            right: clamp(20px, 3vw, 40px);
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-            max-height: 90vh;
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
-
-        .slide-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-dot {
-            width: clamp(8px, 1.5vh, 12px);
-            height: clamp(8px, 1.5vh, 12px);
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            border-radius: 50%;
-            margin: clamp(10px, 2vh, 20px) 0;
-            cursor: none;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .nav-dot::before {
-            content: attr(data-slide);
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: clamp(0.6rem, 1.2vh, 0.8rem);
-            color: rgba(212, 175, 55, 0.5);
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
-            text-transform: uppercase;
-        }
-
-        .nav-dot:hover::before {
-            opacity: 1;
-        }
-
-        .nav-dot.active {
-            background: #d4af37;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-        }
-
         /* Timeline Styles */
         .timeline-container {
             position: relative;
@@ -1328,14 +1247,6 @@
         }
 
         @media (max-width: 768px) {
-            .slide-nav {
-                right: 10px;
-            }
-
-            .nav-dot::before {
-                display: none;
-            }
-
             .insights-grid {
                 grid-template-columns: 1fr;
             }
@@ -1355,4 +1266,193 @@
 
         .fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
+        }
+
+        /* Bottom Navigation Button */
+        .next-slide-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            background: rgba(10, 10, 10, 0.7);
+            cursor: pointer !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .next-slide-btn:hover {
+            transform: translateX(-50%) translateY(-10px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .next-slide-btn svg {
+            width: 24px;
+            height: 24px;
+            filter: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                bottom: 30px;
+            }
+            50% {
+                bottom: 40px;
+            }
+        }
+
+        /* Did You Know Slide Styles */
+        .intro-slide {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+        }
+
+        .intro-content {
+            max-width: min(95vw, 1400px);
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .intro-header {
+            text-align: center;
+            margin-bottom: clamp(2vh, 4vh, 5vh);
+        }
+
+        .intro-title {
+            font-size: clamp(2.5rem, 6vh, 4.5rem);
+            font-weight: 200;
+            letter-spacing: 0.2em;
+            color: #d4af37;
+            text-transform: uppercase;
+            margin-bottom: clamp(1.5vh, 2.5vh, 3vh);
+        }
+
+        .intro-description {
+            font-size: clamp(1rem, 2vh, 1.4rem);
+            color: #b8b8b8;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto clamp(1vh, 1.5vh, 2vh);
+            font-weight: 300;
+        }
+
+        .intro-description .highlight {
+            color: #d4af37;
+            font-weight: 400;
+        }
+
+        .intro-source {
+            font-size: clamp(0.75rem, 1.4vh, 0.95rem);
+            color: #888;
+            font-style: italic;
+            margin-top: clamp(0.5vh, 1vh, 1vh);
+        }
+
+        .intro-viz-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(3vw, 5vw, 80px);
+            align-items: center;
+            margin-top: clamp(3vh, 5vh, 6vh);
+        }
+
+        .intro-left {
+            text-align: left;
+        }
+
+        .intro-subtitle {
+            font-size: clamp(1.2rem, 2.5vh, 1.8rem);
+            color: #d4af37;
+            margin-bottom: clamp(1.5vh, 2.5vh, 3vh);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        .intro-text {
+            font-size: clamp(0.95rem, 1.8vh, 1.2rem);
+            color: #c8c8c8;
+            line-height: 1.7;
+            margin-bottom: clamp(1.5vh, 2vh, 2.5vh);
+        }
+
+        .brands-focus {
+            margin-top: clamp(2vh, 3vh, 4vh);
+            padding: clamp(1.5vh, 2.5vh, 3vh);
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid #d4af37;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .brands-focus h3 {
+            font-size: clamp(1rem, 2vh, 1.3rem);
+            color: #d4af37;
+            margin-bottom: clamp(1vh, 1.5vh, 2vh);
+            font-weight: 400;
+            letter-spacing: 0.08em;
+        }
+
+        .brands-focus p {
+            font-size: clamp(0.9rem, 1.6vh, 1.1rem);
+            color: #b8b8b8;
+            line-height: 1.6;
+        }
+
+        #luxuryBrandsChart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 550px;
+        }
+
+        /* Chart-specific styles */
+        .brand-arc {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer !important;
+        }
+
+        .center-circle {
+            fill: rgba(10, 10, 10, 0.9);
+            stroke: #d4af37;
+            stroke-width: 2;
+        }
+
+        .center-label {
+            fill: #888;
+            font-size: 14px;
+            text-anchor: middle;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .center-value {
+            fill: #d4af37;
+            font-size: 28px;
+            font-weight: 300;
+            text-anchor: middle;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 1024px) {
+            .intro-viz-section {
+                grid-template-columns: 1fr;
+                gap: clamp(4vh, 6vh, 8vh);
+            }
+
+            .intro-left {
+                text-align: center;
+            }
+
+            .brands-focus {
+                border-left: none;
+                border-top: 3px solid #d4af37;
+                border-radius: 8px 8px 0 0;
+            }
         }

@@ -8,38 +8,12 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
-
-    <!-- Slide Navigation -->
-    <div class="slide-nav">
-        <div class="nav-dot active" data-slide="Intro" onclick="scrollToSlide(0)"></div>
-        <div class="nav-dot" data-slide="Heritage" onclick="scrollToSlide(1)"></div>
-        <div class="nav-dot" data-slide="Timeline" onclick="scrollToSlide(2)"></div>
-        <div class="nav-dot" data-slide="Brands" onclick="scrollToSlide(3)"></div>
-        <div class="nav-dot" data-slide="Insights" onclick="scrollToSlide(4)"></div>
-        <div class="nav-dot" data-slide="Market Today" onclick="scrollToSlide(5)"></div>
-        <div class="nav-dot" data-slide="Overview" onclick="scrollToSlide(6)"></div>
-        <div class="nav-dot" data-slide="Traffic" onclick="scrollToSlide(7)"></div>
-        <div class="nav-dot" data-slide="Market Insights" onclick="scrollToSlide(8)"></div>
-        <div class="nav-dot" data-slide="Products" onclick="scrollToSlide(9)"></div>
-        <div class="nav-dot" data-slide="Best Sellers" onclick="scrollToSlide(10)"></div>
-        <div class="nav-dot" data-slide="Distribution" onclick="scrollToSlide(11)"></div>
-        <div class="nav-dot" data-slide="Product Insights" onclick="scrollToSlide(12)"></div>
-        <div class="nav-dot" data-slide="Resale" onclick="scrollToSlide(13)"></div>
-        <div class="nav-dot" data-slide="Resale Market" onclick="scrollToSlide(14)"></div>
-        <div class="nav-dot" data-slide="Vestiaire" onclick="scrollToSlide(15)"></div>
-        <div class="nav-dot" data-slide="Resale Insights" onclick="scrollToSlide(16)"></div>
-        <div class="nav-dot" data-slide="Thanks" onclick="scrollToSlide(17)"></div>
-        <div class="nav-dot" data-slide="Team" onclick="scrollToSlide(18)"></div>
-    </div>
-
     <!-- EMPTY container: slides will be injected by slides/*.js -->
     <div class="scroll-container"></div>
 
     <!-- Load slide modules (inject HTML into .scroll-container) -->
     <script src="slides/slide1.js"></script>
+    <script src="slides/slide1_5.js"></script>
     <script src="slides/slide2.js"></script>
     <script src="slides/slide3.js"></script>
     <script src="slides/slide4.js"></script>
@@ -63,37 +37,179 @@
     <div class="tooltip"></div>
 
     <script>
-        // Custom Cursor - Match original_cindy.html exactly
-        const cursor = document.getElementById('cursor');
-        const cursorFollower = document.getElementById('cursor-follower');
+        // Luxury Brands Chart Visualization
+        const tooltip = d3.select(".tooltip");
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 100);
-        });
+        async function createLuxuryBrandsChart() {
+            try {
+                const rawData = await d3.csv("data/Top leading luxury brands.csv");
+                
+                // Parse the data (skip header rows and clean)
+                const data = rawData
+                    .filter(d => d['Most valuable global luxury brands 2025'] && 
+                                 d['Most valuable global luxury brands 2025'].includes(' '))
+                    .map(d => {
+                        const text = d['Most valuable global luxury brands 2025'];
+                        const parts = text.split(' ');
+                        const country = parts[parts.length - 1];
+                        const brand = parts.slice(0, -1).join(' ');
+                        const value = parseFloat(d[''].replace(/,/g, ''));
+                        return { brand, country, value };
+                    })
+                    .filter(d => !isNaN(d.value))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 10);
 
-        document.addEventListener('mousedown', () => {
-            cursor.classList.add('active');
-        });
+                const totalValue = d3.sum(data, d => d.value);
 
-        document.addEventListener('mouseup', () => {
-            cursor.classList.remove('active');
-        });
+                const width = 550;
+                const height = 550;
+                const radius = Math.min(width, height) / 2;
 
+                const svg = d3.select("#luxuryBrandsChart")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+                // Color scale with gold and earth tones
+                const colorScale = d3.scaleOrdinal()
+                    .domain(data.map(d => d.brand))
+                    .range([
+                        '#d4af37', '#c9a961', '#bfa47a', '#b89f6f',
+                        '#a89968', '#9a8f5e', '#8d8556', '#8b7d6b',
+                        '#7a6f4d', '#6b6142'
+                    ]);
+
+                const pie = d3.pie()
+                    .value(d => d.value)
+                    .sort(null);
+
+                const arc = d3.arc()
+                    .innerRadius(radius * 0.4)
+                    .outerRadius(radius * 0.85);
+
+                const arcHover = d3.arc()
+                    .innerRadius(radius * 0.4)
+                    .outerRadius(radius * 0.88);
+
+                // Draw arcs
+                const arcs = svg.selectAll(".brand-arc")
+                    .data(pie(data))
+                    .join("path")
+                    .attr("class", "brand-arc")
+                    .attr("fill", d => colorScale(d.data.brand))
+                    .attr("stroke", "#0a0a0a")
+                    .attr("stroke-width", 2)
+                    .style("opacity", 0)
+                    .on("mouseover", function(event, d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr("d", arcHover);
+                        
+                        const percentage = ((d.data.value / totalValue) * 100).toFixed(1);
+                        tooltip
+                            .style("opacity", 1)
+                            .html(`
+                                <strong>${d.data.brand}</strong><br/>
+                                Value: $${d.data.value.toFixed(1)}B<br/>
+                                Country: ${d.data.country}<br/>
+                                Market Share: ${percentage}%
+                            `)
+                            .style("left", (event.pageX + 15) + "px")
+                            .style("top", (event.pageY - 28) + "px");
+                    })
+                    .on("mousemove", function(event) {
+                        tooltip
+                            .style("left", (event.pageX + 15) + "px")
+                            .style("top", (event.pageY - 28) + "px");
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr("d", arc);
+                        
+                        tooltip.style("opacity", 0);
+                    });
+
+                // Animate arcs in with stagger
+                arcs.transition()
+                    .duration(800)
+                    .delay((d, i) => i * 80)
+                    .style("opacity", 1)
+                    .attrTween("d", function(d) {
+                        const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+                        return function(t) {
+                            return arc(interpolate(t));
+                        };
+                    });
+
+                // Center circle
+                svg.append("circle")
+                    .attr("class", "center-circle")
+                    .attr("r", radius * 0.38)
+                    .style("opacity", 0)
+                    .transition()
+                    .delay(500)
+                    .duration(600)
+                    .style("opacity", 1);
+
+                // Center text
+                svg.append("text")
+                    .attr("class", "center-value")
+                    .attr("y", -10)
+                    .text(`$${(totalValue / 1000).toFixed(1)}B`)
+                    .style("opacity", 0)
+                    .transition()
+                    .delay(800)
+                    .duration(600)
+                    .style("opacity", 1);
+
+                svg.append("text")
+                    .attr("class", "center-label")
+                    .attr("y", 15)
+                    .text("TOP 10 BRANDS")
+                    .style("opacity", 0)
+                    .transition()
+                    .delay(800)
+                    .duration(600)
+                    .style("opacity", 1);
+
+            } catch (error) {
+                console.error("Error loading luxury brands data:", error);
+            }
+        }
+
+        // Expose to global scope
+        window.createLuxuryBrandsChart = createLuxuryBrandsChart;
+    </script>
+
+    <script>
         // Scroll Navigation
         function scrollToSlide(index) {
             const allSlides = document.querySelectorAll('.slide');
             allSlides[index].scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Update navigation dots on scroll
+        // Add bottom navigation buttons to all slides except the last
+        setTimeout(() => {
+            const allSlides = document.querySelectorAll('.slide');
+            allSlides.forEach((slide, index) => {
+                if (index < allSlides.length - 1) {
+                    const btn = document.createElement('div');
+                    btn.className = 'next-slide-btn';
+                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>';
+                    btn.onclick = () => scrollToSlide(index + 1);
+                    slide.appendChild(btn);
+                }
+            });
+        }, 500);
+
+        // Update slide visibility on scroll
         const scrollContainer = document.querySelector('.scroll-container');
-        const navDots = document.querySelectorAll('.nav-dot');
 
         scrollContainer.addEventListener('scroll', () => {
             const scrollPosition = scrollContainer.scrollTop;
@@ -105,9 +221,6 @@
                 const slideBottom = slideTop + slide.offsetHeight;
 
                 if (scrollPosition >= slideTop - windowHeight / 2 && scrollPosition < slideBottom - windowHeight / 2) {
-                    navDots.forEach(dot => dot.classList.remove('active'));
-                    if (navDots[index]) navDots[index].classList.add('active');
-
                     const content = slide.querySelector('.slide-content');
                     if (content && !content.classList.contains('visible')) {
                         content.classList.add('visible');
@@ -166,6 +279,10 @@
                         slideContent.classList.add('visible');
                     }
 
+                    if (entry.target.classList.contains('intro-slide') && !entry.target.dataset.initialized) {
+                        if (window.createLuxuryBrandsChart) window.createLuxuryBrandsChart();
+                        entry.target.dataset.initialized = true;
+                    }
                     if (entry.target.classList.contains('slide-3') && !entry.target.dataset.initialized) {
                         if (window.createBrandTimeline) window.createBrandTimeline();
                         entry.target.dataset.initialized = true;
