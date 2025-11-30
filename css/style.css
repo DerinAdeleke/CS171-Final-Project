@@ -304,7 +304,7 @@
             transform: translateY(50px);
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: auto;
-            padding: 1vh 1vw;
+            padding: 1vh 1vw 80px 1vw;
             scrollbar-width: thin;
             scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
         }
@@ -1271,14 +1271,14 @@
         /* Bottom Navigation Button */
         .next-slide-btn {
             position: absolute;
-            bottom: 30px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            border: 2px solid #d4af37;
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(212, 175, 55, 0.6);
             border-radius: 50%;
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(10, 10, 10, 0.85);
             cursor: pointer !important;
             display: flex;
             align-items: center;
@@ -1287,26 +1287,28 @@
             z-index: 100;
             backdrop-filter: blur(10px);
             animation: bounce 2s ease-in-out infinite;
+            opacity: 0.7;
         }
 
         .next-slide-btn:hover {
             transform: translateX(-50%) translateY(-10px);
             box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
             background: rgba(212, 175, 55, 0.2);
+            opacity: 1;
         }
 
         .next-slide-btn svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             filter: none;
         }
 
         @keyframes bounce {
             0%, 100% {
-                bottom: 30px;
+                bottom: 15px;
             }
             50% {
-                bottom: 40px;
+                bottom: 20px;
             }
         }
 
