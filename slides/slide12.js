@@ -1,3 +1,4 @@
+/*
 (function() {
 	const container = document.querySelector('.scroll-container');
 	if (!container) return;
@@ -88,3 +89,4 @@
 			.style("font-size", "1.2em").style("fill", "#b8b8b8").style("letter-spacing", "0.1em").text("TOTAL ITEMS");
 	};
 })();
+*/

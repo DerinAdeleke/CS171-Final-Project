@@ -1,3 +1,4 @@
+/*
 (function() {
 	const container = document.querySelector('.scroll-container');
 	if (!container) return;
@@ -214,3 +215,4 @@
 			});
 	};
 })();
+*/

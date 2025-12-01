@@ -12,6 +12,27 @@
 				<h2 class="section-title">Global Brand Dominance</h2>
 				<p class="section-subtitle">Which luxury brand dominates each market worldwide</p>
 				
+				<!-- Insight Lightbulb Button -->
+				<button id="insights-btn-map" style="
+					position: absolute;
+					top: 20px;
+					right: 20px;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+					border: 2px solid #d4af37;
+					cursor: pointer;
+					box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+					animation: pulse 2s infinite;
+					z-index: 100;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 24px;
+					transition: all 0.3s;
+				" title="View Insights">💡</button>
+				
 				<div class="viz-container" style="width: 100%; max-width: 1200px; margin: 0 auto;">
 					<div id="world-map-viz" style="width: 100%; display: flex; justify-content: center;"></div>
 					<div class="map-controls" style="margin-top: 20px; text-align: center;">
@@ -25,6 +46,215 @@
 			</div>
 		</section>
 	`);
+
+	// Add CSS for pulse animation and modal
+	const style = document.createElement('style');
+	style.textContent = `
+		@keyframes pulse {
+			0%, 100% { 
+				box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+				transform: scale(1);
+			}
+			50% { 
+				box-shadow: 0 0 30px rgba(212, 175, 55, 0.9);
+				transform: scale(1.05);
+			}
+		}
+
+		#insights-btn-map:hover {
+			transform: scale(1.1);
+			box-shadow: 0 0 30px rgba(212, 175, 55, 1);
+		}
+
+		.insight-modal {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.9);
+			z-index: 10000;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			backdrop-filter: blur(10px);
+			animation: fadeIn 0.3s ease;
+		}
+
+		.insight-modal.active {
+			display: flex;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+
+		.insight-modal-content {
+			background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+			border: 2px solid rgba(212, 175, 55, 0.5);
+			border-radius: 20px;
+			padding: 40px;
+			max-width: 900px;
+			max-height: 80vh;
+			overflow-y: auto;
+			position: relative;
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+			animation: slideUp 0.4s ease;
+		}
+
+		@keyframes slideUp {
+			from { transform: translateY(50px); opacity: 0; }
+			to { transform: translateY(0); opacity: 1; }
+		}
+
+		.insight-modal-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			background: rgba(212, 175, 55, 0.2);
+			border: 1px solid rgba(212, 175, 55, 0.5);
+			color: #d4af37;
+			cursor: pointer;
+			font-size: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s;
+		}
+
+		.insight-modal-close:hover {
+			background: rgba(212, 175, 55, 0.4);
+			transform: rotate(90deg);
+		}
+
+		.insight-modal-title {
+			font-size: 2.5rem;
+			color: #d4af37;
+			margin-bottom: 30px;
+			text-align: center;
+			font-weight: 300;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+		}
+
+		.insights-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			margin-top: 20px;
+		}
+
+		.insight-card {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(212, 175, 55, 0.3);
+			border-radius: 15px;
+			padding: 25px;
+			transition: all 0.3s;
+		}
+
+		.insight-card:hover {
+			border-color: rgba(212, 175, 55, 0.6);
+			transform: translateY(-5px);
+			box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+		}
+
+		.insight-card.highlight-card {
+			border-color: #d4af37;
+			background: rgba(212, 175, 55, 0.1);
+		}
+
+		.insight-icon {
+			font-size: 3rem;
+			text-align: center;
+			margin-bottom: 15px;
+		}
+
+		.insight-stat {
+			font-size: 2rem;
+			font-weight: 600;
+			color: #d4af37;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+
+		.insight-label {
+			font-size: 1.1rem;
+			color: #f5f5f5;
+			text-align: center;
+			margin-bottom: 15px;
+			font-weight: 500;
+		}
+
+		.insight-description {
+			font-size: 0.95rem;
+			color: #b8b8b8;
+			line-height: 1.6;
+			text-align: center;
+		}
+	`;
+	document.head.appendChild(style);
+
+	// Create modal
+	const modal = document.createElement('div');
+	modal.className = 'insight-modal';
+	modal.id = 'insight-modal-map';
+	modal.innerHTML = `
+		<div class="insight-modal-content">
+			<button class="insight-modal-close">✕</button>
+			<h2 class="insight-modal-title">The New Geography of Desire</h2>
+			<div class="insights-grid">
+				<div class="insight-card highlight-card">
+					<div class="insight-icon">🇹🇷</div>
+					<div class="insight-stat">+38.8%</div>
+					<div class="insight-label">Turkey Leads Growth</div>
+					<p class="insight-description">
+						While the US dominates with 19.8% market share, Turkey is the sleeping giant—
+						growing faster than any other market. The future of luxury isn't where you think.
+					</p>
+				</div>
+				
+				<div class="insight-card">
+					<div class="insight-icon">🌏</div>
+					<div class="insight-stat">Asia Rising</div>
+					<div class="insight-label">3 of Top 10</div>
+					<p class="insight-description">
+						India, Japan, and Vietnam collectively represent 18.7% of global traffic. 
+						Asia's luxury appetite is reshaping brand strategies worldwide.
+					</p>
+				</div>
+				
+				<div class="insight-card">
+					<div class="insight-icon">💻</div>
+					<div class="insight-stat">Digital First</div>
+					<div class="insight-label">The Online Shift</div>
+					<p class="insight-description">
+						72.8% of all luxury traffic comes from just 10 countries—but it's all happening online. 
+						The boutique experience has gone digital, and there's no going back.
+					</p>
+				</div>
+			</div>
+		</div>
+	`;
+	document.body.appendChild(modal);
+
+	// Add event listeners
+	document.getElementById('insights-btn-map').addEventListener('click', function() {
+		modal.classList.add('active');
+	});
+
+	modal.querySelector('.insight-modal-close').addEventListener('click', function() {
+		modal.classList.remove('active');
+	});
+
+	modal.addEventListener('click', function(e) {
+		if (e.target === modal) {
+			modal.classList.remove('active');
+		}
+	});
 
 	async function createWorldMap() {
 		console.log("🗺️ Initializing World Map Visualization");

@@ -7,9 +7,9 @@
 				<h2 class="section-title">Market Overview</h2>
 				<p class="section-subtitle">The luxury fashion market spans decades of heritage and billions in revenue</p>
 				
-				<div class="stats-grid">
+				<div class="stats-grid" style="margin-bottom: 1.5vh;">
 					<div class="stat-card">
-						<div class="stat-number">$42.6B</div>
+						<div class="stat-number" id="total-revenue-stat">$42.6B</div>
 						<div class="stat-label">Total Revenue 2024</div>
 					</div>
 					<div class="stat-card">
@@ -22,8 +22,94 @@
 					</div>
 				</div>
 
-				<div class="viz-container" style="margin-top: 2vh;">
+				<div class="viz-container" style="margin-top: 1vh; max-height: none; overflow: visible; padding: 1.5vh 2vw;">
+					<!-- Brand filter toggles -->
+					<div style="text-align: center; margin-bottom: 1vh;">
+						<button class="brand-toggle-btn active" data-brand="Hermès" style="
+							background: linear-gradient(135deg, #8B2635 0%, #a83545 100%);
+							border: 2px solid #8B2635;
+							color: white;
+							padding: 8px 20px;
+							margin: 0 6px;
+							border-radius: 20px;
+							cursor: pointer;
+							font-size: 13px;
+							font-weight: 500;
+							transition: all 0.3s;
+							box-shadow: 0 3px 10px rgba(139, 38, 53, 0.3);
+						">Hermès</button>
+						<button class="brand-toggle-btn active" data-brand="Gucci" style="
+							background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+							border: 2px solid #d4af37;
+							color: #0a0a0a;
+							padding: 8px 20px;
+							margin: 0 6px;
+							border-radius: 20px;
+							cursor: pointer;
+							font-size: 13px;
+							font-weight: 500;
+							transition: all 0.3s;
+							box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+						">Gucci</button>
+						<button class="brand-toggle-btn active" data-brand="Coach" style="
+							background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+							border: 2px solid #8b4513;
+							color: white;
+							padding: 8px 20px;
+							margin: 0 6px;
+							border-radius: 20px;
+							cursor: pointer;
+							font-size: 13px;
+							font-weight: 500;
+							transition: all 0.3s;
+							box-shadow: 0 3px 10px rgba(139, 69, 19, 0.3);
+						">Coach</button>
+					</div>
+
 					<div id="overview-chart"></div>
+
+					<!-- Timeline scrubber -->
+					<div style="margin-top: 1.5vh; padding: 0 4vw;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1vh;">
+							<div style="color: #d4af37; font-size: 13px; font-weight: 500;">
+								<span id="year-range-display">2012 - 2024</span>
+							</div>
+							<div style="display: flex; gap: 8px;">
+								<button id="play-animation" style="
+									background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+									border: none;
+									color: #0a0a0a;
+									padding: 6px 16px;
+									border-radius: 16px;
+									cursor: pointer;
+									font-size: 12px;
+									font-weight: 600;
+									box-shadow: 0 3px 8px rgba(212, 175, 55, 0.3);
+									transition: all 0.3s;
+								">▶ Play Timeline</button>
+								<button id="reset-timeline" style="
+									background: rgba(255, 255, 255, 0.1);
+									border: 1px solid rgba(212, 175, 55, 0.3);
+									color: #d4af37;
+									padding: 6px 16px;
+									border-radius: 16px;
+									cursor: pointer;
+									font-size: 12px;
+									font-weight: 500;
+									transition: all 0.3s;
+								">Reset</button>
+							</div>
+						</div>
+						<div id="timeline-scrubber" style="
+							position: relative;
+							height: 50px;
+							background: linear-gradient(to right, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.2));
+							border-radius: 8px;
+							border: 1px solid rgba(212, 175, 55, 0.3);
+							cursor: pointer;
+							overflow: visible;
+						"></div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -34,84 +120,506 @@
 		const revenueData = window.revenueData;
 		const tooltip = d3.select(".tooltip");
 
-		const margin = {top: 40, right: 100, bottom: 60, left: 80};
-		const width = 1200 - margin.left - margin.right;
-		const height = 400 - margin.top - margin.bottom;
+		const margin = {top: 30, right: 100, bottom: 50, left: 70};
+		const width = 1000 - margin.left - margin.right;
+		const height = 320 - margin.top - margin.bottom;
 
 		const svg = d3.select("#overview-chart")
 			.append("svg")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
+			.style("background", "transparent")
 			.append("g")
 			.attr("transform", `translate(${margin.left},${margin.top})`);
 
 		const brands = ["Hermès", "Gucci", "Coach"];
-		const x = d3.scaleLinear().domain([2012, 2024]).range([0, width]);
-		const y = d3.scaleLinear().domain([0, 20000]).range([height, 0]);
+		let activeBrands = new Set(brands);
+		let yearRange = [2012, 2024];
+		let animationInterval = null;
 
-		svg.append("g").attr("class", "grid").attr("opacity", 0.1)
-			.call(d3.axisLeft(y).tickSize(-width).tickFormat(""));
+		// Scales - will be updated dynamically
+		let x = d3.scaleLinear().domain([2012, 2024]).range([0, width]);
+		let y = d3.scaleLinear().domain([0, 20000]).range([height, 0]);
 
-		brands.forEach((brand, i) => {
-			const line = d3.line()
-				.x(d => x(d.Year))
-				.y(d => y(d[brand]))
-				.curve(d3.curveMonotoneX);
-
-			const path = svg.append("path")
-				.datum(revenueData)
-				.attr("fill", "none")
-				.attr("stroke", brandColors[brand])
-				.attr("stroke-width", 3)
-				.attr("d", line)
-				.attr("opacity", 0.8);
-
-			const totalLength = path.node().getTotalLength();
-			path.attr("stroke-dasharray", totalLength + " " + totalLength)
-				.attr("stroke-dashoffset", totalLength)
-				.transition().duration(2000).delay(i * 300)
-				.attr("stroke-dashoffset", 0);
-
-			svg.selectAll(`.dot-${i}`)
-				.data(revenueData).enter().append("circle")
-				.attr("cx", d => x(d.Year))
-				.attr("cy", d => y(d[brand]))
-				.attr("r", 0)
-				.attr("fill", brandColors[brand])
-				.attr("stroke", "#0a0a0a")
-				.attr("stroke-width", 2)
-				.on("mouseover", function(event, d) {
-					d3.select(this).transition().duration(200).attr("r", 8);
-					tooltip.style("opacity", 1)
-						.html(`<strong>${brand}</strong><br>Year: ${d.Year}<br>Revenue: $${d[brand].toLocaleString()}M`)
-						.style("left", (event.pageX + 10) + "px")
-						.style("top", (event.pageY - 28) + "px");
-				})
-				.on("mouseout", function() {
-					d3.select(this).transition().duration(200).attr("r", 5);
-					tooltip.style("opacity", 0);
-				})
-				.transition().duration(500).delay((d, j) => i * 300 + j * 50 + 2000)
-				.attr("r", 5);
+		// Gradient definitions
+		const defs = svg.append("defs");
+		brands.forEach(brand => {
+			const gradient = defs.append("linearGradient")
+				.attr("id", `gradient-${brand.replace('è', 'e')}`)
+				.attr("x1", "0%").attr("y1", "0%")
+				.attr("x2", "0%").attr("y2", "100%");
+			
+			gradient.append("stop")
+				.attr("offset", "0%")
+				.attr("stop-color", brandColors[brand])
+				.attr("stop-opacity", 0.4);
+			
+			gradient.append("stop")
+				.attr("offset", "100%")
+				.attr("stop-color", brandColors[brand])
+				.attr("stop-opacity", 0.05);
 		});
 
-		svg.append("g").attr("class", "axis")
+		// Grid
+		svg.append("g")
+			.attr("class", "grid")
+			.attr("opacity", 0.15)
+			.call(d3.axisLeft(y)
+				.tickSize(-width)
+				.tickFormat("")
+			);
+
+		// Area and line groups
+		const areaGroup = svg.append("g").attr("class", "areas");
+		const lineGroup = svg.append("g").attr("class", "lines");
+		const dotGroup = svg.append("g").attr("class", "dots");
+
+		// Line and area generators
+		const line = d3.line()
+			.x(d => x(d.Year))
+			.y(d => y(d.value))
+			.curve(d3.curveCardinal.tension(0.5));
+
+		const area = d3.area()
+			.x(d => x(d.Year))
+			.y0(height)
+			.y1(d => y(d.value))
+			.curve(d3.curveCardinal.tension(0.5));
+
+		// Function to update visualization
+		function updateChart(animate = false) {
+			const filteredData = revenueData.filter(d => 
+				d.Year >= yearRange[0] && d.Year <= yearRange[1]
+			);
+
+			// Update scales based on filtered data
+			x.domain([yearRange[0], yearRange[1]]);
+			
+			// Calculate dynamic y domain based on visible data
+			const maxValue = d3.max(filteredData, d => 
+				Math.max(...Array.from(activeBrands).map(brand => d[brand]))
+			) || 20000;
+			y.domain([0, maxValue * 1.1]); // Add 10% padding
+
+			// Update axes with smooth transition
+			xAxis.transition()
+				.duration(animate ? 0 : 800)
+				.call(d3.axisBottom(x)
+					.tickFormat(d3.format("d"))
+					.ticks(Math.min(filteredData.length, 13))
+				);
+
+			yAxis.transition()
+				.duration(animate ? 0 : 800)
+				.call(d3.axisLeft(y)
+					.tickFormat(d => `$${(d/1000).toFixed(1)}B`)
+					.ticks(8)
+				);
+
+			// Update grid
+			svg.select(".grid")
+				.transition()
+				.duration(animate ? 0 : 800)
+				.call(d3.axisLeft(y)
+					.tickSize(-width)
+					.tickFormat("")
+					.ticks(8)
+				);
+
+			brands.forEach((brand, i) => {
+				const brandData = filteredData.map(d => ({
+					Year: d.Year,
+					value: d[brand]
+				}));
+
+				const isActive = activeBrands.has(brand);
+				const opacity = isActive ? 1 : 0.1;
+
+				// Area
+				const areaPath = areaGroup.selectAll(`.area-${i}`)
+					.data([brandData]);
+
+				areaPath.enter()
+					.append("path")
+					.attr("class", `area-${i}`)
+					.attr("d", area)
+					.attr("fill", `url(#gradient-${brand.replace('è', 'e')})`)
+					.attr("opacity", 0)
+					.merge(areaPath)
+					.transition()
+					.duration(animate ? 1500 : 800)
+					.delay(animate ? i * 200 : 0)
+					.attr("d", area)
+					.attr("opacity", opacity);
+
+				// Line
+				const linePath = lineGroup.selectAll(`.line-${i}`)
+					.data([brandData]);
+
+				const lineEnter = linePath.enter()
+					.append("path")
+					.attr("class", `line-${i}`)
+					.attr("fill", "none")
+					.attr("stroke", brandColors[brand])
+					.attr("stroke-width", 4)
+					.attr("stroke-linecap", "round")
+					.attr("filter", "drop-shadow(0 0 8px " + brandColors[brand] + ")");
+
+				const lineUpdate = lineEnter.merge(linePath);
+
+				if (animate) {
+					lineUpdate
+						.attr("d", line)
+						.attr("opacity", 0)
+						.transition()
+						.duration(300)
+						.attr("opacity", opacity)
+						.transition()
+						.duration(1500)
+						.delay(i * 200)
+						.attrTween("stroke-dasharray", function() {
+							const length = this.getTotalLength();
+							return d3.interpolate(`0,${length}`, `${length},${length}`);
+						});
+				} else {
+					lineUpdate
+						.transition()
+						.duration(800)
+						.attr("d", line)
+						.attr("opacity", opacity);
+				}
+
+				// Dots
+				const dots = dotGroup.selectAll(`.dots-${i}`)
+					.data(brandData, d => d.Year);
+
+				dots.exit()
+					.transition()
+					.duration(300)
+					.attr("r", 0)
+					.remove();
+
+				const dotsEnter = dots.enter()
+					.append("circle")
+					.attr("class", `dots-${i}`)
+					.attr("cx", d => x(d.Year))
+					.attr("cy", d => y(d.value))
+					.attr("r", 0)
+					.attr("fill", brandColors[brand])
+					.attr("stroke", "#0a0a0a")
+					.attr("stroke-width", 2)
+					.style("cursor", "pointer")
+					.attr("filter", "drop-shadow(0 0 6px " + brandColors[brand] + ")");
+
+				dotsEnter.merge(dots)
+					.on("mouseover", function(event, d) {
+						if (!isActive) return;
+						d3.select(this)
+							.transition().duration(200)
+							.attr("r", 10)
+							.attr("stroke-width", 3);
+						
+						tooltip.style("opacity", 1)
+							.html(`
+								<div style="text-align: center;">
+									<strong style="color: ${brandColors[brand]}; font-size: 16px;">${brand}</strong>
+									<div style="margin: 8px 0; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.2);">
+										<div style="color: #999; font-size: 12px;">Year</div>
+										<div style="color: #fff; font-size: 18px; font-weight: 600;">${d.Year}</div>
+									</div>
+									<div style="padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.2);">
+										<div style="color: #999; font-size: 12px;">Revenue</div>
+										<div style="color: #d4af37; font-size: 20px; font-weight: 700;">$${d.value.toLocaleString()}M</div>
+									</div>
+								</div>
+							`)
+							.style("left", (event.pageX + 15) + "px")
+							.style("top", (event.pageY - 28) + "px");
+					})
+					.on("mouseout", function() {
+						d3.select(this)
+							.transition().duration(200)
+							.attr("r", 6)
+							.attr("stroke-width", 2);
+						tooltip.style("opacity", 0);
+					})
+					.transition()
+					.duration(animate ? 600 : 800)
+					.delay(animate ? (d, j) => i * 200 + j * 80 + 1500 : 0)
+					.attr("cx", d => x(d.Year))
+					.attr("cy", d => y(d.value))
+					.attr("r", isActive ? 6 : 2)
+					.attr("opacity", opacity);
+			});
+
+			// Update stat
+			const latestYear = filteredData[filteredData.length - 1];
+			if (latestYear) {
+				const total = (latestYear.Hermès + latestYear.Gucci + latestYear.Coach) / 1000;
+				d3.select("#total-revenue-stat")
+					.transition()
+					.duration(800)
+					.tween("text", function() {
+						const currentVal = parseFloat(this.textContent.replace(/[$B]/g, '')) || total;
+						const interpolator = d3.interpolate(currentVal, total);
+						return function(t) {
+							this.textContent = `$${interpolator(t).toFixed(1)}B`;
+						};
+					});
+			}
+		}
+
+		// Axes
+		const xAxis = svg.append("g")
+			.attr("class", "axis")
 			.attr("transform", `translate(0,${height})`)
-			.call(d3.axisBottom(x).tickFormat(d3.format("d")));
+			.call(d3.axisBottom(x)
+				.tickFormat(d3.format("d"))
+				.ticks(13)
+			)
+			.style("font-size", "12px")
+			.style("color", "#b8b8b8");
 
-		svg.append("g").attr("class", "axis")
-			.call(d3.axisLeft(y).tickFormat(d => `$${d/1000}B`));
+		const yAxis = svg.append("g")
+			.attr("class", "axis")
+			.call(d3.axisLeft(y)
+				.tickFormat(d => `$${d/1000}B`)
+				.ticks(8)
+			)
+			.style("font-size", "12px")
+			.style("color", "#b8b8b8");
 
-		const legend = svg.append("g").attr("transform", `translate(${width + 20}, 20)`);
+		// Axis labels
+		svg.append("text")
+			.attr("x", width / 2)
+			.attr("y", height + 40)
+			.attr("text-anchor", "middle")
+			.style("fill", "#d4af37")
+			.style("font-size", "12px")
+			.style("font-weight", "500")
+			.text("Year");
+
+		svg.append("text")
+			.attr("transform", "rotate(-90)")
+			.attr("x", -height / 2)
+			.attr("y", -50)
+			.attr("text-anchor", "middle")
+			.style("fill", "#d4af37")
+			.style("font-size", "12px")
+			.style("font-weight", "500")
+			.text("Revenue (Billions USD)");
+
+		// Legend
+		const legend = svg.append("g")
+			.attr("transform", `translate(${width + 15}, 10)`);
+
 		brands.forEach((brand, i) => {
-			const legendRow = legend.append("g").attr("transform", `translate(0, ${i * 30})`);
-			legendRow.append("line")
-				.attr("x1", 0).attr("x2", 30).attr("y1", 0).attr("y2", 0)
-				.attr("stroke", brandColors[brand]).attr("stroke-width", 3);
+			const legendRow = legend.append("g")
+				.attr("transform", `translate(0, ${i * 30})`)
+				.style("cursor", "pointer")
+				.on("click", function() {
+					if (activeBrands.has(brand)) {
+						activeBrands.delete(brand);
+					} else {
+						activeBrands.add(brand);
+					}
+					updateChart(false);
+					updateLegend();
+				});
+
+			legendRow.append("rect")
+				.attr("class", `legend-rect-${i}`)
+				.attr("width", 30)
+				.attr("height", 5)
+				.attr("rx", 2)
+				.attr("fill", brandColors[brand])
+				.attr("filter", "drop-shadow(0 0 3px " + brandColors[brand] + ")");
+
 			legendRow.append("text")
-				.attr("x", 40).attr("y", 5)
-				.style("font-size", "13px").style("fill", "#b8b8b8")
+				.attr("class", `legend-text-${i}`)
+				.attr("x", 38)
+				.attr("y", 6)
+				.style("font-size", "12px")
+				.style("fill", "#f5f5f5")
+				.style("font-weight", "500")
 				.text(brand);
 		});
+
+		function updateLegend() {
+			brands.forEach((brand, i) => {
+				const isActive = activeBrands.has(brand);
+				legend.select(`.legend-rect-${i}`)
+					.transition()
+					.duration(300)
+					.attr("opacity", isActive ? 1 : 0.3);
+				legend.select(`.legend-text-${i}`)
+					.transition()
+					.duration(300)
+					.style("fill", isActive ? "#f5f5f5" : "#666");
+			});
+		}
+
+		// Timeline scrubber
+		const scrubberContainer = d3.select("#timeline-scrubber");
+		const scrubberWidth = scrubberContainer.node().offsetWidth;
+		const scrubberScale = d3.scaleLinear()
+			.domain([2012, 2024])
+			.range([10, scrubberWidth - 10]);
+
+		const scrubberSvg = scrubberContainer.append("svg")
+			.attr("width", "100%")
+			.attr("height", 50)
+			.style("position", "absolute")
+			.style("top", 0)
+			.style("left", 0);
+
+		// Year markers
+		revenueData.forEach(d => {
+			scrubberSvg.append("line")
+				.attr("x1", scrubberScale(d.Year))
+				.attr("x2", scrubberScale(d.Year))
+				.attr("y1", 12)
+				.attr("y2", 20)
+				.attr("stroke", "rgba(212, 175, 55, 0.4)")
+				.attr("stroke-width", 1);
+
+			scrubberSvg.append("text")
+				.attr("x", scrubberScale(d.Year))
+				.attr("y", 35)
+				.attr("text-anchor", "middle")
+				.style("fill", "#999")
+				.style("font-size", "9px")
+				.text(d.Year);
+		});
+
+		// Range selector
+		let handle1 = scrubberSvg.append("circle")
+			.attr("cx", scrubberScale(2012))
+			.attr("cy", 16)
+			.attr("r", 7)
+			.attr("fill", "#d4af37")
+			.attr("stroke", "#0a0a0a")
+			.attr("stroke-width", 2)
+			.style("cursor", "ew-resize")
+			.call(d3.drag()
+				.on("drag", function(event) {
+					const newYear = Math.round(scrubberScale.invert(event.x));
+					const clampedYear = Math.max(2012, Math.min(newYear, yearRange[1]));
+					yearRange[0] = clampedYear;
+					d3.select(this).attr("cx", scrubberScale(clampedYear));
+					updateRangeBar();
+					updateChart(false);
+					d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
+				})
+			);
+
+		let handle2 = scrubberSvg.append("circle")
+			.attr("cx", scrubberScale(2024))
+			.attr("cy", 16)
+			.attr("r", 7)
+			.attr("fill", "#d4af37")
+			.attr("stroke", "#0a0a0a")
+			.attr("stroke-width", 2)
+			.style("cursor", "ew-resize")
+			.call(d3.drag()
+				.on("drag", function(event) {
+					const newYear = Math.round(scrubberScale.invert(event.x));
+					const clampedYear = Math.min(2024, Math.max(newYear, yearRange[0]));
+					yearRange[1] = clampedYear;
+					d3.select(this).attr("cx", scrubberScale(clampedYear));
+					updateRangeBar();
+					updateChart(false);
+					d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
+				})
+			);
+
+		let rangeBar = scrubberSvg.append("rect")
+			.attr("class", "range-bar")
+			.attr("x", scrubberScale(2012))
+			.attr("y", 13)
+			.attr("width", scrubberScale(2024) - scrubberScale(2012))
+			.attr("height", 6)
+			.attr("fill", "#d4af37")
+			.attr("opacity", 0.5)
+			.attr("rx", 3);
+
+		function updateRangeBar() {
+			rangeBar
+				.attr("x", scrubberScale(yearRange[0]))
+				.attr("width", scrubberScale(yearRange[1]) - scrubberScale(yearRange[0]));
+		}
+
+		// Play animation
+		d3.select("#play-animation").on("click", function() {
+			if (animationInterval) {
+				clearInterval(animationInterval);
+				animationInterval = null;
+				this.innerHTML = "▶ Play Timeline";
+				return;
+			}
+
+			this.innerHTML = "⏸ Pause";
+			let currentYear = yearRange[0];
+			
+			animationInterval = setInterval(() => {
+				if (currentYear >= 2024) {
+					clearInterval(animationInterval);
+					animationInterval = null;
+					d3.select("#play-animation").html("▶ Play Timeline");
+					return;
+				}
+
+				currentYear++;
+				yearRange[1] = currentYear;
+				
+				handle2.transition()
+					.duration(400)
+					.attr("cx", scrubberScale(currentYear));
+				
+				updateRangeBar();
+				updateChart(false);
+				d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
+			}, 500);
+		});
+
+		// Reset timeline
+		d3.select("#reset-timeline").on("click", function() {
+			if (animationInterval) {
+				clearInterval(animationInterval);
+				animationInterval = null;
+				d3.select("#play-animation").html("▶ Play Timeline");
+			}
+
+			yearRange = [2012, 2024];
+			activeBrands = new Set(brands);
+			
+			handle1.transition().duration(500).attr("cx", scrubberScale(2012));
+			handle2.transition().duration(500).attr("cx", scrubberScale(2024));
+			updateRangeBar();
+			updateChart(true);
+			updateLegend();
+			d3.select("#year-range-display").text("2012 - 2024");
+		});
+
+		// Brand toggle buttons
+		d3.selectAll(".brand-toggle-btn").on("click", function() {
+			const brand = this.dataset.brand;
+			
+			if (activeBrands.has(brand)) {
+				activeBrands.delete(brand);
+				this.style.opacity = "0.3";
+				this.style.filter = "grayscale(100%)";
+			} else {
+				activeBrands.add(brand);
+				this.style.opacity = "1";
+				this.style.filter = "grayscale(0%)";
+			}
+			
+			updateChart(false);
+			updateLegend();
+		});
+
+		// Initial render with animation
+		updateChart(true);
 	};
 })();

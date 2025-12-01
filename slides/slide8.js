@@ -1,3 +1,5 @@
+// HIDDEN - Global Traffic Hub slide
+/*
 (function() {
 	const container = document.querySelector('.scroll-container');
 	if (!container) return;

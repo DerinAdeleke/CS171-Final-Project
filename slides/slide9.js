@@ -1,3 +1,5 @@
+// HIDDEN - Insights slide (moved to popup)
+/*
 (function() {
 	const container = document.querySelector('.scroll-container');
 	if (!container) return;
@@ -40,3 +42,4 @@
 		</section>
 	`);
 })();
+*/

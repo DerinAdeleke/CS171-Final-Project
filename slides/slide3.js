@@ -7,6 +7,27 @@
 				<h2 class="section-title">Heritage & Evolution</h2>
 				<p class="section-subtitle">A journey through centuries of luxury craftsmanship</p>
 				
+				<!-- Insight Lightbulb Button -->
+				<button id="insights-btn-history" style="
+					position: absolute;
+					top: 20px;
+					right: 20px;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+					border: 2px solid #d4af37;
+					cursor: pointer;
+					box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+					animation: pulse 2s infinite;
+					z-index: 100;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 24px;
+					transition: all 0.3s;
+				" title="View Historical Insights">💡</button>
+				
 				<div class="timeline-controls">
 					<button class="luxury-button" data-timeline-brand="all" style="border-color: #ffffff; color: #ffffff; background: transparent;">All Brands</button>
 					<button class="luxury-button" data-timeline-brand="Hermès" style="border-color: #8B2635; color: #8B2635;">Hermès</button>
@@ -23,6 +44,101 @@
 				</div>
 			</div>
 		</section>
+		
+		<!-- Insights Modal -->
+		<div id="insights-modal-history" style="
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.85);
+			align-items: center;
+			justify-content: center;
+		">
+			<div style="
+				background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+				border: 2px solid #d4af37;
+				border-radius: 20px;
+				padding: 40px;
+				max-width: 700px;
+				width: 90%;
+				max-height: 80vh;
+				overflow-y: auto;
+				box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+				position: relative;
+			">
+				<button class="close-insights" style="
+					position: absolute;
+					top: 20px;
+					right: 25px;
+					font-size: 35px;
+					font-weight: bold;
+					color: #d4af37;
+					background: none;
+					border: none;
+					cursor: pointer;
+					transition: color 0.3s;
+				">&times;</button>
+				
+				<h2 style="
+					color: #d4af37;
+					font-size: 32px;
+					margin-bottom: 30px;
+					text-align: center;
+					font-family: 'Playfair Display', serif;
+				">What History Reveals</h2>
+				
+				<div style="display: flex; flex-direction: column; gap: 25px;">
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8B2635;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8B2635; margin-bottom: 10px; font-size: 22px;">📜 188 Years of Hermès Journey</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							From a humble harness workshop in 1837 to global luxury icon, Hermès' timeline spans nearly two centuries. 
+							The brand's evolution from equestrian heritage to the legendary Kelly (1956) and Birkin (1984) bags demonstrates 
+							unparalleled craftsmanship continuity. Each milestone represents a commitment to artisanal excellence that has 
+							remained constant across generations.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #d4af37;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #d4af37; margin-bottom: 10px; font-size: 22px;">⚡ Post-War Boom Era</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							The 1940s-1960s marked explosive growth across all three brands. Gucci (1921) and Coach (1941) emerged during 
+							turbulent times but found their footing in the post-war economic expansion. This era saw the birth of iconic 
+							products: Gucci's bamboo handle bag (1947), Hermès' Kelly bag (1956), and Coach's expansion beyond leather goods. 
+							The timeline reveals how global prosperity fueled luxury demand.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8b4513;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8b4513; margin-bottom: 10px; font-size: 22px;">👜 Iconic Product Innovations</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							Each brand's timeline is punctuated by game-changing product launches. Hermès' Birkin bag (1984) wasn't just 
+							a handbag—it became a cultural phenomenon and investment piece. Gucci's Double G logo (1960s) and signature 
+							patterns created instant brand recognition. Coach's affordable luxury positioning (1980s-2000s) democratized 
+							premium leather goods. These innovations weren't accidents—they were strategic responses to evolving consumer desires.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	`);
 
 	window.createBrandTimeline = function() {
@@ -184,5 +300,28 @@
 
 		// Programmatically set initial state to "All Brands" WITHOUT the active styling
 		d3.select('.timeline-controls .luxury-button[data-timeline-brand="all"]').classed("active", true);
+
+		// Insights modal functionality
+		const insightsBtn = document.getElementById('insights-btn-history');
+		const insightsModal = document.getElementById('insights-modal-history');
+		const closeBtn = insightsModal?.querySelector('.close-insights');
+
+		if (insightsBtn && insightsModal) {
+			insightsBtn.addEventListener('click', () => {
+				insightsModal.style.display = 'flex';
+			});
+
+			if (closeBtn) {
+				closeBtn.addEventListener('click', () => {
+					insightsModal.style.display = 'none';
+				});
+			}
+
+			window.addEventListener('click', (e) => {
+				if (e.target === insightsModal) {
+					insightsModal.style.display = 'none';
+				}
+			});
+		}
 	};
 })();
