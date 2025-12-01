@@ -28,6 +28,7 @@
     <script src="slides/slide10.js"></script>
     <script src="slides/slide11.js"></script>
     <script src="slides/slide12.js"></script>
+    <script src="slides/slide12_5.js"></script>
     <script src="slides/slide13.js"></script>
     <script src="slides/slide14.js"></script>
     <script src="slides/slide15.js"></script>
@@ -319,6 +320,10 @@
                         }
                         if (entry.target.classList.contains('slide-12') && !entry.target.dataset.initialized) {
                             if (window.createResaleChart) window.createResaleChart();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-12-5') && !entry.target.dataset.initialized) {
+                            if (window.createCategoryAnalysis) window.createCategoryAnalysis();
                             entry.target.dataset.initialized = true;
                         }
                         if (entry.target.classList.contains('slide-vestiaire') && !entry.target.dataset.initialized) {
