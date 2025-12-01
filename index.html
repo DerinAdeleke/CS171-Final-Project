@@ -12,20 +12,23 @@
     <!-- Side Navigation Dots -->
     <div class="slide-nav">
         <div class="nav-dot active" data-slide="Intro" onclick="scrollToSlide(0)"></div>
-        <div class="nav-dot" data-slide="Chapter I" onclick="scrollToSlide(1)"></div>
-        <div class="nav-dot" data-slide="Timeline" onclick="scrollToSlide(2)"></div>
-        <div class="nav-dot" data-slide="Our Three" onclick="scrollToSlide(3)"></div>
-        <div class="nav-dot" data-slide="Chapter II" onclick="scrollToSlide(4)"></div>
-        <div class="nav-dot" data-slide="Overview" onclick="scrollToSlide(5)"></div>
-        <div class="nav-dot" data-slide="Dominance" onclick="scrollToSlide(6)"></div>
-        <div class="nav-dot" data-slide="Chapter III" onclick="scrollToSlide(7)"></div>
-        <div class="nav-dot" data-slide="Best Sellers" onclick="scrollToSlide(8)"></div>
-        <div class="nav-dot" data-slide="Category" onclick="scrollToSlide(9)"></div>
-        <div class="nav-dot" data-slide="Chapter IV" onclick="scrollToSlide(10)"></div>
-        <div class="nav-dot" data-slide="Resale" onclick="scrollToSlide(11)"></div>
-        <div class="nav-dot" data-slide="Vestiaire" onclick="scrollToSlide(12)"></div>
-        <div class="nav-dot" data-slide="Conclusion" onclick="scrollToSlide(13)"></div>
-        <div class="nav-dot" data-slide="Team" onclick="scrollToSlide(14)"></div>
+        <div class="nav-dot" data-slide="Intro Chart" onclick="scrollToSlide(1)"></div>
+        <div class="nav-dot" data-slide="Chapter I" onclick="scrollToSlide(2)"></div>
+        <div class="nav-dot" data-slide="Timeline" onclick="scrollToSlide(3)"></div>
+        <div class="nav-dot" data-slide="Our Three" onclick="scrollToSlide(4)"></div>
+        <div class="nav-dot" data-slide="Chapter II" onclick="scrollToSlide(5)"></div>
+        <div class="nav-dot" data-slide="Overview" onclick="scrollToSlide(6)"></div>
+        <div class="nav-dot" data-slide="Dominance" onclick="scrollToSlide(7)"></div>
+        <div class="nav-dot" data-slide="Chapter III" onclick="scrollToSlide(8)"></div>
+        <div class="nav-dot" data-slide="Best Sellers" onclick="scrollToSlide(9)"></div>
+        <div class="nav-dot" data-slide="Category" onclick="scrollToSlide(10)"></div>
+        <div class="nav-dot" data-slide="Chapter IV" onclick="scrollToSlide(11)"></div>
+        <div class="nav-dot" data-slide="Resale" onclick="scrollToSlide(12)"></div>
+        <div class="nav-dot" data-slide="Vestiaire" onclick="scrollToSlide(13)"></div>
+        <div class="nav-dot" data-slide="Chapter V" onclick="scrollToSlide(14)"></div>
+        <div class="nav-dot" data-slide="Closet Builder" onclick="scrollToSlide(15)"></div>
+        <div class="nav-dot" data-slide="Thanks" onclick="scrollToSlide(16)"></div>
+        <div class="nav-dot" data-slide="Team" onclick="scrollToSlide(17)"></div>
     </div>
 
     <!-- EMPTY container: slides will be injected by slides/*.js -->
@@ -53,6 +56,8 @@
     <script src="slides/slide15.js"></script>
     <script src="slides/slide16.js"></script>
     <script src="slides/slide17.js"></script>
+    <script src="slides/slide17_5.js"></script>
+    <script src="slides/slide18_5.js"></script>
     <script src="slides/slide18.js"></script>
     <script src="slides/slide19.js"></script>
 
@@ -354,6 +359,10 @@
                         }
                         if (entry.target.classList.contains('slide-vestiaire') && !entry.target.dataset.initialized) {
                             if (window.createVestiaireViz) window.createVestiaireViz();
+                            entry.target.dataset.initialized = true;
+                        }
+                        if (entry.target.classList.contains('slide-17-5') && !entry.target.dataset.initialized) {
+                            if (window.createClosetBuilder) window.createClosetBuilder();
                             entry.target.dataset.initialized = true;
                         }
                     }
