@@ -7,6 +7,84 @@
 				<h2 class="section-title">Category Performance Analysis</h2>
 				<p class="section-subtitle">Interactive revenue trends and year-over-year category breakdown by brand</p>
 				
+				<!-- Brand Selection Controls -->
+				<div style="
+					display: flex;
+					justify-content: center;
+					gap: 20px;
+					margin: 20px 0 30px 0;
+					flex-wrap: wrap;
+				">
+					<label class="brand-checkbox-label" style="
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						padding: 10px 20px;
+						background: rgba(139, 38, 53, 0.15);
+						border: 2px solid rgba(139, 38, 53, 0.4);
+						border-radius: 25px;
+						cursor: pointer;
+						transition: all 0.3s;
+						font-size: 14px;
+						color: #f5f5f5;
+						letter-spacing: 0.05em;
+					">
+						<input type="checkbox" class="brand-selector" value="Hermes" checked style="
+							width: 18px;
+							height: 18px;
+							cursor: pointer;
+							accent-color: #8B2635;
+						">
+						<span>Hermès</span>
+					</label>
+					
+					<label class="brand-checkbox-label" style="
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						padding: 10px 20px;
+						background: rgba(212, 175, 55, 0.15);
+						border: 2px solid rgba(212, 175, 55, 0.4);
+						border-radius: 25px;
+						cursor: pointer;
+						transition: all 0.3s;
+						font-size: 14px;
+						color: #f5f5f5;
+						letter-spacing: 0.05em;
+					">
+						<input type="checkbox" class="brand-selector" value="Gucci" checked style="
+							width: 18px;
+							height: 18px;
+							cursor: pointer;
+							accent-color: #d4af37;
+						">
+						<span>Gucci</span>
+					</label>
+					
+					<label class="brand-checkbox-label" style="
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						padding: 10px 20px;
+						background: rgba(139, 69, 19, 0.15);
+						border: 2px solid rgba(139, 69, 19, 0.4);
+						border-radius: 25px;
+						cursor: pointer;
+						transition: all 0.3s;
+						font-size: 14px;
+						color: #f5f5f5;
+						letter-spacing: 0.05em;
+					">
+						<input type="checkbox" class="brand-selector" value="Coach" checked style="
+							width: 18px;
+							height: 18px;
+							cursor: pointer;
+							accent-color: #8b4513;
+						">
+						<span>Coach</span>
+					</label>
+				</div>
+				
 				<!-- Insight Lightbulb Button -->
 				<button id="insights-btn-category" style="
 					position: absolute;
@@ -28,12 +106,8 @@
 					transition: all 0.3s;
 				" title="View Category Insights">💡</button>
 				
-				<div class="viz-container" style="margin-top: 40px;">
-					<div id="brand-lines-row" style="display: flex; gap: 30px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;"></div>
-					
-					<div class="decorative-line" style="margin: 20px auto;"></div>
-					
-					<div id="brand-bars-row" style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;"></div>
+				<div id="category-viz-container" class="viz-container" style="margin-top: 20px;">
+					<!-- Charts will be dynamically inserted here -->
 				</div>
 			</div>
 		</section>
@@ -135,6 +209,9 @@
 	`);
 
 	const BRANDS = ["Hermes", "Gucci", "Coach"];
+	
+	let selectedBrands = [...BRANDS]; // Initially all selected
+	let globalData = null;
 
 	// Brand-specific color palettes matching the luxury aesthetic
 	const brandPalettes = {
@@ -144,53 +221,134 @@
 	};
 
 	window.createCategoryAnalysis = function() {
-		const lineRow = d3.select("#brand-lines-row");
-		const barRow = d3.select("#brand-bars-row");
-
 		// Load data
 		d3.csv("data/region_category_clean_data.csv").then(raw => {
-			const data = raw.map(d => ({
+			globalData = raw.map(d => ({
 				brand: d.brand,
 				category: d.category,
 				year: +d.year,
 				value: +d.millions_of_dollars
 			})).filter(d => d.category && d.category !== "NA" && d.category !== "Total" && d.category !== "Total Coach");
 
-			// Create 3 brand containers
-			BRANDS.forEach(brand => {
-				lineRow.append("div")
-					.attr("class", "brand-cell")
-					.attr("id", `line-${brand}`)
-					.style("flex", "1")
-					.style("min-width", "320px");
-
-				barRow.append("div")
-					.attr("class", "brand-cell")
-					.attr("id", `bar-${brand}`)
-					.style("flex", "1")
-					.style("min-width", "320px");
+			// Initial render
+			renderCharts();
+			
+			// Add event listeners to checkboxes
+			document.querySelectorAll('.brand-selector').forEach(checkbox => {
+				checkbox.addEventListener('change', (e) => {
+					const brand = e.target.value;
+					if (e.target.checked) {
+						if (!selectedBrands.includes(brand)) {
+							selectedBrands.push(brand);
+						}
+					} else {
+						selectedBrands = selectedBrands.filter(b => b !== brand);
+					}
+					
+					// Ensure at least one brand is selected
+					if (selectedBrands.length === 0) {
+						e.target.checked = true;
+						selectedBrands.push(brand);
+						return;
+					}
+					
+					renderCharts();
+				});
 			});
-
-			// Draw charts
-			BRANDS.forEach(brand => {
-				drawLineChart(`#line-${brand}`, brand, data);
-				const defaultYear = d3.max(data.filter(d => d.brand === brand), d => d.year);
-				drawBarChart(`#bar-${brand}`, brand, data, defaultYear);
-			});
+			
 		}).catch(error => {
 			console.error("Error loading category data:", error);
-			lineRow.append("div")
+			d3.select("#category-viz-container")
+				.append("div")
 				.text("Failed to load data. Please check the CSV file.")
 				.style("color", "#999")
 				.style("text-align", "center")
 				.style("padding", "20px");
 		});
 	};
+	
+	function renderCharts() {
+		const container = d3.select("#category-viz-container");
+		container.selectAll("*").remove();
+		
+		const count = selectedBrands.length;
+		
+		// Determine layout based on number of selected brands
+		if (count === 1) {
+			// Side by side: line and bar for single brand
+			container.style("display", "flex")
+				.style("justify-content", "center")
+				.style("gap", "30px")
+				.style("align-items", "flex-start")
+				.style("flex-wrap", "wrap");
+				
+			const brand = selectedBrands[0];
+			const lineDiv = container.append("div").attr("id", `line-${brand}`);
+			const barDiv = container.append("div").attr("id", `bar-${brand}`);
+			
+			drawLineChart(`#line-${brand}`, brand, globalData, 420, 340);
+			const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
+			drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 340);
+			
+		} else if (count === 2) {
+			// Stacked: 4 graphs (2 brands × 2 charts each)
+			// Each brand in a column, charts stacked vertically
+			container.style("display", "flex")
+				.style("flex-direction", "row")
+				.style("gap", "40px")
+				.style("justify-content", "center")
+				.style("align-items", "flex-start");
+				
+			selectedBrands.forEach(brand => {
+				const brandColumn = container.append("div")
+					.style("display", "flex")
+					.style("flex-direction", "column")
+					.style("gap", "25px")
+					.style("align-items", "center");
+					
+				brandColumn.append("div").attr("id", `line-${brand}`);
+				brandColumn.append("div").attr("id", `bar-${brand}`);
+				
+				drawLineChart(`#line-${brand}`, brand, globalData, 450, 320);
+				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 450, 320);
+			});
+			
+		} else {
+			// All 3 brands: original layout (stacked rows)
+			container.style("display", "flex")
+				.style("flex-direction", "column")
+				.style("gap", "20px");
+				
+			const lineRow = container.append("div")
+				.attr("id", "brand-lines-row")
+				.style("display", "flex")
+				.style("gap", "25px")
+				.style("justify-content", "center")
+				.style("flex-wrap", "wrap");
+				
+			const barRow = container.append("div")
+				.attr("id", "brand-bars-row")
+				.style("display", "flex")
+				.style("gap", "25px")
+				.style("justify-content", "center")
+				.style("flex-wrap", "wrap");
+				
+			selectedBrands.forEach(brand => {
+				lineRow.append("div").attr("id", `line-${brand}`).style("flex", "1").style("min-width", "300px");
+				barRow.append("div").attr("id", `bar-${brand}`).style("flex", "1").style("min-width", "300px");
+				
+				drawLineChart(`#line-${brand}`, brand, globalData, 360, 280);
+				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 360, 260);
+			});
+		}
+	}
 
 	// --------------------------------------------------------
 	// LINE CHART FUNCTION
 	// --------------------------------------------------------
-	function drawLineChart(target, brand, fullData) {
+	function drawLineChart(target, brand, fullData, width = 360, height = 280) {
 		const data = fullData.filter(d => d.brand === brand);
 		const years = [...new Set(data.map(d => d.year))].sort(d3.ascending);
 		const categories = [...new Set(data.map(d => d.category))];
@@ -199,8 +357,8 @@
 			.domain(categories)
 			.range(brandPalettes[brand] || d3.schemeSet2);
 
-		const W = 360;
-		const H = 280;
+		const W = width;
+		const H = height;
 		const M = { top: 40, right: 30, bottom: 60, left: 65 };
 
 		const container = d3.select(target);
@@ -311,7 +469,7 @@
 					.attr("y2", innerH)
 					.style("opacity", 1);
 
-				drawBarChart(`#bar-${brand}`, brand, fullData, nearest);
+				drawBarChart(`#bar-${brand}`, brand, fullData, nearest, width, height - 20);
 			});
 
 		// Legend
@@ -342,9 +500,9 @@
 	// --------------------------------------------------------
 	// BAR CHART FUNCTION
 	// --------------------------------------------------------
-	function drawBarChart(target, brand, fullData, year = null) {
+	function drawBarChart(target, brand, fullData, year = null, width = 360, height = 260) {
 		const host = d3.select(target);
-		host.selectAll("*").remove();
+		host.selectAll("svg").remove(); // Only remove SVG, keep title
 
 		const data = fullData.filter(d => d.brand === brand);
 
@@ -361,8 +519,8 @@
 			.domain(categories)
 			.range(brandPalettes[brand] || d3.schemeSet2);
 
-		const W = 360;
-		const H = 260;
+		const W = width;
+		const H = height;
 		const M = { top: 40, right: 30, bottom: 45, left: 120 };
 
 		const svg = host.append("svg")
