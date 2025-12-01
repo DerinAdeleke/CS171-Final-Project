@@ -1828,7 +1828,7 @@
 
         // Visualization 10: Coach Condition Heatmap
         async function createCoachHeatmapChart() {
-            const data = await d3.csv("vestiaire-coach.csv");
+            const data = await d3.csv("../data/vestiaire-coach.csv");
             
             // Process data: group by category and condition
             const categories = ["T-shirt", "Dress", "Jacket", "Leather jacket", "Trench coat"];
@@ -2007,7 +2007,7 @@
 
         // Visualization 11: Coach Seller Performance
         async function createCoachSellerChart() {
-            const data = await d3.csv("vestiaire-coach.csv");
+            const data = await d3.csv("../data/vestiaire-coach.csv");
             
             // Filter and process data
             const sellerData = data.map(d => ({

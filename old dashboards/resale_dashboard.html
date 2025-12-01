@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Resale Interactive Dashboard</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 30px 40px;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .dashboard-title {
+            font-size: 2.5em;
+            color: #d4af37;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1em;
+            color: #b8b8b8;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .controls-panel {
+            background: #1a1a1a;
+            padding: 20px 40px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #333;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-label {
+            color: #d4af37;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            font-size: 0.85em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+            font-weight: 300;
+        }
+
+        .filter-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #d4af37;
+            color: #0a0a0a;
+            font-weight: 500;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #2a2a2a;
+            border: 1px solid #d4af37;
+            color: #f5f5f5;
+            font-size: 0.85em;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:hover {
+            background: #333;
+        }
+
+        .stats-bar {
+            background: #151515;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #333;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            color: #d4af37;
+            font-weight: 300;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 5px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+            height: calc(100vh - 320px);
+        }
+
+        .viz-panel {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #333;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .viz-panel {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viz-panel > div:last-child {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            font-size: 1.3em;
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(10, 10, 10, 0.95);
+            color: #f5f5f5;
+            padding: 12px 16px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            border: 1px solid #d4af37;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .tooltip strong {
+            color: #d4af37;
+        }
+
+        .axis text {
+            fill: #b8b8b8;
+            font-size: 11px;
+        }
+
+        .axis line,
+        .axis path {
+            stroke: #444;
+        }
+
+        .legend-item {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .legend-item:hover {
+            opacity: 0.7;
+        }
+
+        .legend-item.dimmed {
+            opacity: 0.3;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        .highlighted {
+            stroke: #d4af37 !important;
+            stroke-width: 3px !important;
+        }
+
+        .dimmed-viz {
+            opacity: 0.3;
+        }
+
+        @media (max-width: 1400px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .viz-panel.full-width {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <div class="dashboard-title">Luxury Resale Analytics</div>
+        <div class="dashboard-subtitle">Interactive exploration of Hermès, Gucci, and Coach resale market dynamics</div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="control-group">
+            <span class="control-label">Brand:</span>
+            <button class="filter-btn active" data-brand="all">All Brands</button>
+            <button class="filter-btn" data-brand="Hermès">Hermès</button>
+            <button class="filter-btn" data-brand="Gucci">Gucci</button>
+            <button class="filter-btn" data-brand="Coach">Coach</button>
+        </div>
+
+        <div class="control-group">
+            <span class="control-label">Condition:</span>
+            <select id="condition-filter">
+                <option value="all">All Conditions</option>
+                <option value="Never worn">Never Worn</option>
+                <option value="Very good condition">Very Good</option>
+                <option value="Good condition">Good</option>
+                <option value="Fair condition">Fair</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <span class="control-label">Price Range:</span>
+            <select id="price-filter">
+                <option value="all">All Prices</option>
+                <option value="0-100">$0 - $100</option>
+                <option value="100-500">$100 - $500</option>
+                <option value="500-1000">$500 - $1,000</option>
+                <option value="1000+">$1,000+</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <button class="filter-btn" id="reset-btn">Reset All</button>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-box">
+            <div class="stat-value" id="total-items">-</div>
+            <div class="stat-label">Total Items</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="avg-price">-</div>
+            <div class="stat-label">Avg Price</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="price-range">-</div>
+            <div class="stat-label">Price Range</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="top-category">-</div>
+            <div class="stat-label">Top Category</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="viz-panel">
+            <div class="panel-title">Product Categories <span style="font-size: 0.7em; color: #888;">(Click to filter)</span></div>
+            <div id="category-chart"></div>
+        </div>
+
+        <div class="viz-panel">
+            <div class="panel-title">Price vs. Seller Performance <span style="font-size: 0.7em; color: #888;">(Click brand to filter)</span></div>
+            <div id="scatter-plot"></div>
+        </div>
+
+        <div class="viz-panel">
+            <div class="panel-title">Condition Impact on Pricing <span style="font-size: 0.7em; color: #888;">(Click to filter)</span></div>
+            <div id="condition-price"></div>
+        </div>
+
+        <div class="viz-panel">
+            <div class="panel-title">Seller Badge Distribution <span style="font-size: 0.7em; color: #888;">(Click to filter)</span></div>
+            <div id="seller-badge"></div>
+        </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <script>
+        // Global variables
+        let allData = [];
+        let filteredData = [];
+        let currentBrand = 'all';
+        let currentCondition = 'all';
+        let currentPriceRange = 'all';
+        let selectedCategory = null;
+        let selectedBadge = null;
+
+        const brandColors = {
+            'Hermès': '#d4af37',
+            'Gucci': '#c41e3a',
+            'Coach': '#8b4513'
+        };
+
+        const tooltip = d3.select('.tooltip');
+
+        // Load all data
+        async function loadData() {
+            try {
+                const [coachData, gucciData, hermesData] = await Promise.all([
+                    d3.csv('data/vestiaire-coach.csv'),
+                    d3.csv('data/vestiaire-gucci.csv'),
+                    d3.csv('data/vestiaire-hermes.csv')
+                ]);
+
+                // Process and combine data
+                allData = [
+                    ...coachData.map(d => ({...d, brand: 'Coach'})),
+                    ...gucciData.map(d => ({...d, brand: 'Gucci'})),
+                    ...hermesData.map(d => ({...d, brand: 'Hermès'}))
+                ].map(d => ({
+                    ...d,
+                    price: +d.price_usd || 0,
+                    likes: +d.product_like_count || 0,
+                    sellerProductsSold: +d.seller_products_sold || 0,
+                    sellerRank: +d.seller_community_rank || 0,
+                    sellerPassRate: +d.seller_pass_rate || 0,
+                    sellerFollowers: +d.seller_num_followers || 0,
+                    available: d.available === 'TRUE',
+                    sold: d.sold === 'TRUE'
+                })).filter(d => d.price > 0 && d.price < 50000); // Filter outliers
+
+                filteredData = [...allData];
+                
+                console.log('Data loaded:', allData.length, 'items');
+                
+                updateDashboard();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Filter data based on current selections
+        function applyFilters(skipViz = null) {
+            filteredData = allData.filter(d => {
+                // Brand filter
+                if (currentBrand !== 'all' && d.brand !== currentBrand) return false;
+
+                // Condition filter
+                if (currentCondition !== 'all' && d.product_condition !== currentCondition) return false;
+
+                // Price range filter
+                if (currentPriceRange !== 'all') {
+                    const [min, max] = currentPriceRange.split('-').map(v => v === '+' ? Infinity : +v.replace('+', ''));
+                    if (max !== undefined) {
+                        if (d.price < min || d.price >= max) return false;
+                    } else {
+                        if (d.price < min) return false;
+                    }
+                }
+
+                // Category filter (from click)
+                if (selectedCategory && d.product_type !== selectedCategory) return false;
+
+                // Badge filter (from click)
+                if (selectedBadge && d.seller_badge !== selectedBadge) return false;
+
+                return true;
+            });
+
+            updateDashboard(skipViz);
+        }
+
+        // Update all visualizations
+        function updateDashboard(skipViz = null) {
+            updateStats();
+            if (skipViz !== 'category') createCategoryChart();
+            if (skipViz !== 'scatter') createScatterPlot();
+            if (skipViz !== 'condition') createConditionPriceChart();
+            if (skipViz !== 'badge') createSellerBadgeChart();
+        }
+
+        // Update statistics bar
+        function updateStats() {
+            const totalItems = filteredData.length;
+            const avgPrice = d3.mean(filteredData, d => d.price);
+            const minPrice = d3.min(filteredData, d => d.price);
+            const maxPrice = d3.max(filteredData, d => d.price);
+
+            // Find top category
+            const categoryCount = d3.rollup(filteredData, v => v.length, d => d.product_type);
+            const topCategory = Array.from(categoryCount.entries())
+                .sort((a, b) => b[1] - a[1])[0];
+
+            d3.select('#total-items').text(totalItems.toLocaleString());
+            d3.select('#avg-price').text('$' + avgPrice.toFixed(0));
+            d3.select('#price-range').text(`$${minPrice.toFixed(0)} - $${maxPrice.toFixed(0)}`);
+            d3.select('#top-category').text(topCategory ? topCategory[0] : '-');
+        }
+
+        // Visualization 1: Condition vs Price
+        function createConditionPriceChart() {
+            const container = d3.select('#condition-price');
+            container.selectAll('*').remove();
+
+            const containerNode = container.node();
+            const containerWidth = containerNode.getBoundingClientRect().width;
+            const containerHeight = containerNode.getBoundingClientRect().height;
+
+            const margin = {top: 20, right: 20, bottom: 100, left: 60};
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            const svg = container.append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const conditions = ['Never worn', 'Very good condition', 'Good condition', 'Fair condition'];
+            const conditionData = conditions.map(condition => {
+                const items = filteredData.filter(d => d.product_condition === condition);
+                return {
+                    condition,
+                    avg: d3.mean(items, d => d.price) || 0,
+                    median: d3.median(items, d => d.price) || 0,
+                    count: items.length
+                };
+            }).filter(d => d.count > 0);
+
+            const x = d3.scaleBand()
+                .domain(conditionData.map(d => d.condition))
+                .range([0, width])
+                .padding(0.3);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(conditionData, d => d.avg)])
+                .range([height, 0]);
+
+            // Draw bars
+            svg.selectAll('.bar')
+                .data(conditionData)
+                .join('rect')
+                .attr('class', 'bar clickable')
+                .attr('x', d => x(d.condition))
+                .attr('y', d => y(d.avg))
+                .attr('width', x.bandwidth())
+                .attr('height', d => height - y(d.avg))
+                .attr('fill', d => currentCondition === d.condition ? '#d4af37' : '#8b7d6b')
+                .attr('opacity', d => currentCondition === 'all' || currentCondition === d.condition ? 0.8 : 0.3)
+                .attr('stroke', d => currentCondition === d.condition ? '#d4af37' : 'none')
+                .attr('stroke-width', 2)
+                .on('mouseover', function(event, d) {
+                    d3.select(this).attr('opacity', 1);
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.condition}</strong><br/>Avg: $${d.avg.toFixed(0)}<br/>Median: $${d.median.toFixed(0)}<br/>Items: ${d.count}<br/><em>Click to filter</em>`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this).attr('opacity', currentCondition === 'all' || currentCondition === d.condition ? 0.8 : 0.3);
+                    tooltip.style('opacity', 0);
+                })
+                .on('click', function(event, d) {
+                    if (currentCondition === d.condition) {
+                        currentCondition = 'all';
+                    } else {
+                        currentCondition = d.condition;
+                    }
+                    d3.select('#condition-filter').property('value', currentCondition);
+                    applyFilters('condition');
+                });
+
+            // Axes
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('transform', 'rotate(-45)')
+                .style('text-anchor', 'end');
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .call(d3.axisLeft(y).tickFormat(d => '$' + d));
+
+            svg.append('text')
+                .attr('x', -height / 2)
+                .attr('y', -45)
+                .attr('text-anchor', 'middle')
+                .attr('transform', 'rotate(-90)')
+                .attr('fill', '#b8b8b8')
+                .style('font-size', '12px')
+                .text('Average Price (USD)');
+        }
+
+        // Visualization 2: Top Categories
+        function createCategoryChart() {
+            const container = d3.select('#category-chart');
+            container.selectAll('*').remove();
+
+            const containerNode = container.node();
+            const containerWidth = containerNode.getBoundingClientRect().width;
+            const containerHeight = containerNode.getBoundingClientRect().height;
+
+            const margin = {top: 20, right: 20, bottom: 60, left: 150};
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            const svg = container.append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Get top 10 categories
+            const categoryData = Array.from(
+                d3.rollup(filteredData, v => v.length, d => d.product_type),
+                ([category, count]) => ({category, count})
+            ).sort((a, b) => b.count - a.count).slice(0, 10);
+
+            const x = d3.scaleLinear()
+                .domain([0, d3.max(categoryData, d => d.count)])
+                .range([0, width]);
+
+            const y = d3.scaleBand()
+                .domain(categoryData.map(d => d.category))
+                .range([0, height])
+                .padding(0.2);
+
+            // Draw bars
+            svg.selectAll('.bar')
+                .data(categoryData)
+                .join('rect')
+                .attr('class', 'bar clickable')
+                .attr('x', 0)
+                .attr('y', d => y(d.category))
+                .attr('width', d => x(d.count))
+                .attr('height', y.bandwidth())
+                .attr('fill', d => selectedCategory === d.category ? '#c41e3a' : '#8b4513')
+                .attr('opacity', d => !selectedCategory || selectedCategory === d.category ? 0.8 : 0.3)
+                .attr('stroke', d => selectedCategory === d.category ? '#c41e3a' : 'none')
+                .attr('stroke-width', 2)
+                .on('mouseover', function(event, d) {
+                    d3.select(this).attr('opacity', 1);
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.category}</strong><br/>Count: ${d.count}<br/><em>Click to filter</em>`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this).attr('opacity', !selectedCategory || selectedCategory === d.category ? 0.8 : 0.3);
+                    tooltip.style('opacity', 0);
+                })
+                .on('click', function(event, d) {
+                    if (selectedCategory === d.category) {
+                        selectedCategory = null;
+                    } else {
+                        selectedCategory = d.category;
+                    }
+                    applyFilters('category');
+                });
+
+            // Axes
+            svg.append('g')
+                .attr('class', 'axis')
+                .call(d3.axisLeft(y));
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x).ticks(5));
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height + 45)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#b8b8b8')
+                .style('font-size', '12px')
+                .text('Number of Items');
+        }
+
+        // Visualization 3: Scatter Plot
+        function createScatterPlot() {
+            const container = d3.select('#scatter-plot');
+            container.selectAll('*').remove();
+
+            const containerNode = container.node();
+            const containerWidth = containerNode.getBoundingClientRect().width;
+            const containerHeight = containerNode.getBoundingClientRect().height;
+
+            const margin = {top: 20, right: 120, bottom: 60, left: 80};
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            const svg = container.append('svg')
+                .attr('width', containerWidth)
+                .attr('height', containerHeight)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Sample for performance
+            const sample = d3.shuffle(filteredData).slice(0, 400);
+
+            const x = d3.scaleLinear()
+                .domain([0, d3.max(sample, d => d.sellerFollowers)])
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(sample, d => d.price)])
+                .range([height, 0]);
+
+            const size = d3.scaleSqrt()
+                .domain([0, d3.max(sample, d => d.likes)])
+                .range([3, 12]);
+
+            // Draw points
+            svg.selectAll('.scatter-dot')
+                .data(sample)
+                .join('circle')
+                .attr('class', 'scatter-dot clickable')
+                .attr('cx', d => x(d.sellerFollowers))
+                .attr('cy', d => y(d.price))
+                .attr('r', d => size(d.likes))
+                .attr('fill', d => brandColors[d.brand])
+                .attr('opacity', d => currentBrand === 'all' || currentBrand === d.brand ? 0.6 : 0.2)
+                .attr('stroke', d => currentBrand === d.brand ? '#fff' : 'none')
+                .attr('stroke-width', 1)
+                .on('mouseover', function(event, d) {
+                    d3.select(this).attr('opacity', 1).raise();
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.brand} - ${d.product_type}</strong><br/>Price: $${d.price.toFixed(0)}<br/>Seller Followers: ${d.sellerFollowers}<br/>Likes: ${d.likes}<br/>Condition: ${d.product_condition}`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this).attr('opacity', currentBrand === 'all' || currentBrand === d.brand ? 0.6 : 0.2);
+                    tooltip.style('opacity', 0);
+                });
+
+            // Axes
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x).ticks(6));
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .call(d3.axisLeft(y).tickFormat(d => '$' + d).ticks(6));
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height + 45)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#b8b8b8')
+                .style('font-size', '12px')
+                .text('Seller Followers');
+
+            svg.append('text')
+                .attr('x', -height / 2)
+                .attr('y', -60)
+                .attr('text-anchor', 'middle')
+                .attr('transform', 'rotate(-90)')
+                .attr('fill', '#b8b8b8')
+                .style('font-size', '12px')
+                .text('Price (USD)');
+
+            // Legend - clickable
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width + 20}, 0)`);
+
+            Object.entries(brandColors).forEach(([brand, color], i) => {
+                const g = legend.append('g')
+                    .attr('transform', `translate(0, ${i * 25})`)
+                    .attr('class', 'clickable')
+                    .style('cursor', 'pointer')
+                    .on('click', function() {
+                        if (currentBrand === brand) {
+                            currentBrand = 'all';
+                            d3.selectAll('.filter-btn[data-brand]').classed('active', false);
+                            d3.select('.filter-btn[data-brand="all"]').classed('active', true);
+                        } else {
+                            currentBrand = brand;
+                            d3.selectAll('.filter-btn[data-brand]').classed('active', false);
+                            d3.select(`.filter-btn[data-brand="${brand}"]`).classed('active', true);
+                        }
+                        applyFilters('scatter');
+                    })
+                    .on('mouseover', function() {
+                        d3.select(this).selectAll('circle').attr('r', 8);
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this).selectAll('circle').attr('r', 6);
+                    });
+
+                g.append('circle')
+                    .attr('cx', 0)
+                    .attr('cy', 0)
+                    .attr('r', 6)
+                    .attr('fill', color)
+                    .attr('opacity', currentBrand === 'all' || currentBrand === brand ? 0.9 : 0.3)
+                    .attr('stroke', currentBrand === brand ? '#d4af37' : 'none')
+                    .attr('stroke-width', 2);
+
+                g.append('text')
+                    .attr('x', 15)
+                    .attr('y', 5)
+                    .attr('fill', '#b8b8b8')
+                    .style('font-size', '12px')
+                    .text(brand);
+            });
+        }
+
+        // Visualization 4: Seller Badge Distribution
+        function createSellerBadgeChart() {
+            const container = d3.select('#seller-badge');
+            container.selectAll('*').remove();
+
+            const containerNode = container.node();
+            const containerWidth = containerNode.getBoundingClientRect().width;
+            const containerHeight = containerNode.getBoundingClientRect().height;
+
+            const margin = {top: 40, right: 40, bottom: 40, left: 40};
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            const svg = container.append('svg')
+                .attr('width', containerWidth)
+                .attr('height', containerHeight)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Group by badge
+            const badgeData = Array.from(
+                d3.rollup(filteredData,
+                    v => ({
+                        count: v.length,
+                        avgPrice: d3.mean(v, d => d.price),
+                        avgPassRate: d3.mean(v, d => d.sellerPassRate)
+                    }),
+                    d => d.seller_badge || 'Unknown'
+                ),
+                ([badge, data]) => ({badge, ...data})
+            ).filter(d => d.count > 10)
+              .sort((a, b) => b.count - a.count)
+              .slice(0, 6);
+
+            const radius = Math.min(width, height) / 2;
+
+            const pie = d3.pie()
+                .value(d => d.count)
+                .sort(null);
+
+            const arc = d3.arc()
+                .innerRadius(radius * 0.5)
+                .outerRadius(radius * 0.9);
+
+            const arcHover = d3.arc()
+                .innerRadius(radius * 0.5)
+                .outerRadius(radius * 0.95);
+
+            const colorScale = d3.scaleOrdinal()
+                .domain(badgeData.map(d => d.badge))
+                .range(['#d4af37', '#c41e3a', '#8b4513', '#4caf50', '#2196f3', '#ff9800']);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+            // Draw arcs
+            const arcs = g.selectAll('.arc')
+                .data(pie(badgeData))
+                .join('g')
+                .attr('class', 'arc clickable');
+
+            arcs.append('path')
+                .attr('d', arc)
+                .attr('fill', d => colorScale(d.data.badge))
+                .attr('opacity', d => !selectedBadge || selectedBadge === d.data.badge ? 0.8 : 0.3)
+                .attr('stroke', d => selectedBadge === d.data.badge ? '#d4af37' : '#0a0a0a')
+                .attr('stroke-width', d => selectedBadge === d.data.badge ? 3 : 1)
+                .on('mouseover', function(event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('d', arcHover)
+                        .attr('opacity', 1);
+                    
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.data.badge}</strong><br/>Items: ${d.data.count}<br/>Avg Price: $${d.data.avgPrice.toFixed(0)}<br/>Avg Pass Rate: ${d.data.avgPassRate.toFixed(1)}%<br/><em>Click to filter</em>`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('d', arc)
+                        .attr('opacity', !selectedBadge || selectedBadge === d.data.badge ? 0.8 : 0.3);
+                    
+                    tooltip.style('opacity', 0);
+                })
+                .on('click', function(event, d) {
+                    if (selectedBadge === d.data.badge) {
+                        selectedBadge = null;
+                    } else {
+                        selectedBadge = d.data.badge;
+                    }
+                    applyFilters('badge');
+                });
+
+            // Add labels
+            arcs.append('text')
+                .attr('transform', d => `translate(${arc.centroid(d)})`)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#f5f5f5')
+                .style('font-size', '11px')
+                .style('font-weight', '500')
+                .style('pointer-events', 'none')
+                .text(d => d.data.count > 50 ? d.data.badge : '');
+
+            // Center text
+            g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#d4af37')
+                .style('font-size', '18px')
+                .style('font-weight', '300')
+                .attr('y', -10)
+                .text('Seller Badges');
+
+            g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#b8b8b8')
+                .style('font-size', '24px')
+                .style('font-weight', '500')
+                .attr('y', 15)
+                .text(filteredData.length.toLocaleString());
+
+            g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#888')
+                .style('font-size', '12px')
+                .attr('y', 35)
+                .text('Total Items');
+        }
+
+        // Event listeners
+        d3.selectAll('.filter-btn[data-brand]').on('click', function() {
+            d3.selectAll('.filter-btn[data-brand]').classed('active', false);
+            d3.select(this).classed('active', true);
+            currentBrand = this.dataset.brand;
+            applyFilters();
+        });
+
+        d3.select('#condition-filter').on('change', function() {
+            currentCondition = this.value;
+            applyFilters();
+        });
+
+        d3.select('#price-filter').on('change', function() {
+            currentPriceRange = this.value;
+            applyFilters();
+        });
+
+        d3.select('#reset-btn').on('click', function() {
+            currentBrand = 'all';
+            currentCondition = 'all';
+            currentPriceRange = 'all';
+            selectedCategory = null;
+            selectedBadge = null;
+            
+            d3.selectAll('.filter-btn[data-brand]').classed('active', false);
+            d3.select('.filter-btn[data-brand="all"]').classed('active', true);
+            d3.select('#condition-filter').property('value', 'all');
+            d3.select('#price-filter').property('value', 'all');
+            
+            applyFilters();
+        });
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>
