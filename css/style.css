@@ -1532,3 +1532,66 @@
             font-family: 'Helvetica Neue', sans-serif;
         }
 
+        /* Side Navigation Dots */
+        .slide-nav {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-dot::before {
+            content: attr(data-slide);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .nav-dot:hover::before {
+            opacity: 1;
+        }
+
+        .nav-dot.active {
+            background: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Navigation dots on light backgrounds (chapter slides) */
+        .slide-chapter ~ * .nav-dot,
+        body:has(.slide-chapter:target) .nav-dot {
+            border-color: rgba(107, 83, 53, 0.5);
+        }
+
+        .slide-chapter ~ * .nav-dot::before,
+        body:has(.slide-chapter:target) .nav-dot::before {
+            color: rgba(107, 83, 53, 0.7);
+        }
+
+        .slide-chapter ~ * .nav-dot.active,
+        body:has(.slide-chapter:target) .nav-dot.active {
+            background: #6b5335;
+            border-color: #6b5335;
+            box-shadow: 0 0 20px rgba(107, 83, 53, 0.6);
+        }
+

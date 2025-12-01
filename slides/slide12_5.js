@@ -7,6 +7,27 @@
 				<h2 class="section-title">Category Performance Analysis</h2>
 				<p class="section-subtitle">Interactive revenue trends and year-over-year category breakdown by brand</p>
 				
+				<!-- Insight Lightbulb Button -->
+				<button id="insights-btn-category" style="
+					position: absolute;
+					top: 20px;
+					right: 20px;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+					border: 2px solid #d4af37;
+					cursor: pointer;
+					box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+					animation: pulse 2s infinite;
+					z-index: 100;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 24px;
+					transition: all 0.3s;
+				" title="View Category Insights">💡</button>
+				
 				<div class="viz-container" style="margin-top: 40px;">
 					<div id="brand-lines-row" style="display: flex; gap: 30px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;"></div>
 					
@@ -16,6 +37,101 @@
 				</div>
 			</div>
 		</section>
+		
+		<!-- Insights Modal -->
+		<div id="insights-modal-category" style="
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.85);
+			align-items: center;
+			justify-content: center;
+		">
+			<div style="
+				background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+				border: 2px solid #d4af37;
+				border-radius: 20px;
+				padding: 40px;
+				max-width: 700px;
+				width: 90%;
+				max-height: 80vh;
+				overflow-y: auto;
+				box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+				position: relative;
+			">
+				<button class="close-insights" style="
+					position: absolute;
+					top: 20px;
+					right: 25px;
+					font-size: 35px;
+					font-weight: bold;
+					color: #d4af37;
+					background: none;
+					border: none;
+					cursor: pointer;
+					transition: color 0.3s;
+				">&times;</button>
+				
+				<h2 style="
+					color: #d4af37;
+					font-size: 32px;
+					margin-bottom: 30px;
+					text-align: center;
+					font-family: 'Playfair Display', serif;
+				">Category Performance Insights</h2>
+				
+				<div style="display: flex; flex-direction: column; gap: 25px;">
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8B2635;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8B2635; margin-bottom: 10px; font-size: 22px;">📈 Hermès' Steady Climb</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							Hermès shows consistent growth across all categories with accessories leading the charge. 
+							Their leather goods category has seen a 185% increase from 2012-2024, demonstrating the 
+							power of scarcity and artisanal craftsmanship. Each bar tells a story of controlled expansion 
+							without sacrificing exclusivity.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #d4af37;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #d4af37; margin-bottom: 10px; font-size: 22px;">👟 Gucci's Category Dominance</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							Gucci's diversified approach shows strength across shoes, accessories, and apparel. Notice how 
+							their revenue distribution is more balanced compared to Hermès' accessory focus. This multi-category 
+							strategy creates resilience—when one category slows, others compensate. The line graphs reveal 
+							volatility in recent years as they navigate market shifts.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8b4513;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8b4513; margin-bottom: 10px; font-size: 22px;">💼 Coach's Evolution Story</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							Coach's accessible luxury positioning shows in their smaller but stable revenue streams. 
+							Accessories dominate (as expected for a heritage leather brand), but recent diversification 
+							into footwear and apparel signals strategic evolution. The year-over-year bars show they're 
+							holding ground in a competitive mid-luxury market.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	`);
 
 	const BRANDS = ["Hermes", "Gucci", "Coach"];
@@ -341,5 +457,28 @@
 			.style("letter-spacing", "0.05em")
 			.attr("text-anchor", "middle")
 			.text(`${brand} ${year}`);
+	}
+	
+	// Insights modal functionality
+	const insightsBtn = document.getElementById('insights-btn-category');
+	const insightsModal = document.getElementById('insights-modal-category');
+	const closeBtn = insightsModal?.querySelector('.close-insights');
+
+	if (insightsBtn && insightsModal) {
+		insightsBtn.addEventListener('click', () => {
+			insightsModal.style.display = 'flex';
+		});
+
+		if (closeBtn) {
+			closeBtn.addEventListener('click', () => {
+				insightsModal.style.display = 'none';
+			});
+		}
+
+		window.addEventListener('click', (e) => {
+			if (e.target === insightsModal) {
+				insightsModal.style.display = 'none';
+			}
+		});
 	}
 })();

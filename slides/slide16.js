@@ -7,6 +7,27 @@
 				<h2 class="section-title">The Vestiaire Marketplace</h2>
 				<p class="section-subtitle">Real-time pricing data from 62,000+ luxury resale items</p>
 				
+				<!-- Insight Lightbulb Button -->
+				<button id="insights-btn-vestiaire" style="
+					position: absolute;
+					top: 20px;
+					right: 20px;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					background: linear-gradient(135deg, #d4af37 0%, #f0c55d 100%);
+					border: 2px solid #d4af37;
+					cursor: pointer;
+					box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+					animation: pulse 2s infinite;
+					z-index: 100;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 24px;
+					transition: all 0.3s;
+				" title="View Value of Legacy Insights">💡</button>
+				
 				<div class="viz-container">
 					<div id="vestiaire-viz"></div>
 				</div>
@@ -18,6 +39,101 @@
 				</div>
 			</div>
 		</section>
+		
+		<!-- Insights Modal -->
+		<div id="insights-modal-vestiaire" style="
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.85);
+			align-items: center;
+			justify-content: center;
+		">
+			<div style="
+				background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+				border: 2px solid #d4af37;
+				border-radius: 20px;
+				padding: 40px;
+				max-width: 700px;
+				width: 90%;
+				max-height: 80vh;
+				overflow-y: auto;
+				box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+				position: relative;
+			">
+				<button class="close-insights" style="
+					position: absolute;
+					top: 20px;
+					right: 25px;
+					font-size: 35px;
+					font-weight: bold;
+					color: #d4af37;
+					background: none;
+					border: none;
+					cursor: pointer;
+					transition: color 0.3s;
+				">&times;</button>
+				
+				<h2 style="
+					color: #d4af37;
+					font-size: 32px;
+					margin-bottom: 30px;
+					text-align: center;
+					font-family: 'Playfair Display', serif;
+				">The Value of Legacy</h2>
+				
+				<div style="display: flex; flex-direction: column; gap: 25px;">
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8B2635;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8B2635; margin-bottom: 10px; font-size: 22px;">💰 52% - Hermès Holds Value</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							An Hermès accessory retains over half its retail price on the resale market. 
+							Some rare pieces even appreciate. This isn't fashion—it's investment-grade luxury. 
+							While other brands depreciate rapidly, Hermès products maintain their value like fine art, 
+							proving that true craftsmanship creates lasting financial worth.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #d4af37;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #d4af37; margin-bottom: 10px; font-size: 22px;">📈 $1,181 - Apparel Premium</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							Hermès apparel resells at $1,181 average—42% retention from $2,800 retail. 
+							Meanwhile, Coach accessories average just $104. Brand equity translates directly to resale power. 
+							The pricing data from Vestiaire reveals a stark hierarchy: ultra-luxury maintains premium positioning 
+							even in the secondary market.
+						</p>
+					</div>
+					
+					<div style="
+						background: rgba(212, 175, 55, 0.1);
+						border-left: 4px solid #8b4513;
+						padding: 20px;
+						border-radius: 8px;
+					">
+						<h3 style="color: #8b4513; margin-bottom: 10px; font-size: 22px;">♻️ Sustainability - New Value Model</h3>
+						<p style="color: #e0e0e0; line-height: 1.6; font-size: 16px;">
+							The resale market isn't cannibalizing sales—it's creating new luxury consumers. 
+							A $622 pre-owned Hermès bag is someone's entry point to the brand ecosystem. 
+							Vestiaire's 62,000+ items represent a thriving circular economy where sustainability meets aspiration, 
+							and pre-loved becomes prestigious.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	`);
 
 	window.createVestiaireViz = async function() {
@@ -289,4 +405,27 @@
 			updateVisualization(view);
 		});
 	};
+	
+	// Insights modal functionality
+	const insightsBtn = document.getElementById('insights-btn-vestiaire');
+	const insightsModal = document.getElementById('insights-modal-vestiaire');
+	const closeBtn = insightsModal?.querySelector('.close-insights');
+
+	if (insightsBtn && insightsModal) {
+		insightsBtn.addEventListener('click', () => {
+			insightsModal.style.display = 'flex';
+		});
+
+		if (closeBtn) {
+			closeBtn.addEventListener('click', () => {
+				insightsModal.style.display = 'none';
+			});
+		}
+
+		window.addEventListener('click', (e) => {
+			if (e.target === insightsModal) {
+				insightsModal.style.display = 'none';
+			}
+		});
+	}
 })();

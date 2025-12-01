@@ -1,5 +1,3 @@
-// HIDDEN - Chapter transition slide
-/*
 (function() {
 	const container = document.querySelector('.scroll-container');
 	if (!container) return;
@@ -21,4 +19,3 @@
 		</section>
 	`);
 })();
-*/

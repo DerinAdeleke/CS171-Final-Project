@@ -9,6 +9,25 @@
     <script src="https://unpkg.com/topojson@3"></script>
 </head>
 <body>
+    <!-- Side Navigation Dots -->
+    <div class="slide-nav">
+        <div class="nav-dot active" data-slide="Intro" onclick="scrollToSlide(0)"></div>
+        <div class="nav-dot" data-slide="Chapter I" onclick="scrollToSlide(1)"></div>
+        <div class="nav-dot" data-slide="Timeline" onclick="scrollToSlide(2)"></div>
+        <div class="nav-dot" data-slide="Our Three" onclick="scrollToSlide(3)"></div>
+        <div class="nav-dot" data-slide="Chapter II" onclick="scrollToSlide(4)"></div>
+        <div class="nav-dot" data-slide="Overview" onclick="scrollToSlide(5)"></div>
+        <div class="nav-dot" data-slide="Dominance" onclick="scrollToSlide(6)"></div>
+        <div class="nav-dot" data-slide="Chapter III" onclick="scrollToSlide(7)"></div>
+        <div class="nav-dot" data-slide="Best Sellers" onclick="scrollToSlide(8)"></div>
+        <div class="nav-dot" data-slide="Category" onclick="scrollToSlide(9)"></div>
+        <div class="nav-dot" data-slide="Chapter IV" onclick="scrollToSlide(10)"></div>
+        <div class="nav-dot" data-slide="Resale" onclick="scrollToSlide(11)"></div>
+        <div class="nav-dot" data-slide="Vestiaire" onclick="scrollToSlide(12)"></div>
+        <div class="nav-dot" data-slide="Conclusion" onclick="scrollToSlide(13)"></div>
+        <div class="nav-dot" data-slide="Team" onclick="scrollToSlide(14)"></div>
+    </div>
+
     <!-- EMPTY container: slides will be injected by slides/*.js -->
     <div class="scroll-container"></div>
 
@@ -214,6 +233,7 @@
 
         // Update slide visibility on scroll
         const scrollContainer = document.querySelector('.scroll-container');
+        const navDots = document.querySelectorAll('.nav-dot');
 
         scrollContainer.addEventListener('scroll', () => {
             const scrollPosition = scrollContainer.scrollTop;
@@ -228,6 +248,12 @@
                     const content = slide.querySelector('.slide-content');
                     if (content && !content.classList.contains('visible')) {
                         content.classList.add('visible');
+                    }
+                    
+                    // Update navigation dots
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    if (navDots[index]) {
+                        navDots[index].classList.add('active');
                     }
                 }
             });
@@ -336,6 +362,14 @@
 
             const observedSlides = document.querySelectorAll('.slide');
             observedSlides.forEach(slide => observer.observe(slide));
+        }
+        
+        // Scroll Navigation Functions
+        function scrollToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            if (slides[index]) {
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            }
         }
     </script>
 </body>
