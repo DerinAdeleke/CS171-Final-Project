@@ -1851,6 +1851,26 @@
             border-radius: 5px;
         }
 
+        .brand-filter-btn[data-brand="Hermès"] {
+            border-color: #8B2635;
+            color: #8B2635;
+        }
+
+        .brand-filter-btn[data-brand="Gucci"] {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+
+        .brand-filter-btn[data-brand="Coach"] {
+            border-color: #8b4513;
+            color: #8b4513;
+        }
+
+        .brand-filter-btn[data-brand="all"] {
+            border-color: #999;
+            color: #999;
+        }
+
         .brand-filter-btn::before {
             content: '';
             position: absolute;
@@ -1867,14 +1887,55 @@
         }
 
         .brand-filter-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .brand-filter-btn.active {
+        .brand-filter-btn[data-brand="Hermès"]:hover {
+            background: rgba(139, 38, 53, 0.15);
+            box-shadow: 0 5px 15px rgba(139, 38, 53, 0.3);
+        }
+
+        .brand-filter-btn[data-brand="Gucci"]:hover {
+            background: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .brand-filter-btn[data-brand="Coach"]:hover {
+            background: rgba(139, 69, 19, 0.15);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .brand-filter-btn[data-brand="all"]:hover {
+            background: rgba(153, 153, 153, 0.15);
+            box-shadow: 0 5px 15px rgba(153, 153, 153, 0.3);
+        }
+
+        .brand-filter-btn.active[data-brand="Hermès"] {
+            background: #8B2635;
+            color: #fff;
+            border-color: #8B2635;
+            font-weight: 500;
+        }
+
+        .brand-filter-btn.active[data-brand="Gucci"] {
             background: #d4af37;
             color: #0a0a0a;
+            border-color: #d4af37;
+            font-weight: 500;
+        }
+
+        .brand-filter-btn.active[data-brand="Coach"] {
+            background: #8b4513;
+            color: #fff;
+            border-color: #8b4513;
+            font-weight: 500;
+        }
+
+        .brand-filter-btn.active[data-brand="all"] {
+            background: #999;
+            color: #0a0a0a;
+            border-color: #999;
             font-weight: 500;
         }
 

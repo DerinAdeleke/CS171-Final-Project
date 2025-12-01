@@ -492,16 +492,54 @@
 				.text(d.Year);
 		});
 
+		// Clickable background track for easy positioning
+		const trackBackground = scrubberSvg.append("rect")
+			.attr("x", 10)
+			.attr("y", 6)
+			.attr("width", scrubberWidth - 20)
+			.attr("height", 20)
+			.attr("fill", "transparent")
+			.style("cursor", "pointer")
+			.on("click", function(event) {
+				const [mouseX] = d3.pointer(event);
+				const clickedYear = Math.round(scrubberScale.invert(mouseX));
+				
+				// Determine which handle is closer
+				const dist1 = Math.abs(clickedYear - yearRange[0]);
+				const dist2 = Math.abs(clickedYear - yearRange[1]);
+				
+				if (dist1 < dist2) {
+					// Move start handle
+					const clampedYear = Math.max(2012, Math.min(clickedYear, yearRange[1]));
+					yearRange[0] = clampedYear;
+					handle1.transition().duration(200).attr("cx", scrubberScale(clampedYear));
+				} else {
+					// Move end handle
+					const clampedYear = Math.min(2024, Math.max(clickedYear, yearRange[0]));
+					yearRange[1] = clampedYear;
+					handle2.transition().duration(200).attr("cx", scrubberScale(clampedYear));
+				}
+				
+				updateRangeBar();
+				updateChart(false);
+				d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
+			});
+
 		// Range selector
 		let handle1 = scrubberSvg.append("circle")
 			.attr("cx", scrubberScale(2012))
 			.attr("cy", 16)
-			.attr("r", 7)
+			.attr("r", 8)
 			.attr("fill", "#d4af37")
 			.attr("stroke", "#0a0a0a")
 			.attr("stroke-width", 2)
 			.style("cursor", "ew-resize")
 			.call(d3.drag()
+				.on("start", function() {
+					d3.select(this)
+						.attr("r", 10)
+						.attr("fill", "#f5d88a");
+				})
 				.on("drag", function(event) {
 					const newYear = Math.round(scrubberScale.invert(event.x));
 					const clampedYear = Math.max(2012, Math.min(newYear, yearRange[1]));
@@ -511,17 +549,32 @@
 					updateChart(false);
 					d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
 				})
-			);
+				.on("end", function() {
+					d3.select(this)
+						.transition()
+						.duration(150)
+						.attr("r", 8)
+						.attr("fill", "#d4af37");
+				})
+			)
+			.on("click", function(event) {
+				event.stopPropagation(); // Prevent track click
+			});
 
 		let handle2 = scrubberSvg.append("circle")
 			.attr("cx", scrubberScale(2024))
 			.attr("cy", 16)
-			.attr("r", 7)
+			.attr("r", 8)
 			.attr("fill", "#d4af37")
 			.attr("stroke", "#0a0a0a")
 			.attr("stroke-width", 2)
 			.style("cursor", "ew-resize")
 			.call(d3.drag()
+				.on("start", function() {
+					d3.select(this)
+						.attr("r", 10)
+						.attr("fill", "#f5d88a");
+				})
 				.on("drag", function(event) {
 					const newYear = Math.round(scrubberScale.invert(event.x));
 					const clampedYear = Math.min(2024, Math.max(newYear, yearRange[0]));
@@ -531,7 +584,17 @@
 					updateChart(false);
 					d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
 				})
-			);
+				.on("end", function() {
+					d3.select(this)
+						.transition()
+						.duration(150)
+						.attr("r", 8)
+						.attr("fill", "#d4af37");
+				})
+			)
+			.on("click", function(event) {
+				event.stopPropagation(); // Prevent track click
+			});
 
 		let rangeBar = scrubberSvg.append("rect")
 			.attr("class", "range-bar")

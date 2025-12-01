@@ -812,61 +812,6 @@
 				<span style="color: #ffd700;">⭐ Top Traffic Markets</span>
 			`);
 
-			// 12. Add legend - positioned to avoid map overlap
-			const legend = g.append("g")
-				.attr("class", "map-legend")
-				.attr("transform", `translate(${width - 180}, 50)`); // Move to top-right
-
-			const legendData = [
-				{brand: 'Hermès', color: '#8B2635'},
-				{brand: 'Gucci', color: '#d4af37'},
-				{brand: 'Coach', color: '#8b4513'}
-			];
-
-			// Add background to legend for better visibility
-			legend.append("rect")
-				.attr("x", -10)
-				.attr("y", -10)
-				.attr("width", 170)
-				.attr("height", 110)
-				.attr("fill", "rgba(10, 10, 10, 0.85)")
-				.attr("stroke", "rgba(212, 175, 55, 0.3)")
-				.attr("stroke-width", 1)
-				.attr("rx", 8);
-
-			legend.selectAll(".legend-item")
-				.data(legendData)
-				.join("g")
-				.attr("class", "legend-item")
-				.attr("transform", (d, i) => `translate(0, ${i * 32})`)
-				.each(function(d) {
-					const g = d3.select(this);
-					g.append("rect")
-						.attr("width", 22)
-						.attr("height", 22)
-						.attr("fill", d.color)
-						.attr("opacity", 0.8)
-						.attr("rx", 3);
-					g.append("text")
-						.attr("x", 30)
-						.attr("y", 16)
-						.text(`${d.brand} Dominant`)
-						.attr("fill", "#f5f5f5")
-						.style("font-size", "13px")
-						.style("font-weight", "300");
-				});
-
-			// 13. Add title at top-left to balance legend on right
-			g.append("text")
-				.attr("x", 30)
-				.attr("y", 35)
-				.attr("text-anchor", "start")
-				.attr("fill", "#d4af37")
-				.style("font-size", "22px")
-				.style("font-weight", "300")
-				.style("letter-spacing", "0.1em")
-				.text("BRAND DOMINANCE MAP");
-
 			// Brand filter buttons
 			d3.selectAll('.brand-filter-btn').on('click', function() {
 				const brand = this.dataset.brand;

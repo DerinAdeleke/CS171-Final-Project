@@ -286,9 +286,9 @@
 			const lineDiv = container.append("div").attr("id", `line-${brand}`);
 			const barDiv = container.append("div").attr("id", `bar-${brand}`);
 			
-			drawLineChart(`#line-${brand}`, brand, globalData, 420, 340);
+			drawLineChart(`#line-${brand}`, brand, globalData, 400, 310);
 			const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-			drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 340);
+			drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 400, 310);
 			
 		} else if (count === 2) {
 			// Stacked: 4 graphs (2 brands × 2 charts each)
@@ -303,34 +303,34 @@
 				const brandColumn = container.append("div")
 					.style("display", "flex")
 					.style("flex-direction", "column")
-					.style("gap", "25px")
+					.style("gap", "20px")
 					.style("align-items", "center");
 					
 				brandColumn.append("div").attr("id", `line-${brand}`);
 				brandColumn.append("div").attr("id", `bar-${brand}`);
 				
-				drawLineChart(`#line-${brand}`, brand, globalData, 450, 320);
+				drawLineChart(`#line-${brand}`, brand, globalData, 420, 290);
 				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 450, 320);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 280);
 			});
 			
 		} else {
 			// All 3 brands: original layout (stacked rows)
 			container.style("display", "flex")
 				.style("flex-direction", "column")
-				.style("gap", "20px");
+				.style("gap", "15px");
 				
 			const lineRow = container.append("div")
 				.attr("id", "brand-lines-row")
 				.style("display", "flex")
-				.style("gap", "25px")
+				.style("gap", "20px")
 				.style("justify-content", "center")
 				.style("flex-wrap", "wrap");
 				
 			const barRow = container.append("div")
 				.attr("id", "brand-bars-row")
 				.style("display", "flex")
-				.style("gap", "25px")
+				.style("gap", "20px")
 				.style("justify-content", "center")
 				.style("flex-wrap", "wrap");
 				
@@ -338,9 +338,9 @@
 				lineRow.append("div").attr("id", `line-${brand}`).style("flex", "1").style("min-width", "300px");
 				barRow.append("div").attr("id", `bar-${brand}`).style("flex", "1").style("min-width", "300px");
 				
-				drawLineChart(`#line-${brand}`, brand, globalData, 360, 280);
+				drawLineChart(`#line-${brand}`, brand, globalData, 350, 260);
 				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 360, 260);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 350, 240);
 			});
 		}
 	}
@@ -359,16 +359,16 @@
 
 		const W = width;
 		const H = height;
-		const M = { top: 40, right: 30, bottom: 60, left: 65 };
+		const M = { top: 35, right: 25, bottom: 50, left: 55 };
 
 		const container = d3.select(target);
 		
 		container.append("div")
 			.style("text-align", "center")
 			.style("font-weight", "300")
-			.style("margin-bottom", "15px")
+			.style("margin-bottom", "10px")
 			.style("color", "#f5f5f5")
-			.style("font-size", "16px")
+			.style("font-size", "14px")
 			.style("letter-spacing", "0.1em")
 			.text(brand);
 
@@ -405,32 +405,34 @@
 		// Axes
 		g.append("g")
 			.attr("transform", `translate(0,${innerH})`)
-			.call(d3.axisBottom(x).tickValues(years.filter((y, i) => i % 2 === 0)))
+			.call(d3.axisBottom(x).tickValues(years.filter((d, i) => i % 2 === 0)))
 			.selectAll("text")
 			.style("fill", "#888")
-			.style("font-size", "10px");
+			.style("font-size", "9px")
+			.style("font-weight", "300");
 
 		g.append("g")
 			.call(d3.axisLeft(y).ticks(5))
 			.selectAll("text")
 			.style("fill", "#888")
-			.style("font-size", "10px");
+			.style("font-size", "9px")
+			.style("font-weight", "300");
 
 		// Axis labels
 		g.append("text")
 			.attr("x", innerW / 2)
-			.attr("y", innerH + 45)
+			.attr("y", innerH + 38)
 			.attr("text-anchor", "middle")
-			.style("font-size", "11px")
+			.style("font-size", "10px")
 			.style("fill", "#888")
 			.text("Year");
 
 		g.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("x", -innerH / 2)
-			.attr("y", -50)
+			.attr("y", -42)
 			.attr("text-anchor", "middle")
-			.style("font-size", "11px")
+			.style("font-size", "10px")
 			.style("fill", "#888")
 			.text("Revenue (M$)");
 
@@ -521,7 +523,7 @@
 
 		const W = width;
 		const H = height;
-		const M = { top: 40, right: 30, bottom: 45, left: 120 };
+		const M = { top: 35, right: 20, bottom: 40, left: 100 };
 
 		const svg = host.append("svg")
 			.attr("width", W)
@@ -569,10 +571,10 @@
 			.data(rows)
 			.join("text")
 			.attr("class", "bar-label")
-			.attr("x", d => x(d.value) + 8)
-			.attr("y", d => y(d.category) + y.bandwidth() / 2 + 4)
+			.attr("x", d => x(d.value) + 6)
+			.attr("y", d => y(d.category) + y.bandwidth() / 2 + 3)
 			.style("opacity", 0)
-			.style("font-size", "11px")
+			.style("font-size", "10px")
 			.style("fill", "#b8b8b8")
 			.style("font-weight", "300")
 			.text(d => `$${d3.format(",.0f")(d.value)}M`)
@@ -585,7 +587,7 @@
 		g.append("g")
 			.call(d3.axisLeft(y).tickSize(0))
 			.selectAll("text")
-			.style("font-size", "11px")
+			.style("font-size", "10px")
 			.style("fill", "#b8b8b8")
 			.style("font-weight", "300");
 
@@ -593,24 +595,24 @@
 			.attr("transform", `translate(0,${innerH})`)
 			.call(d3.axisBottom(x).ticks(4))
 			.selectAll("text")
-			.style("font-size", "10px")
+			.style("font-size", "9px")
 			.style("fill", "#888");
 
 		// Axis label
 		svg.append("text")
-			.attr("x", W / 2 + 30)
-			.attr("y", H - 10)
+			.attr("x", W / 2 + 25)
+			.attr("y", H - 8)
 			.attr("text-anchor", "middle")
-			.style("font-size", "11px")
+			.style("font-size", "10px")
 			.style("fill", "#888")
 			.text("Revenue (M$)");
 
 		// Title
 		svg.append("text")
 			.attr("x", W / 2)
-			.attr("y", 22)
+			.attr("y", 20)
 			.style("font-weight", "300")
-			.style("font-size", "14px")
+			.style("font-size", "13px")
 			.style("fill", "#d4af37")
 			.style("letter-spacing", "0.05em")
 			.attr("text-anchor", "middle")
