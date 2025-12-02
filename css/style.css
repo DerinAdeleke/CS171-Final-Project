@@ -1713,12 +1713,19 @@
         /* Did You Know Slide Styles */
         .intro-slide {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            overflow: hidden;
+        }
+
+        .intro-slide .slide-content {
+            overflow: hidden;
+            max-height: 100vh;
         }
 
         .intro-content {
             max-width: min(95vw, 1400px);
             width: 100%;
             margin: 0 auto;
+            overflow: hidden;
         }
 
         .intro-header {
