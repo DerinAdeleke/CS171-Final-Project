@@ -37,6 +37,22 @@
 				
 				<p class="timeline-instruction">← Scroll left/right to browse the timeline. Use the buttons above to filter by brand. →</p>
 
+				<!-- Background Heritage Images -->
+				<div class="timeline-bg-images">
+					<div class="timeline-bg-img timeline-bg-img-1">
+						<img src="timeline_images/heritage1.png" alt="Heritage 1">
+					</div>
+					<div class="timeline-bg-img timeline-bg-img-2">
+						<img src="timeline_images/heritage2.png" alt="Heritage 2">
+					</div>
+					<div class="timeline-bg-img timeline-bg-img-3">
+						<img src="timeline_images/heritage3.png" alt="Heritage 3">
+					</div>
+					<div class="timeline-bg-img timeline-bg-img-4">
+						<img src="timeline_images/heritage4.png" alt="Heritage 4">
+					</div>
+				</div>
+
 				<div class="timeline-container">
 					<div class="timeline-scroll-container">
 						<div id="brand-timeline"></div>
