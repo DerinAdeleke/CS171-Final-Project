@@ -37,6 +37,9 @@
         /* Allow timeline popups to overflow on slide 3 */
         .slide-3 {
             overflow: visible;
+            height: auto;
+            min-height: auto;
+            padding-bottom: 20px; /* Minimal padding to keep page navigation visible */
         }
 
         /* Animated Background Gradients */
@@ -62,7 +65,7 @@
             gap: 20px;
             justify-content: center;
             align-items: center;
-            margin: clamp(1.5vh, 2vh, 2.5vh) auto 2vh;
+            margin: clamp(1vh, 1.5vh, 2vh) auto 5vh;
             width: fit-content;
             z-index: 1;
             opacity: 0;
@@ -1178,7 +1181,7 @@
         .timeline-scroll-container {
             overflow-x: auto;
             overflow-y: visible; /* changed from hidden */
-            padding: 2vh 0 6vh 0; /* minimal top padding to bring timeline right up to images */
+            padding: 5vh 0 6vh 0; /* top padding creates space for year labels */
             scrollbar-width: thin;
             scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
         }
@@ -1206,11 +1209,11 @@
 
         .timeline-instruction {
             text-align: center;
-            font-size: clamp(1.5rem, 1.5vh, 1.5rem);
+            font-size: clamp(0.8rem, 1vh, 0.9rem);
             color: #888;
             font-style: italic;
             letter-spacing: 0.08em;
-            margin-bottom: clamp(1vh, 1.5vh, 2vh);
+            margin-bottom: clamp(0.5vh, 1vh, 1.5vh);
             font-weight: 300;
         }
 
@@ -1284,12 +1287,12 @@
 
         .timeline-year-marker {
             position: absolute;
-            top: -35px;
+            top: -40px;
             transform: translateX(-50%);
             font-size: clamp(0.7rem, 1.3vh, 0.9rem);
-            color: #888;
+            color: #999;
             letter-spacing: 0.1em;
-            font-weight: 300;
+            font-weight: 400;
         }
 
         .timeline-track {
@@ -1380,15 +1383,63 @@
         
         /* Move the timeline up on slide 3 */
         .slide-3 .timeline-container {
-            margin-top: 0; /* removed margin to bring timeline up */
-            margin-bottom: 1vh; /* tight spacing below timeline for popup space */
+            margin-top: 0 !important; /* Remove negative margin */
+            margin-bottom: 0;
+            overflow: visible; /* Allow popups to be visible */
+        }
+        
+        .slide-3 .timeline-scroll-container {
+            overflow-x: auto; /* Keep horizontal scrolling enabled */
+            overflow-y: visible; /* Allow popups to be visible vertically */
         }
 
         .slide-3 .slide-content {
             overflow: visible; /* allow popups to overflow */
-            padding-top: 4vh; /* reduced vertical spacing at top */
+            padding-top: 1vh; /* Minimal spacing at top */
+            padding-bottom: 0; /* Remove bottom padding */
+            height: auto;
+            min-height: auto;
         }
         
+        /* Reduce spacing around timeline controls on slide 3 */
+        .slide-3 .timeline-controls {
+            margin-top: 0.5vh;
+            margin-bottom: 0.5vh;
+        }
+        
+        /* Make popup appear below timeline dot on slide 3 */
+        .slide-3 .timeline-popup {
+            top: 120%; /* Move popup below timeline dot */
+        }
+        
+        /* Make the year labels visible again */
+        .slide-3 .timeline-year-marker {
+            top: 45px !important;    /* Moves years down under dots */
+            z-index: 5 !important;   /* Ensures years are above background */
+            opacity: 1 !important;   /* In case opacity got changed */
+            display: block !important;
+        }
+        
+        /* Bring the timeline line UP to sit just under the year labels */
+        .slide-3 .timeline-axis {
+            top: 10px !important;  /* moved down to clear photos completely */
+        }
+
+        /* Move the dots UP so they sit directly on the line */
+        .slide-3 .timeline-dot {
+            top: 25px !important;    /* moved down to align with new line position */
+        }
+        
+        /* Arrow pointing up for slide 3 popups */
+        .slide-3 .timeline-popup::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: currentColor;
+        }
 
         /* Buttons must be above timeline */
         .timeline-controls {

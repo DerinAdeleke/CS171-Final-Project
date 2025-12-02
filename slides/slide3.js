@@ -29,16 +29,14 @@
 				" title="View Historical Insights">💡</button>
 				
 				<div class="timeline-controls">
-					<button class="luxury-button" data-timeline-brand="all" style="border-color: #ffffff; color: #ffffff; background: transparent;">All Brands</button>
-					<button class="luxury-button" data-timeline-brand="Hermès" style="border-color: #8B2635; color: #8B2635;">Hermès</button>
-					<button class="luxury-button" data-timeline-brand="Gucci" style="border-color: #d4af37; color: #d4af37;">Gucci</button>
-					<button class="luxury-button" data-timeline-brand="Coach" style="border-color: #8b4513; color: #8b4513;">Coach</button>
-				</div>
-				
-				<p class="timeline-instruction">← Scroll left/right to browse the timeline. Use the buttons above to filter by brand. →</p>
+				<button class="luxury-button" data-timeline-brand="all" style="border-color: #ffffff; color: #ffffff; background: transparent;">All Brands</button>
+				<button class="luxury-button" data-timeline-brand="Hermès" style="border-color: #8B2635; color: #8B2635;">Hermès</button>
+				<button class="luxury-button" data-timeline-brand="Gucci" style="border-color: #d4af37; color: #d4af37;">Gucci</button>
+				<button class="luxury-button" data-timeline-brand="Coach" style="border-color: #8b4513; color: #8b4513;">Coach</button>
+			</div>
 
-				<!-- Background Heritage Images -->
-				<div class="timeline-bg-images">
+			<!-- Background Heritage Images -->
+			<div class="timeline-bg-images">
 					<div class="timeline-bg-img timeline-bg-img-1">
 						<img src="timeline_images/heritage1.png" alt="Heritage 1">
 					</div>
@@ -48,12 +46,14 @@
 					<div class="timeline-bg-img timeline-bg-img-3">
 						<img src="timeline_images/heritage3.png" alt="Heritage 3">
 					</div>
-					<div class="timeline-bg-img timeline-bg-img-4">
-						<img src="timeline_images/heritage4.png" alt="Heritage 4">
-					</div>
+				<div class="timeline-bg-img timeline-bg-img-4">
+					<img src="timeline_images/heritage4.png" alt="Heritage 4">
 				</div>
+			</div>
+			
+			<p class="timeline-instruction">← Scroll left/right to browse the timeline. Use the buttons above to filter by brand. →</p>
 
-				<div class="timeline-container">
+			<div class="timeline-container">
 					<div class="timeline-scroll-container">
 						<div id="brand-timeline"></div>
 					</div>
@@ -224,7 +224,6 @@
 				.attr("class", "timeline-year-marker")
 				.style("position", "absolute")
 				.style("left", position + "%")
-				.style("top", "50%")
 				.text(year);
 		}
 

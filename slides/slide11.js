@@ -5,7 +5,7 @@
 		<section class="slide slide-9">
 			<div class="slide-content">
 				<h2 class="section-title">Best Sellers</h2>
-				<p class="section-subtitle">A curated selection of iconic pieces from each house</p>
+				<p class="section-subtitle">Below is a curated selection of iconic pieces from each house</p>
 				
 				<div class="brand-filter-buttons">
 					<button class="luxury-button active" data-product-brand="all">All Products</button>
