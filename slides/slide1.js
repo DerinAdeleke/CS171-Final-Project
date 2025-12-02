@@ -11,7 +11,7 @@
 					<div class="instructions-container">
 						<div class="instruction-item">
 							<div class="instruction-icon">⬇️</div>
-							<div class="instruction-text">Scroll to Explore</div>
+							<div class="instruction-text">Scroll or click the downward arrow to explore</div>
 						</div>
 						<div class="instruction-item">
 							<div class="instruction-icon">👆</div>

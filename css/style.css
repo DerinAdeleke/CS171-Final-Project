@@ -541,35 +541,32 @@
 
         .instructions-container {
             display: flex;
+            flex-direction: column; /* Changed from row to column */
             justify-content: center;
-            align-items: flex-start;
-            gap: clamp(3vw, 5vw, 80px);
+            align-items: center; /* Center the items horizontally */
+            gap: clamp(2vh, 3vh, 4vh); /* Increased vertical gap */
             margin-top: clamp(4vh, 6vh, 8vh);
         }
 
         .instruction-item {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Icons on left, text on right */
             align-items: center;
-            gap: clamp(1vh, 1.5vh, 15px);
+            gap: clamp(1.5vw, 2vw, 25px); /* Gap between icon and text */
         }
 
         .instruction-text {
-            font-size: clamp(0.7rem, 1.3vh, 0.9rem);
-            letter-spacing: 0.2em;
+            font-size: clamp(0.85rem, 1.5vh, 1.1rem); /* Slightly larger text */
+            letter-spacing: 0.15em;
             color: #d4af37;
             text-transform: uppercase;
-            text-align: center;
+            text-align: left; /* Left-align text next to icons */
         }
 
         .instruction-icon {
-            font-size: clamp(1.8rem, 3.5vh, 3rem);
+            font-size: clamp(2.2rem, 4vh, 3.5rem); /* Slightly larger icons */
             animation: iconPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.15); }
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
 
         .scroll-indicator {
@@ -2022,7 +2019,7 @@
         }
 
         .brand-filter-btn[data-brand="all"] {
-            border-color: #999;
+                       border-color: #999;
             color: #999;
         }
 
