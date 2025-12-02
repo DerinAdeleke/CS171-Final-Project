@@ -71,8 +71,9 @@
 	function updateCarouselDots() {
 		const dotsContainer = d3.select("#carousel-dots");
 		dotsContainer.html("");
-		const numDots = Math.max(1, filteredProducts.length - 2);
-		for (let i = 0; i < numDots; i++) {
+		
+		// Create one dot per product
+		filteredProducts.forEach((product, i) => {
 			dotsContainer.append("div")
 				.attr("class", "carousel-dot")
 				.classed("active", i === currentProductIndex)
@@ -80,15 +81,42 @@
 					currentProductIndex = i;
 					updateCarouselPosition();
 				});
-		}
+		});
 	}
 
 	function updateCarouselPosition() {
 		const track = d3.select("#product-carousel");
-		const offset = -currentProductIndex * 360;
-		track.style("transform", `translateX(${offset}px)`);
-		d3.selectAll(".carousel-dot").classed("active", false)
-			.filter((d, i) => i === currentProductIndex).classed("active", true);
+		const container = document.querySelector('.carousel-container');
+		
+		// Get actual computed dimensions
+		const containerWidth = container.offsetWidth;
+		const containerPadding = 60; // padding on each side
+		const availableWidth = containerWidth - (containerPadding * 2);
+		
+		// Get card dimensions dynamically
+		const firstCard = document.querySelector('.product-card');
+		if (!firstCard) return;
+		
+		const cardWidth = firstCard.offsetWidth;
+		const cardStyle = window.getComputedStyle(firstCard);
+		const gap = parseInt(cardStyle.marginRight) || 40;
+		
+		// Center the current card in the available space
+		const centerOffset = availableWidth / 2 - cardWidth / 2 + containerPadding;
+		const cardOffset = currentProductIndex * (cardWidth + gap);
+		const translateX = centerOffset - cardOffset;
+		
+		// Smooth transition to new position
+		track.transition()
+			.duration(100)
+			.ease(d3.easeCubicOut)
+			.style("transform", `translateX(${translateX}px)`);
+		
+		// Update active dot
+		d3.selectAll(".carousel-dot")
+			.classed("active", false)
+			.filter((d, i) => i === currentProductIndex)
+			.classed("active", true);
 	}
 
 	// Carousel navigation
@@ -100,7 +128,7 @@
 	});
 
 	d3.select("#carousel-next").on("click", function() {
-		const maxIndex = Math.max(0, filteredProducts.length - 3);
+		const maxIndex = filteredProducts.length - 1;
 		if (currentProductIndex < maxIndex) {
 			currentProductIndex++;
 			updateCarouselPosition();

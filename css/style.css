@@ -642,7 +642,7 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-            gap: clamp(2vh, 3vh, 4vh) clamp(2vw, 3vw, 4vw);
+            gap: clamp(2vh, 3vh, 4vh) clamp(2vw, 3vw, 4vh);
             margin-top: clamp(2vh, 3vh, 5vh);
         }
 
@@ -1411,6 +1411,7 @@
             max-width: min(95vw, 1200px);
             margin: clamp(2vh, 4vh, 5vh) auto;
             overflow: hidden;
+            padding: 0 60px; /* Add padding for safe zones on left/right */
         }
 
         .carousel-track {
@@ -1422,6 +1423,8 @@
 
         .product-card {
             min-width: clamp(250px, 28vw, 320px);
+            max-width: clamp(250px, 28vw, 320px); /* Ensure consistent width */
+            flex-shrink: 0; /* Prevent cards from shrinking */
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 20px;
@@ -1712,7 +1715,7 @@
 
         /* Did You Know Slide Styles */
         .intro-slide {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0f0f0f 100%);
             overflow: hidden;
         }
 
