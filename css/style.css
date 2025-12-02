@@ -976,7 +976,7 @@
             border-radius: 10px;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.1s; /* Faster response - was 0.3s */
             font-size: clamp(12px, 1.8vh, 14px);
             border: 1px solid rgba(212, 175, 55, 0.4);
             backdrop-filter: blur(10px);
@@ -2027,7 +2027,7 @@
         }
 
         .brand-filter-btn::before {
-            content: '';
+                       content: '';
             position: absolute;
             top: 0;
             left: -100%;

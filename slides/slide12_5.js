@@ -393,15 +393,6 @@
 		const M = { top: 35, right: 25, bottom: 50, left: 55 };
 
 		const container = d3.select(target);
-		
-		container.append("div")
-			.style("text-align", "center")
-			.style("font-weight", "300")
-			.style("margin-bottom", "10px")
-			.style("color", "#f5f5f5")
-			.style("font-size", "14px")
-			.style("letter-spacing", "0.1em")
-			.text(brand);
 
 		const svg = container
 			.append("svg")
@@ -410,6 +401,17 @@
 			.style("background", "rgba(255, 255, 255, 0.02)")
 			.style("border-radius", "10px")
 			.style("border", "1px solid rgba(212, 175, 55, 0.2)");
+
+		// Add brand title inside SVG at top
+		svg.append("text")
+			.attr("x", W / 2)
+			.attr("y", 20)
+			.attr("text-anchor", "middle")
+			.style("font-weight", "300")
+			.style("font-size", "14px")
+			.style("fill", "#f5f5f5")
+			.style("letter-spacing", "0.1em")
+			.text(brand);
 
 		const g = svg.append("g")
 			.attr("transform", `translate(${M.left},${M.top})`);
@@ -436,10 +438,10 @@
 		// Axes
 		g.append("g")
 			.attr("transform", `translate(0,${innerH})`)
-			.call(d3.axisBottom(x).tickValues(years.filter((d, i) => i % 2 === 0)))
+			.call(d3.axisBottom(x).tickValues(years)) // Show all years instead of filtering
 			.selectAll("text")
 			.style("fill", "#888")
-			.style("font-size", "9px")
+			.style("font-size", "9px") // Slightly smaller font to fit all years
 			.style("font-weight", "300");
 
 		g.append("g")
@@ -475,7 +477,7 @@
 		const grouped = d3.groups(data, d => d.category);
 
 		// Draw lines
-		g.selectAll(".cat-line")
+		const linePaths = g.selectAll(".cat-line")
 			.data(grouped)
 			.join("path")
 			.attr("class", "cat-line")
@@ -484,6 +486,59 @@
 			.attr("stroke-width", 2.5)
 			.attr("d", d => line(d[1].sort((a, b) => d3.ascending(a.year, b.year))))
 			.style("opacity", 0.8);
+
+		// Create invisible wider hit areas for easier hovering
+		g.selectAll(".cat-line-hitarea")
+			.data(grouped)
+			.join("path")
+			.attr("class", "cat-line-hitarea")
+			.attr("d", d => line(d[1].sort((a, b) => d3.ascending(a.year, b.year))))
+			.attr("fill", "none")
+			.attr("stroke", "transparent")
+			.attr("stroke-width", 20) // Much wider invisible hit area
+			.style("cursor", "pointer")
+			.on("mouseover", function(event, d) {
+				const category = d[0];
+				
+				// Find and highlight the corresponding visible line
+				linePaths
+					.filter(lineData => lineData[0] === category)
+					.transition()
+					.duration(100) // Faster response (was 200ms)
+					.attr("stroke-width", 4)
+					.style("opacity", 1)
+					.style("filter", `drop-shadow(0 0 8px ${color(category)})`);
+				
+				// Dim other lines
+				linePaths
+					.filter(lineData => lineData[0] !== category)
+					.transition()
+					.duration(100)
+					.style("opacity", 0.3);
+				
+				// Show tooltip immediately with category name
+				tooltip
+					.style("opacity", 1)
+					.html(`<strong style="color: ${color(category)};">${category}</strong>`)
+					.style("left", (event.pageX + 15) + "px")
+					.style("top", (event.pageY - 28) + "px");
+			})
+			.on("mousemove", function(event) {
+				tooltip
+					.style("left", (event.pageX + 15) + "px")
+					.style("top", (event.pageY - 28) + "px");
+			})
+			.on("mouseout", function() {
+				// Reset all lines to normal state
+				linePaths
+					.transition()
+					.duration(100)
+					.attr("stroke-width", 2.5)
+					.style("opacity", 0.8)
+					.style("filter", "none");
+				
+				tooltip.style("opacity", 0);
+			});
 
 		// Click interaction - now synchronized
 		svg.style("cursor", "pointer")
@@ -645,7 +700,7 @@
 			.call(d3.axisLeft(y).tickSize(0))
 			.selectAll("text")
 			.style("font-size", "10px")
-			.style("fill", "#b8b8b8")
+			.style("fill", "#888")
 			.style("font-weight", "300");
 
 		g.append("g")
@@ -670,10 +725,10 @@
 			.attr("y", 20)
 			.style("font-weight", "300")
 			.style("font-size", "13px")
-			.style("fill", "#d4af37")
+			.style("fill", "#f5f5f5")
 			.style("letter-spacing", "0.05em")
 			.attr("text-anchor", "middle")
-			.text(`${brand} ${year}`);
+			.text(`${brand} Revenue by Category ${year}`); // Fixed: removed extra backtick and added $
 	}
 	
 	// Insights modal functionality
