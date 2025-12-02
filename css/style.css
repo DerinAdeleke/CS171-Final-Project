@@ -544,29 +544,38 @@
             flex-direction: column; /* Changed from row to column */
             justify-content: center;
             align-items: center; /* Center the items horizontally */
-            gap: clamp(2vh, 3vh, 4vh); /* Increased vertical gap */
-            margin-top: clamp(4vh, 6vh, 8vh);
+            gap: clamp(1.5vh, 2vh, 2.5vh); /* Reduced vertical gap */
+            margin-top: clamp(4vh, 5vh, 6vh);
         }
 
         .instruction-item {
             display: flex;
             flex-direction: row; /* Icons on left, text on right */
             align-items: center;
-            gap: clamp(1.5vw, 2vw, 25px); /* Gap between icon and text */
+            gap: clamp(1vw, 1.5vw, 18px); /* Reduced gap between icon and text */
         }
 
         .instruction-text {
-            font-size: clamp(0.85rem, 1.5vh, 1.1rem); /* Slightly larger text */
-            letter-spacing: 0.15em;
+            font-size: clamp(0.75rem, 1.3vh, 0.95rem); /* Slightly smaller text */
+            letter-spacing: 0.12em;
             color: #d4af37;
             text-transform: uppercase;
             text-align: left; /* Left-align text next to icons */
         }
 
         .instruction-icon {
-            font-size: clamp(2.2rem, 4vh, 3.5rem); /* Slightly larger icons */
-            animation: iconPulse 2s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: clamp(28px, 3.5vh, 36px);
+            height: clamp(28px, 3.5vh, 36px);
             flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        
+        .instruction-icon svg {
+            width: 100%;
+            height: 100%;
+            animation: iconPulse 2s ease-in-out infinite;
         }
 
         .scroll-indicator {
@@ -1712,7 +1721,7 @@
 
         /* Did You Know Slide Styles */
         .intro-slide {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0f0f0f 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1f1f1f 100%);
             overflow: hidden;
         }
 
@@ -1730,37 +1739,7 @@
 
         .intro-header {
             text-align: center;
-            margin-bottom: clamp(2vh, 4vh, 5vh);
-        }
-
-        .intro-title {
-            font-size: clamp(2.5rem, 6vh, 4.5rem);
-            font-weight: 200;
-            letter-spacing: 0.2em;
-            color: #d4af37;
-            text-transform: uppercase;
-            margin-bottom: clamp(1.5vh, 2.5vh, 3vh);
-        }
-
-        .intro-description {
-            font-size: clamp(1rem, 2vh, 1.4rem);
-            color: #b8b8b8;
-            line-height: 1.8;
-            max-width: 900px;
-            margin: 0 auto clamp(1vh, 1.5vh, 2vh);
-            font-weight: 300;
-        }
-
-        .intro-description .highlight {
-            color: #d4af37;
-            font-weight: 400;
-        }
-
-        .intro-source {
-            font-size: clamp(0.75rem, 1.4vh, 0.95rem);
-            color: #888;
-            font-style: italic;
-            margin-top: clamp(0.5vh, 1vh, 1vh);
+            margin-bottom: clamp(2vh, 3vh, 4vh);
         }
 
         .intro-viz-section {
@@ -1768,7 +1747,7 @@
             grid-template-columns: 1fr 1fr;
             gap: clamp(3vw, 5vw, 80px);
             align-items: center;
-            margin-top: clamp(3vh, 5vh, 6vh);
+            margin-top: clamp(2vh, 3vh, 4vh);
         }
 
         .intro-left {
@@ -1792,18 +1771,18 @@
 
         .brands-focus {
             margin-top: clamp(2vh, 3vh, 4vh);
-            padding: clamp(1.5vh, 2.5vh, 3vh);
+            padding: clamp(1.5vh, 2vh, 2.5vh);
             background: rgba(212, 175, 55, 0.05);
             border-left: 3px solid #d4af37;
             border-radius: 0 8px 8px 0;
         }
 
         .brands-focus h3 {
-            font-size: clamp(1rem, 2vh, 1.3rem);
+            font-size: clamp(0.95rem, 1.8vh, 1.2rem);
             color: #d4af37;
             margin-bottom: clamp(1vh, 1.5vh, 2vh);
             font-weight: 400;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.05em;
         }
 
         .brands-focus p {
@@ -1816,9 +1795,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 550px;
+            min-height: 450px;
             position: relative;
-            margin-top: -80px;
+            margin-top: 0;
         }
 
         /* Chart-specific styles */
