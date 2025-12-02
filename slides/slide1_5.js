@@ -8,7 +8,7 @@
 					<div class="intro-header">
 						<h2 class="intro-title">DID YOU KNOW?</h2>
 						<p class="intro-description">
-							In 2024, <span class="highlight">€1.5 trillion</span> was spent on luxury goods globally, 
+							In 2024, <span class="highlight">$1.7 trillion</span> was spent on luxury goods globally, 
 							with <span class="highlight">$473.9 billion</span> dedicated to luxury fashion alone.
 						</p>
 						<p class="intro-source">Source: Bain & Company Global Luxury Market Analysis 2024</p>
