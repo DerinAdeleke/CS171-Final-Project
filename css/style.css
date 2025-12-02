@@ -539,12 +539,44 @@
             margin-top: clamp(4vh, 6vh, 8vh);
         }
 
+        .instructions-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: clamp(3vw, 5vw, 80px);
+            margin-top: clamp(4vh, 6vh, 8vh);
+        }
+
+        .instruction-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(1vh, 1.5vh, 15px);
+        }
+
+        .instruction-text {
+            font-size: clamp(0.7rem, 1.3vh, 0.9rem);
+            letter-spacing: 0.2em;
+            color: #d4af37;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .instruction-icon {
+            font-size: clamp(1.8rem, 3.5vh, 3rem);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.15); }
+        }
+
         .scroll-indicator {
             width: clamp(20px, 3vw, 30px);
             height: clamp(35px, 5vh, 50px);
             border: 2px solid #d4af37;
             border-radius: 15px;
-            margin: clamp(1vh, 2vh, 20px) auto;
             position: relative;
         }
 
