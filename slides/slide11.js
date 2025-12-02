@@ -102,7 +102,7 @@
 		const gap = parseInt(cardStyle.marginRight) || 40;
 		
 		// Center the current card in the available space
-		const centerOffset = availableWidth / 2 - cardWidth / 2 + containerPadding;
+		const centerOffset = availableWidth / 2.25 - cardWidth / 2 + containerPadding;
 		const cardOffset = currentProductIndex * (cardWidth + gap);
 		const translateX = centerOffset - cardOffset;
 		
