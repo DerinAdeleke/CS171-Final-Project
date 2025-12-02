@@ -17,7 +17,7 @@
 									<div class="brand-tagline">The Pinnacle</div>
 								</div>
 								<div class="decorative-line" style="background: #8B2635;"></div>
-								<div class="brand-metric-large">$16.4B</div>
+								<div class="brand-metric-large">$15.78B</div>
 								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Ultra-Luxury Tier</div>
 							</div>
@@ -41,7 +41,7 @@
 									<div class="brand-tagline">The Powerhouse</div>
 								</div>
 								<div class="decorative-line" style="background: #d4af37;"></div>
-								<div class="brand-metric-large">$14.9B</div>
+								<div class="brand-metric-large">$7.95B</div>
 								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Mid-Luxury Tier</div>
 							</div>
@@ -65,7 +65,7 @@
 									<div class="brand-tagline">The Gateway</div>
 								</div>
 								<div class="decorative-line" style="background: #8b4513;"></div>
-								<div class="brand-metric-large">$1.2B</div>
+								<div class="brand-metric-large">$5.1B</div>
 								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Accessible Luxury</div>
 							</div>
