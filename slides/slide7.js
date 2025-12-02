@@ -55,7 +55,7 @@
 							background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
 							border: 2px solid #8b4513;
 							color: white;
-							padding: 8px 20px;
+						 padding: 8px 20px;
 							margin: 0 6px;
 							border-radius: 20px;
 							cursor: pointer;
@@ -880,5 +880,31 @@
 
 		// Initial render with animation
 		updateChart(true);
+		
+		// CRITICAL: Update stat cards AFTER DOM is ready and chart is initialized
+		setTimeout(() => {
+			// Calculate average ANNUAL revenue growth from 2012-2024
+			const data2012 = revenueData.find(d => d.Year === 2012);
+			const data2024 = revenueData.find(d => d.Year === 2024);
+			const numYears = 2024 - 2012; // 12 years
+			
+			// CAGR formula: ((End Value / Start Value)^(1/Years)) - 1
+			const hermesCAGR = ((Math.pow(data2024["Hermès"] / data2012["Hermès"], 1/numYears) - 1) * 100).toFixed(1);
+			const gucciCAGR = ((Math.pow(data2024.Gucci / data2012.Gucci, 1/numYears) - 1) * 100).toFixed(1);
+			const coachCAGR = ((Math.pow(data2024.Coach / data2012.Coach, 1/numYears) - 1) * 100).toFixed(1);
+			
+			// Update stat cards with calculated values
+			const statCards = document.querySelectorAll('.stat-card');
+			if (statCards.length >= 3) {
+				statCards[0].querySelector('.stat-number').textContent = `+${hermesCAGR}%`;
+				statCards[0].querySelector('.stat-label').textContent = 'Hermès Avg Annual Growth';
+				
+				statCards[1].querySelector('.stat-number').textContent = `+${gucciCAGR}%`;
+				statCards[1].querySelector('.stat-label').textContent = 'Gucci Avg Annual Growth';
+				
+				statCards[2].querySelector('.stat-number').textContent = `+${coachCAGR}%`;
+				statCards[2].querySelector('.stat-label').textContent = 'Coach Avg Annual Growth';
+			}
+		}, 100); // Small delay to ensure DOM is ready
 	};
 })();
