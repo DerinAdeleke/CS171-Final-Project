@@ -622,10 +622,14 @@
 			}
 
 			this.innerHTML = "⏸ Pause";
+			
+			// Store the target ending year when animation starts
+			const targetEndYear = yearRange[1];
 			let currentYear = yearRange[0];
 			
 			animationInterval = setInterval(() => {
-				if (currentYear >= 2024) {
+				// Stop if we've reached the user-selected ending year OR absolute max (2024)
+				if (currentYear >= targetEndYear || currentYear >= 2024) {
 					clearInterval(animationInterval);
 					animationInterval = null;
 					d3.select("#play-animation").html("▶ Play Timeline");
@@ -647,20 +651,37 @@
 
 		// Reset timeline
 		d3.select("#reset-timeline").on("click", function() {
+			// CRITICAL: Stop animation FIRST before resetting state
 			if (animationInterval) {
 				clearInterval(animationInterval);
 				animationInterval = null;
 				d3.select("#play-animation").html("▶ Play Timeline");
 			}
 
+			// Reset year range
 			yearRange = [2012, 2024];
 			activeBrands = new Set(brands);
 			
+			// Stop any ongoing transitions before starting new ones
+			handle1.interrupt();
+			handle2.interrupt();
+			rangeBar.interrupt();
+			
+			// Move handles back to start/end positions
 			handle1.transition().duration(500).attr("cx", scrubberScale(2012));
 			handle2.transition().duration(500).attr("cx", scrubberScale(2024));
-			updateRangeBar();
-			updateChart(true);
-			updateLegend();
+			
+			// Update range bar
+			rangeBar.transition().duration(500)
+				.attr("x", scrubberScale(2012))
+				.attr("width", scrubberScale(2024) - scrubberScale(2012));
+			
+			// Update chart AFTER transitions complete
+			setTimeout(() => {
+				updateChart(false);
+				updateLegend();
+			}, 550);
+			
 			d3.select("#year-range-display").text("2012 - 2024");
 		});
 
