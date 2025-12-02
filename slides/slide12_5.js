@@ -5,7 +5,7 @@
 		<section class="slide slide-12-5">
 			<div class="slide-content">
 				<h2 class="section-title">Category Performance Analysis</h2>
-				<p class="section-subtitle">Interactive revenue trends and year-over-year category breakdown by brand</p>
+				<p class="section-subtitle">Select brands to compare revenue trends over time. Hover over charts to see detailed category breakdowns and year-over-year changes</p>
 				
 				<!-- Brand Selection Controls -->
 				<div style="

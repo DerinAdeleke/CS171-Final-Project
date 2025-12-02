@@ -5,7 +5,7 @@
 		<section class="slide slide-6">
 			<div class="slide-content">
 				<h2 class="section-title">Market Overview</h2>
-				<p class="section-subtitle">The luxury fashion market spans decades of heritage and billions in revenue</p>
+				<p class="section-subtitle">Drag or click the timeline slider below to explore how revenue evolved across categories from 2012-2024</p>
 				
 				<div class="stats-grid" style="margin-bottom: 1.5vh;">
 					<div class="stat-card">

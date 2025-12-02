@@ -5,7 +5,7 @@
 		<section class="slide slide-17-5">
 			<div class="slide-content">
 				<h2 class="section-title">Build Your Luxury Closet</h2>
-				<p class="section-subtitle">Curate a personalized investment portfolio</p>
+				<p class="section-subtitle">Set your budget and priorities, then watch as smart recommendations optimize your luxury investment. See how your selections shape your style profile in the radar chart</p>
 				
 				<div class="closet-builder-container">
 					<div class="builder-controls">

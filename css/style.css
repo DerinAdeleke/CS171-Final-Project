@@ -2127,6 +2127,16 @@
             box-shadow: 0 0 20px rgba(107, 83, 53, 0.6);
         }
 
+        /* Build Your Closet - prevent slide scrolling */
+        .slide-17-5 {
+            overflow: hidden;
+        }
+
+        .slide-17-5 .slide-content {
+            overflow: hidden;
+            max-height: 100vh;
+        }
+
         /* Luxury Closet Builder Styles */
         .closet-builder-container {
             display: grid;

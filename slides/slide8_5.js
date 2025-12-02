@@ -10,7 +10,7 @@
 		<section class="slide slide-7-5">
 			<div class="slide-content">
 				<h2 class="section-title">Global Brand Dominance</h2>
-				<p class="section-subtitle">Which luxury brand dominates each market worldwide</p>
+				<p class="section-subtitle">Where each product is popular matters. Hover over countries to see their search interest by brand</p>
 				
 				<!-- Insight Lightbulb Button -->
 				<button id="insights-btn-map" style="
@@ -463,6 +463,10 @@
 
 			const zoom = d3.zoom()
 				.scaleExtent([1, 8])
+				.filter(function(event) {
+					// Prevent zooming with scroll wheel/trackpad, only allow drag and button clicks
+					return event.type !== 'wheel';
+				})
 				.on("zoom", (event) => {
 					g.attr("transform", event.transform);
 				});

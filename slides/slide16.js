@@ -5,7 +5,7 @@
 		<section class="slide slide-vestiaire">
 			<div class="slide-content">
 				<h2 class="section-title">The Vestiaire Marketplace Dashboard</h2>
-				<p class="section-subtitle">Interactive exploration of 62,000+ luxury resale items</p>
+				<p class="section-subtitle">Filter by brand, category, condition, or price range to discover trends. Click brands in charts or drag the price selector to see how views update. Expand any panel for a closer look</p>
 				
 				<!-- Insight Lightbulb Button -->
 				<button id="insights-btn-vestiaire" style="
