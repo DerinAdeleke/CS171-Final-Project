@@ -187,7 +187,7 @@
 			.curve(d3.curveCardinal.tension(0.5));
 
 		// Function to update visualization
-		function updateChart(animate = false) {
+		function updateChart(animate = false, isTimelinePlay = false) {
 			const filteredData = revenueData.filter(d => 
 				d.Year >= yearRange[0] && d.Year <= yearRange[1]
 			);
@@ -201,16 +201,20 @@
 			) || 20000;
 			y.domain([0, maxValue * 1.1]); // Add 10% padding
 
+			// CONSISTENT ANIMATION TIMING
+			const OPACITY_DURATION = animate ? 0 : (isTimelinePlay ? 800 : 300);
+			const AXES_DURATION = animate ? 0 : (isTimelinePlay ? 800 : 400);
+
 			// Update axes with smooth transition
 			xAxis.transition()
-				.duration(animate ? 0 : 800)
+				.duration(AXES_DURATION)
 				.call(d3.axisBottom(x)
 					.tickFormat(d3.format("d"))
 					.ticks(Math.min(filteredData.length, 13))
 				);
 
 			yAxis.transition()
-				.duration(animate ? 0 : 800)
+				.duration(AXES_DURATION)
 				.call(d3.axisLeft(y)
 					.tickFormat(d => `$${(d/1000).toFixed(1)}B`)
 					.ticks(8)
@@ -219,7 +223,7 @@
 			// Update grid
 			svg.select(".grid")
 				.transition()
-				.duration(animate ? 0 : 800)
+				.duration(AXES_DURATION)
 				.call(d3.axisLeft(y)
 					.tickSize(-width)
 					.tickFormat("")
@@ -235,24 +239,44 @@
 				const isActive = activeBrands.has(brand);
 				const opacity = isActive ? 1 : 0.1;
 
-				// Area
+				// Area - animate during timeline play, update immediately otherwise
 				const areaPath = areaGroup.selectAll(`.area-${i}`)
 					.data([brandData]);
 
-				areaPath.enter()
+				const areaEnter = areaPath.enter()
 					.append("path")
 					.attr("class", `area-${i}`)
 					.attr("d", area)
 					.attr("fill", `url(#gradient-${brand.replace('è', 'e')})`)
-					.attr("opacity", 0)
-					.merge(areaPath)
-					.transition()
-					.duration(animate ? 1500 : 800)
-					.delay(animate ? i * 200 : 0)
-					.attr("d", area)
-					.attr("opacity", opacity);
+					.attr("opacity", 0);
 
-				// Line
+				const areaMerged = areaEnter.merge(areaPath);
+
+				if (isTimelinePlay) {
+					// Animate path change during timeline play
+					areaMerged
+						.transition()
+						.duration(OPACITY_DURATION)
+						.attr("d", area)
+						.attr("opacity", opacity);
+				} else if (animate) {
+					// Initial load animation
+					areaMerged
+						.attr("d", area)
+						.transition()
+						.duration(1500)
+						.delay(i * 200)
+						.attr("opacity", opacity);
+				} else {
+					// Brand toggle - update immediately, animate opacity only
+					areaMerged
+						.attr("d", area)
+						.transition()
+						.duration(OPACITY_DURATION)
+						.attr("opacity", opacity);
+				}
+
+				// Line - smooth transitions during timeline play
 				const linePath = lineGroup.selectAll(`.line-${i}`)
 					.data([brandData]);
 
@@ -268,6 +292,7 @@
 				const lineUpdate = lineEnter.merge(linePath);
 
 				if (animate) {
+					// Initial load animation with drawing effect
 					lineUpdate
 						.attr("d", line)
 						.attr("opacity", 0)
@@ -281,37 +306,79 @@
 							const length = this.getTotalLength();
 							return d3.interpolate(`0,${length}`, `${length},${length}`);
 						});
-				} else {
+				} else if (isTimelinePlay) {
+					// Smooth path morphing during timeline play
 					lineUpdate
 						.transition()
-						.duration(800)
+						.duration(OPACITY_DURATION)
+						.ease(d3.easeCubicInOut) // Match dot easing
 						.attr("d", line)
+						.attr("opacity", opacity);
+				} else {
+					// Immediate update for brand toggle
+					lineUpdate
+						.attr("d", line)
+						.transition()
+						.duration(OPACITY_DURATION)
 						.attr("opacity", opacity);
 				}
 
-				// Dots
+				// Dots - SMOOTH transitions during timeline play
 				const dots = dotGroup.selectAll(`.dots-${i}`)
 					.data(brandData, d => d.Year);
 
+				// Remove old dots with fade
 				dots.exit()
 					.transition()
-					.duration(300)
+					.duration(isTimelinePlay ? 400 : 150) // Longer fade for timeline
 					.attr("r", 0)
+					.attr("opacity", 0)
 					.remove();
 
+				// Add new dots
 				const dotsEnter = dots.enter()
 					.append("circle")
 					.attr("class", `dots-${i}`)
-					.attr("cx", d => x(d.Year))
-					.attr("cy", d => y(d.value))
 					.attr("r", 0)
 					.attr("fill", brandColors[brand])
 					.attr("stroke", "#0a0a0a")
 					.attr("stroke-width", 2)
 					.style("cursor", "pointer")
-					.attr("filter", "drop-shadow(0 0 6px " + brandColors[brand] + ")");
+					.attr("filter", "drop-shadow(0 0 6px " + brandColors[brand] + ")")
+					.attr("cx", d => x(d.Year))
+					.attr("cy", d => y(d.value))
+					.attr("opacity", 0);
 
-				dotsEnter.merge(dots)
+				// Merge and update ALL dots
+				const allDots = dotsEnter.merge(dots);
+
+				// Update positions with smooth transition during timeline play
+				if (isTimelinePlay) {
+					allDots
+						.transition()
+						.duration(OPACITY_DURATION)
+						.ease(d3.easeCubicInOut) // Smooth easing
+						.attr("cx", d => x(d.Year))
+						.attr("cy", d => y(d.value))
+						.attr("r", isActive ? 6 : 2)
+						.attr("opacity", opacity);
+				} else {
+					// Immediate position update for brand toggle
+					allDots
+						.attr("cx", d => x(d.Year))
+						.attr("cy", d => y(d.value));
+					
+					// Then animate radius and opacity
+					allDots
+						.transition()
+						.duration(animate ? 600 : OPACITY_DURATION)
+						.delay(animate ? (d, j) => i * 200 + j * 80 + 1500 : 0)
+						.attr("r", isActive ? 6 : 2)
+						.attr("opacity", opacity);
+				}
+
+				// Mouse events
+				allDots
 					.on("mouseover", function(event, d) {
 						if (!isActive) return;
 						d3.select(this)
@@ -342,14 +409,7 @@
 							.attr("r", 6)
 							.attr("stroke-width", 2);
 						tooltip.style("opacity", 0);
-					})
-					.transition()
-					.duration(animate ? 600 : 800)
-					.delay(animate ? (d, j) => i * 200 + j * 80 + 1500 : 0)
-					.attr("cx", d => x(d.Year))
-					.attr("cy", d => y(d.value))
-					.attr("r", isActive ? 6 : 2)
-					.attr("opacity", opacity);
+					});
 			});
 
 			// Update stat
@@ -358,7 +418,7 @@
 				const total = (latestYear.Hermès + latestYear.Gucci + latestYear.Coach) / 1000;
 				d3.select("#total-revenue-stat")
 					.transition()
-					.duration(800)
+					.duration(AXES_DURATION)
 					.tween("text", function() {
 						const currentVal = parseFloat(this.textContent.replace(/[$B]/g, '')) || total;
 						const interpolator = d3.interpolate(currentVal, total);
@@ -409,6 +469,70 @@
 			.style("font-weight", "500")
 			.text("Revenue (Billions USD)");
 
+		// Brand toggle buttons
+		d3.selectAll(".brand-toggle-btn").on("click", function() {
+			const brand = this.dataset.brand;
+			
+			const FADE_DURATION = 300; // Consistent fade time
+			
+			if (activeBrands.has(brand)) {
+				// CRITICAL: Prevent removing the last brand
+				if (activeBrands.size === 1) {
+					console.log("Cannot remove last active brand");
+					return; // Do nothing if only one brand is active
+				}
+				
+				// Removing a brand
+				activeBrands.delete(brand);
+				this.style.opacity = "0.3";
+				this.style.filter = "grayscale(100%)";
+				
+				// First: animate brand removal (opacity to 0)
+				updateChartRemoveBrand(brand, FADE_DURATION);
+				
+				// Then: after animation completes, update scales and remaining brands
+				setTimeout(() => {
+					updateChart(false);
+					updateLegend();
+				}, FADE_DURATION + 50); // Wait for fade-out + buffer
+				
+			} else {
+				// Adding a brand
+				activeBrands.add(brand);
+				this.style.opacity = "1";
+				this.style.filter = "grayscale(0%)";
+				
+				// Update scales first, then animate brand appearance
+				updateChart(false);
+				updateLegend();
+			}
+		});
+
+		function updateLegend() {
+			brands.forEach((brand, i) => {
+				const isActive = activeBrands.has(brand);
+				
+				// CRITICAL: Prevent the last active brand from being clicked
+				const legendRow = legend.select(`g:nth-child(${i + 1})`);
+				if (activeBrands.size === 1 && isActive) {
+					legendRow.style("cursor", "not-allowed")
+						.style("opacity", "0.8");
+				} else {
+					legendRow.style("cursor", "pointer")
+						.style("opacity", "1");
+				}
+				
+				legend.select(`.legend-rect-${i}`)
+					.transition()
+					.duration(200)
+					.attr("opacity", isActive ? 1 : 0.3);
+				legend.select(`.legend-text-${i}`)
+					.transition()
+					.duration(200)
+					.style("fill", isActive ? "#f5f5f5" : "#666");
+			});
+		}
+
 		// Legend
 		const legend = svg.append("g")
 			.attr("transform", `translate(${width + 15}, 10)`);
@@ -418,6 +542,12 @@
 				.attr("transform", `translate(0, ${i * 30})`)
 				.style("cursor", "pointer")
 				.on("click", function() {
+					// CRITICAL: Prevent removing the last brand
+					if (activeBrands.has(brand) && activeBrands.size === 1) {
+						console.log("Cannot remove last active brand from legend");
+						return;
+					}
+					
 					if (activeBrands.has(brand)) {
 						activeBrands.delete(brand);
 					} else {
@@ -444,20 +574,6 @@
 				.style("font-weight", "500")
 				.text(brand);
 		});
-
-		function updateLegend() {
-			brands.forEach((brand, i) => {
-				const isActive = activeBrands.has(brand);
-				legend.select(`.legend-rect-${i}`)
-					.transition()
-					.duration(300)
-					.attr("opacity", isActive ? 1 : 0.3);
-				legend.select(`.legend-text-${i}`)
-					.transition()
-					.duration(300)
-					.style("fill", isActive ? "#f5f5f5" : "#666");
-			});
-		}
 
 		// Timeline scrubber
 		const scrubberContainer = d3.select("#timeline-scrubber");
@@ -640,13 +756,13 @@
 				yearRange[1] = currentYear;
 				
 				handle2.transition()
-					.duration(400)
+					.duration(600) // Increased from 400ms to 600ms
 					.attr("cx", scrubberScale(currentYear));
 				
 				updateRangeBar();
-				updateChart(false);
+				updateChart(false, true); // Pass isTimelinePlay = true
 				d3.select("#year-range-display").text(`${yearRange[0]} - ${yearRange[1]}`);
-			}, 500);
+			}, 800); 
 		});
 
 		// Reset timeline
@@ -661,6 +777,11 @@
 			// Reset year range
 			yearRange = [2012, 2024];
 			activeBrands = new Set(brands);
+			
+			// Reset ALL brand buttons to active state
+			d3.selectAll(".brand-toggle-btn")
+				.style("opacity", "1")
+				.style("filter", "grayscale(0%)");
 			
 			// Stop any ongoing transitions before starting new ones
 			handle1.interrupt();
@@ -685,23 +806,77 @@
 			d3.select("#year-range-display").text("2012 - 2024");
 		});
 
-		// Brand toggle buttons
-		d3.selectAll(".brand-toggle-btn").on("click", function() {
+		// Brand toggle buttons — fixed (prevents misalignment of dots & lines)
+		d3.selectAll(".brand-toggle-btn").on("click", async function () {
 			const brand = this.dataset.brand;
-			
+			const FADE_DURATION = 300;
+
+			// Prevent hiding last remaining brand
+			if (activeBrands.has(brand) && activeBrands.size === 1) return;
+
+			// Toggle button UI state
 			if (activeBrands.has(brand)) {
 				activeBrands.delete(brand);
 				this.style.opacity = "0.3";
 				this.style.filter = "grayscale(100%)";
-			} else {
+
+				// 1️⃣ Fade removed brand ONLY — NO scale updates yet
+				await fadeOutBrand(brand, FADE_DURATION);
+
+				// 2️⃣ After fade completes → recompute scales & redraw everything
+				updateChart(false);
+				updateLegend();
+			} 
+			else {
 				activeBrands.add(brand);
 				this.style.opacity = "1";
 				this.style.filter = "grayscale(0%)";
+
+				// New brand showing — scale update first, then fade-in happens inside updateChart
+				updateChart(false);
+				updateLegend();
 			}
-			
-			updateChart(false);
-			updateLegend();
 		});
+
+		// Fade a brand out and return a Promise that resolves after transitions finish
+		function fadeOutBrand(brandToRemove, duration) {
+			const brandIndex = brands.indexOf(brandToRemove);
+
+			const t1 = areaGroup.selectAll(`.area-${brandIndex}`)
+				.transition().duration(duration).attr("opacity", 0).end();
+
+			const t2 = lineGroup.selectAll(`.line-${brandIndex}`)
+				.transition().duration(duration).attr("opacity", 0).end();
+
+			const t3 = dotGroup.selectAll(`.dots-${brandIndex}`)
+				.transition().duration(duration).attr("opacity", 0).end();
+
+			return Promise.all([t1, t2, t3]);  // 👈 ensures updateChart waits
+		}
+
+
+		// New function: animate brand removal without changing scales
+		function updateChartRemoveBrand(brandToRemove, duration) {
+			const brandIndex = brands.indexOf(brandToRemove);
+			
+			// Fade out area
+			areaGroup.selectAll(`.area-${brandIndex}`)
+				.transition()
+				.duration(duration)
+				.attr("opacity", 0);
+			
+			// Fade out line
+			lineGroup.selectAll(`.line-${brandIndex}`)
+				.transition()
+				.duration(duration)
+				.attr("opacity", 0);
+			
+			// Fade out dots
+			dotGroup.selectAll(`.dots-${brandIndex}`)
+				.transition()
+				.duration(duration)
+				.attr("opacity", 0);
+		}
 
 		// Initial render with animation
 		updateChart(true);
