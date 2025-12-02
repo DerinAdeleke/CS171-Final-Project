@@ -212,6 +212,7 @@
 	
 	let selectedBrands = [...BRANDS]; // Initially all selected
 	let globalData = null;
+	let currentSelectedYear = null; // Track the currently selected year across all charts
 
 	// Brand-specific color palettes matching the luxury aesthetic
 	const brandPalettes = {
@@ -252,6 +253,9 @@
 						return;
 					}
 					
+					// Sort selected brands to maintain consistent order (Hermes, Gucci, Coach)
+					selectedBrands.sort((a, b) => BRANDS.indexOf(a) - BRANDS.indexOf(b));
+					
 					renderCharts();
 				});
 			});
@@ -270,6 +274,14 @@
 	function renderCharts() {
 		const container = d3.select("#category-viz-container");
 		container.selectAll("*").remove();
+		
+		// Reset inline styles that might persist
+		container.style("display", null)
+			.style("flex-direction", null)
+			.style("gap", null)
+			.style("justify-content", null)
+			.style("align-items", null)
+			.style("flex-wrap", null);
 		
 		const count = selectedBrands.length;
 		
@@ -314,30 +326,49 @@
 				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 280);
 			});
 			
-		} else {
-			// All 3 brands: original layout (stacked rows)
+		} else if (count === 3) {
+			// All 3 brands: enforce original layout with complete DOM rebuild
 			container.style("display", "flex")
 				.style("flex-direction", "column")
-				.style("gap", "15px");
+				.style("gap", "15px")
+				.style("justify-content", "flex-start")
+				.style("align-items", "stretch");
 				
+			// Create line chart row
 			const lineRow = container.append("div")
 				.attr("id", "brand-lines-row")
 				.style("display", "flex")
 				.style("gap", "20px")
 				.style("justify-content", "center")
-				.style("flex-wrap", "wrap");
+				.style("align-items", "flex-start")
+				.style("flex-wrap", "nowrap");
 				
+			// Create bar chart row
 			const barRow = container.append("div")
 				.attr("id", "brand-bars-row")
 				.style("display", "flex")
 				.style("gap", "20px")
 				.style("justify-content", "center")
-				.style("flex-wrap", "wrap");
+				.style("align-items", "flex-start")
+				.style("flex-wrap", "nowrap");
 				
-			selectedBrands.forEach(brand => {
-				lineRow.append("div").attr("id", `line-${brand}`).style("flex", "1").style("min-width", "300px");
-				barRow.append("div").attr("id", `bar-${brand}`).style("flex", "1").style("min-width", "300px");
+			// Render brands in consistent order: Hermes, Gucci, Coach
+			BRANDS.forEach(brand => {
+				// Line chart container
+				const lineDiv = lineRow.append("div")
+					.attr("id", `line-${brand}`)
+					.style("flex", "1 1 0")
+					.style("min-width", "300px")
+					.style("max-width", "33.333%");
 				
+				// Bar chart container
+				const barDiv = barRow.append("div")
+					.attr("id", `bar-${brand}`)
+					.style("flex", "1 1 0")
+					.style("min-width", "300px")
+					.style("max-width", "33.333%");
+				
+				// Draw charts
 				drawLineChart(`#line-${brand}`, brand, globalData, 350, 260);
 				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
 				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 350, 240);
@@ -384,7 +415,7 @@
 			.attr("transform", `translate(${M.left},${M.top})`);
 
 		const clickLine = g.append("line")
-			.attr("class", "click-indicator")
+			.attr("class", `click-indicator-${brand}`)
 			.attr("stroke", "#d4af37")
 			.attr("stroke-width", 2)
 			.attr("stroke-dasharray", "4 4")
@@ -454,7 +485,7 @@
 			.attr("d", d => line(d[1].sort((a, b) => d3.ascending(a.year, b.year))))
 			.style("opacity", 0.8);
 
-		// Click interaction
+		// Click interaction - now synchronized
 		svg.style("cursor", "pointer")
 			.on("click", event => {
 				const [mx] = d3.pointer(event, svg.node());
@@ -464,39 +495,46 @@
 					Math.abs(x(a) - xPos) < Math.abs(x(b) - xPos) ? a : b
 				);
 
-				clickLine
-					.attr("x1", x(nearest))
-					.attr("x2", x(nearest))
-					.attr("y1", 0)
-					.attr("y2", innerH)
-					.style("opacity", 1);
+				// Update global selected year
+				currentSelectedYear = nearest;
 
-				drawBarChart(`#bar-${brand}`, brand, fullData, nearest, width, height - 20);
+				// Update click lines and bar charts for ALL brands
+				BRANDS.forEach(b => {
+					const brandData = fullData.filter(d => d.brand === b);
+					const brandYears = [...new Set(brandData.map(d => d.year))].sort(d3.ascending);
+					
+					// Only update if this brand's chart exists
+					const lineChart = d3.select(`#line-${b} svg`);
+					if (!lineChart.empty()) {
+						const brandXScale = d3.scalePoint()
+							.domain(brandYears)
+							.range([0, innerW]);
+						
+						lineChart.select(`.click-indicator-${b}`)
+							.attr("x1", brandXScale(nearest))
+							.attr("x2", brandXScale(nearest))
+							.attr("y1", 0)
+							.attr("y2", innerH)
+							.style("opacity", 1);
+					}
+					
+					// Update bar chart if it exists
+					const barTarget = `#bar-${b}`;
+					if (d3.select(barTarget).node()) {
+						drawBarChart(barTarget, b, fullData, nearest, width, height - 20);
+					}
+				});
 			});
 
-		// Legend
-		const legend = svg.append("g")
-			.attr("transform", `translate(${M.left + 10}, ${M.top - 25})`);
-
-		categories.forEach((cat, i) => {
-			const legendItem = legend.append("g")
-				.attr("transform", `translate(${i * 80}, 0)`);
-
-			legendItem.append("line")
-				.attr("x1", 0)
-				.attr("x2", 15)
+		// If there's already a selected year, show the indicator
+		if (currentSelectedYear && years.includes(currentSelectedYear)) {
+			clickLine
+				.attr("x1", x(currentSelectedYear))
+				.attr("x2", x(currentSelectedYear))
 				.attr("y1", 0)
-				.attr("y2", 0)
-				.attr("stroke", color(cat))
-				.attr("stroke-width", 2.5);
-
-			legendItem.append("text")
-				.attr("x", 20)
-				.attr("y", 4)
-				.style("font-size", "9px")
-				.style("fill", "#999")
-				.text(cat);
-		});
+				.attr("y2", innerH)
+				.style("opacity", 1);
+		}
 	}
 
 	// --------------------------------------------------------
@@ -504,7 +542,7 @@
 	// --------------------------------------------------------
 	function drawBarChart(target, brand, fullData, year = null, width = 360, height = 260) {
 		const host = d3.select(target);
-		host.selectAll("svg").remove(); // Only remove SVG, keep title
+		host.selectAll("svg").remove();
 
 		const data = fullData.filter(d => d.brand === brand);
 
@@ -547,7 +585,9 @@
 			.range([0, innerH])
 			.padding(0.3);
 
-		// Bars
+		const tooltip = d3.select(".tooltip");
+
+		// Bars with hover interaction
 		const bars = g.selectAll(".bar-item")
 			.data(rows)
 			.join("rect")
@@ -558,7 +598,39 @@
 			.attr("fill", d => color(d.category))
 			.attr("rx", 3)
 			.attr("width", 0)
-			.style("opacity", 0.8);
+			.style("opacity", 0.8)
+			.style("cursor", "pointer")
+			.on("mouseover", function(event, d) {
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.style("opacity", 1)
+					.attr("stroke", "#d4af37")
+					.attr("stroke-width", 2);
+
+				tooltip
+					.style("opacity", 1)
+					.html(`
+						<strong>${d.category}</strong><br/>
+						Revenue: <span style="color: #d4af37;">$${d3.format(",.0f")(d.value)}M</span>
+					`)
+					.style("left", (event.pageX + 15) + "px")
+					.style("top", (event.pageY - 28) + "px");
+			})
+			.on("mousemove", function(event) {
+				tooltip
+					.style("left", (event.pageX + 15) + "px")
+					.style("top", (event.pageY - 28) + "px");
+			})
+			.on("mouseout", function() {
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.style("opacity", 0.8)
+					.attr("stroke", "none");
+
+				tooltip.style("opacity", 0);
+			});
 
 		bars
 			.transition()
@@ -566,22 +638,7 @@
 			.ease(d3.easeCubicOut)
 			.attr("width", d => x(d.value));
 
-		// Labels
-		g.selectAll(".bar-label")
-			.data(rows)
-			.join("text")
-			.attr("class", "bar-label")
-			.attr("x", d => x(d.value) + 6)
-			.attr("y", d => y(d.category) + y.bandwidth() / 2 + 3)
-			.style("opacity", 0)
-			.style("font-size", "10px")
-			.style("fill", "#b8b8b8")
-			.style("font-weight", "300")
-			.text(d => `$${d3.format(",.0f")(d.value)}M`)
-			.transition()
-			.delay(650)
-			.duration(350)
-			.style("opacity", 1);
+		// Value labels removed - now shown on hover via tooltip
 
 		// Axes
 		g.append("g")
