@@ -13,12 +13,11 @@
 						<div class="flip-card-inner">
 							<div class="flip-card-front hermes-front">
 								<div class="brand-logo-section">
+									<img src="timeline_images/hermes-logo.png" alt="Hermès Logo" class="brand-logo-img">
 									<div class="brand-name-large" style="color: #8B2635;">HERMÈS</div>
 									<div class="brand-tagline">The Pinnacle</div>
 								</div>
 								<div class="decorative-line" style="background: #8B2635;"></div>
-								<div class="brand-metric-large">$15.78B</div>
-								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Ultra-Luxury Tier</div>
 							</div>
 							<div class="flip-card-back hermes-back">
@@ -37,12 +36,11 @@
 						<div class="flip-card-inner">
 							<div class="flip-card-front gucci-front">
 								<div class="brand-logo-section">
+									<img src="timeline_images/gucci-logo.png" alt="Gucci Logo" class="brand-logo-img">
 									<div class="brand-name-large" style="color: #d4af37;">GUCCI</div>
 									<div class="brand-tagline">The Powerhouse</div>
 								</div>
 								<div class="decorative-line" style="background: #d4af37;"></div>
-								<div class="brand-metric-large">$7.95B</div>
-								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Mid-Luxury Tier</div>
 							</div>
 							<div class="flip-card-back gucci-back">
@@ -61,12 +59,11 @@
 						<div class="flip-card-inner">
 							<div class="flip-card-front coach-front">
 								<div class="brand-logo-section">
+									<img src="timeline_images/coach-logo.png" alt="Coach Logo" class="brand-logo-img">
 									<div class="brand-name-large" style="color: #8b4513;">COACH</div>
 									<div class="brand-tagline">The Gateway</div>
 								</div>
 								<div class="decorative-line" style="background: #8b4513;"></div>
-								<div class="brand-metric-large">$5.1B</div>
-								<div class="stat-label">2024 Revenue</div>
 								<div class="brand-tier">Accessible Luxury</div>
 							</div>
 							<div class="flip-card-back coach-back">
