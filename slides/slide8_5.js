@@ -809,11 +809,11 @@
 
 			// 11. Display statistics
 			d3.select("#map-stats").html(`
-				<span style="color: #d4af37;">Countries: ${countriesWithData}</span> |
+				<span style="color: #d4af37;">⭐ Countries: ${countriesWithData}</span> |
 				<span style="color: #8B2635;">Hermès: ${brandDominance['Hermès']}</span> |
 				<span style="color: #d4af37;">Gucci: ${brandDominance['Gucci']}</span> |
 				<span style="color: #8b4513;">Coach: ${brandDominance['Coach']}</span> |
-				<span style="color: #ffd700;">⭐ Top Traffic Markets</span>
+				<span style="color: #d4af37;">Top Traffic Markets Highlited ⭐</span>
 			`);
 
 			// Brand filter buttons
