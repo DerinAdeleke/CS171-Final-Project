@@ -5,7 +5,7 @@
 		<section class="slide slide-12-5">
 			<div class="slide-content">
 				<h2 class="section-title">Category Performance Analysis</h2>
-				<p class="section-subtitle">Select brands to compare revenue trends over time. Hover over charts to see detailed category breakdowns and year-over-year changes</p>
+				<p class="section-subtitle">Select brands to compare revenue trends over time. Click on the line charts to view category revenue for that year.</p>
 				
 				<!-- Brand Selection Controls -->
 				<div style="
@@ -216,9 +216,33 @@
 
 	// Brand-specific color palettes matching the luxury aesthetic
 	const brandPalettes = {
-		"Hermes": ["#8B2635", "#A63446", "#C14257", "#DC5068", "#F75E79"],
-		"Gucci": ["#d4af37", "#c9a961", "#bfa47a", "#b89f6f", "#a89968"],
-		"Coach": ["#8b4513", "#9a5425", "#a96337", "#b87249", "#c7815b"]
+		"Hermes": [
+			"#8B2635",  // Deep burgundy red (signature)
+			"#F7B8C3",  // Very light blush pink
+			"#4a1419",  // Almost black wine
+			"#FF6B85",  // Bright coral
+			"#C14257",  // Medium crimson
+			"#FFD4DC",  // Pale rose
+			"#6d1e28"   // Dark maroon
+		],
+		"Gucci": [
+			"#d4af37",  // Signature gold
+			"#3d3020",  // Very dark brown
+			"#FFF8DC",  // Cornsilk (very light cream)
+			"#f5e6a8",  // Pale gold
+			"#8b7355",  // Medium tan
+			"#5c4d2c",  // Dark olive brown
+			"#FAEBD7"   // Antique white
+		],
+		"Coach": [
+			"#8b4513",  // Saddle brown (signature)
+			"#FFE4C4",  // Bisque (very light tan)
+			"#2d1a0f",  // Almost black chocolate
+			"#DEB887",  // Burlywood (light brown)
+			"#d2691e",  // Chocolate orange
+			"#5c3317",  // Baker's chocolate
+			"#F5DEB3"   // Wheat (pale tan)
+		]
 	};
 
 	window.createCategoryAnalysis = function() {
@@ -298,9 +322,9 @@
 			const lineDiv = container.append("div").attr("id", `line-${brand}`);
 			const barDiv = container.append("div").attr("id", `bar-${brand}`);
 			
-			drawLineChart(`#line-${brand}`, brand, globalData, 400, 310);
+			drawLineChart(`#line-${brand}`, brand, globalData, 500, 310); // Increased from 400 to 500
 			const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-			drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 400, 310);
+			drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 500, 310); // Increased from 400 to 500
 			
 		} else if (count === 2) {
 			// Stacked: 4 graphs (2 brands × 2 charts each)
@@ -321,9 +345,9 @@
 				brandColumn.append("div").attr("id", `line-${brand}`);
 				brandColumn.append("div").attr("id", `bar-${brand}`);
 				
-				drawLineChart(`#line-${brand}`, brand, globalData, 420, 290);
+				drawLineChart(`#line-${brand}`, brand, globalData, 520, 290); // Increased from 420 to 520
 				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 280);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 520, 280); // Increased from 420 to 520
 			});
 			
 		} else if (count === 3) {
@@ -358,20 +382,20 @@
 				const lineDiv = lineRow.append("div")
 					.attr("id", `line-${brand}`)
 					.style("flex", "1 1 0")
-					.style("min-width", "300px")
+					.style("min-width", "350px") // Increased from 300px
 					.style("max-width", "33.333%");
 				
 				// Bar chart container
 				const barDiv = barRow.append("div")
 					.attr("id", `bar-${brand}`)
 					.style("flex", "1 1 0")
-					.style("min-width", "300px")
+					.style("min-width", "350px") // Increased from 300px
 					.style("max-width", "33.333%");
 				
 				// Draw charts
-				drawLineChart(`#line-${brand}`, brand, globalData, 350, 260);
+				drawLineChart(`#line-${brand}`, brand, globalData, 420, 260); // Increased from 350 to 420
 				const defaultYear = d3.max(globalData.filter(d => d.brand === brand), d => d.year);
-				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 350, 240);
+				drawBarChart(`#bar-${brand}`, brand, globalData, defaultYear, 420, 240); // Increased from 350 to 420
 			});
 		}
 	}
@@ -495,7 +519,7 @@
 			.attr("d", d => line(d[1].sort((a, b) => d3.ascending(a.year, b.year))))
 			.attr("fill", "none")
 			.attr("stroke", "transparent")
-			.attr("stroke-width", 20) // Much wider invisible hit area
+			.attr("stroke-width", 20)
 			.style("cursor", "pointer")
 			.on("mouseover", function(event, d) {
 				const category = d[0];
@@ -504,7 +528,7 @@
 				linePaths
 					.filter(lineData => lineData[0] === category)
 					.transition()
-					.duration(100) // Faster response (was 200ms)
+					.duration(100)
 					.attr("stroke-width", 4)
 					.style("opacity", 1)
 					.style("filter", `drop-shadow(0 0 8px ${color(category)})`);
@@ -516,10 +540,10 @@
 					.duration(100)
 					.style("opacity", 0.3);
 				
-				// Show tooltip immediately with category name
+				// Show tooltip with white text
 				tooltip
 					.style("opacity", 1)
-					.html(`<strong style="color: ${color(category)};">${category}</strong>`)
+					.html(`<strong style="color: #ffffff;">${category}</strong>`)
 					.style("left", (event.pageX + 15) + "px")
 					.style("top", (event.pageY - 28) + "px");
 			})
@@ -616,7 +640,7 @@
 
 		const W = width;
 		const H = height;
-		const M = { top: 35, right: 20, bottom: 40, left: 100 };
+		const M = { top: 35, right: 20, bottom: 40, left: 150 };
 
 		const svg = host.append("svg")
 			.attr("width", W)
@@ -666,8 +690,8 @@
 				tooltip
 					.style("opacity", 1)
 					.html(`
-						<strong>${d.category}</strong><br/>
-						Revenue: <span style="color: #d4af37;">$${d3.format(",.0f")(d.value)}M</span>
+						<strong style="color: #ffffff;">${d.category}</strong><br/>
+						<span style="color: #ffffff;">Revenue: <span style="color: #d4af37;">$${d3.format(",.0f")(d.value)}M</span></span>
 					`)
 					.style("left", (event.pageX + 15) + "px")
 					.style("top", (event.pageY - 28) + "px");
