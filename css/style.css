@@ -2017,19 +2017,40 @@
         /* Luxury Closet Builder Styles */
         .closet-builder-container {
             display: grid;
-            grid-template-columns: 300px 1fr 350px;
-            gap: 30px;
+            grid-template-columns: 280px 1fr 380px;
+            gap: 25px;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-            height: calc(100vh - 180px);
+            padding: 0;
+            max-height: calc(100vh - 160px);
+            overflow: hidden;
         }
 
         .builder-controls {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
             overflow-y: auto;
+            max-height: calc(100vh - 220px);
+            padding-right: 8px;
+        }
+        
+        .builder-controls::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .builder-controls::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 3px;
+        }
+        
+        .builder-controls::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 3px;
+        }
+        
+        .builder-controls::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.6);
         }
 
         .control-group {
@@ -2187,7 +2208,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
+            padding: 10px;
+            overflow: hidden;
         }
 
         #radar-chart-container {
@@ -2202,26 +2225,45 @@
         }
 
         #journey-title {
-            font-size: 24px;
+            font-size: 22px;
             color: #d4af37;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
             letter-spacing: 0.05em;
         }
 
         #journey-description {
-            font-size: 14px;
+            font-size: 13px;
             color: #ccc;
-            line-height: 1.6;
+            line-height: 1.5;
             font-style: italic;
         }
 
         .recommendations-area {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             overflow-y: auto;
-            padding-right: 10px;
+            max-height: calc(100vh - 220px);
+            padding-right: 8px;
+        }
+        
+        .recommendations-area::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .recommendations-area::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 3px;
+        }
+        
+        .recommendations-area::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 3px;
+        }
+        
+        .recommendations-area::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.6);
         }
 
         .recommendations-title {
@@ -2237,15 +2279,17 @@
         #product-recommendations {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
+            flex: 1;
         }
 
         .product-card {
             background: rgba(26, 26, 26, 0.7);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid rgba(212, 175, 55, 0.15);
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .product-card:hover {
@@ -2319,13 +2363,14 @@
             border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.3);
             margin-top: 10px;
+            flex-shrink: 0;
         }
 
         .summary-stat {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 13px;
+            padding: 5px 0;
+            font-size: 12px;
         }
 
         .stat-label {
