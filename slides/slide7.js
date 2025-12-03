@@ -412,21 +412,7 @@
 					});
 			});
 
-			// Update stat
-			const latestYear = filteredData[filteredData.length - 1];
-			if (latestYear) {
-				const total = (latestYear.Hermès + latestYear.Gucci + latestYear.Coach) / 1000;
-				d3.select("#total-revenue-stat")
-					.transition()
-					.duration(AXES_DURATION)
-					.tween("text", function() {
-						const currentVal = parseFloat(this.textContent.replace(/[$B]/g, '')) || total;
-						const interpolator = d3.interpolate(currentVal, total);
-						return function(t) {
-							this.textContent = `$${interpolator(t).toFixed(1)}B`;
-						};
-					});
-			}
+			// Note: Stat cards show CAGR percentages, not updated during chart updates
 		}
 
 		// Axes
